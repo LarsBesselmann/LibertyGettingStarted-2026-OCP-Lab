@@ -124,6 +124,16 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
     rm -rf ~/transformation-advisor-local-3.8.1
     sudo rm -rf /home/techzone
 
+
+**Set the OCP environment variables**
+
+    cat /usr/local/share/applications/OpenShiftConsole.desktop | grep http > OCP_URL.txt
+    OCP_CONSOLE_URL=$(sed 's/Exec=\/usr\/bin\/xdg-open //g' OCP_URL.txt)
+    sudo echo "export OCP_CONSOLE_URL=$OCP_CONSOLE_URL" >> ~/.bashrc
+    OCP_BASE_URL="${OCP_CONSOLE_URL:34}"
+    sudo echo "export OCP_BASE_URL=$OCP_BASE_URL" >> ~/.bashrc
+
+
 1. Create Student directory
 
         mkdir -p ~/Student/temp
@@ -328,7 +338,7 @@ A `workspace` is a designated area that will house the migration recommendations
 
 <br>
 
-In the next section, we will go through a step-by-step process of using the Application Modernization Accelerator migration plan to deploy **plantsbywebsphereee6.ear** as follows:
+In the next section, you will go through a step-by-step process of using the Application Modernization Accelerator migration plan to deploy **plantsbywebsphereee6.ear** as follows:
 
   1. Ensure the application can run locally on WebSphere Liberty
 
@@ -648,7 +658,7 @@ However if containers are to be your final destination, this section explores th
 
 In the case of **`Simple`** applications, it is not necessary to carry out a separate step of deploying to a local Liberty instance at all. Instead, by using the Application Modernization Accelerator migration plan, you can deploy your application to **Liberty running in a container** all in one go. 
 
-This is what we will do now.
+This is what you will do now.
 
 
 1.	Add the PlantsByWebSphere binary file to your migration plan, and remove the placeholder.
@@ -675,7 +685,7 @@ This is what we will do now.
         sed -i 's/websphere-liberty:25.0.0.6-kernel-java8-openj9-ubi/websphere-liberty:26.0.0.6-kernel-java8-openj9-ubi/g' /home/itzuser/Student/migrationPlan/Containerfile
 
 
-5. The `migration plan` is ready to be used to generate an image of your application running on WebSphere Liberty. To do this, we will use the **`Containerfile`** that comes with the migration plan.
+5. The `migration plan` is ready to be used to generate an image of your application running on WebSphere Liberty. To do this, you will use the **`Containerfile`** that comes with the migration plan.
 
 
     a. Explore the Containerfile in the migration plan
@@ -739,7 +749,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
     -  `-d` start the container in 'detached' mode so you get your command prompt back
     -  `--rm` remove the container when it is stopped
     -  `-p` expose the HTTP port
-    -  `--name` is the name we are giving the container 
+    -  `--name` is the name you are giving the container 
 
 
 4.	Check that the contaier is up and running. 
@@ -802,7 +812,7 @@ Another option here instead of setting environment variables is to update the **
     
 However, a big part of container image value is that they are **`immutable`**. No matter where you take and deploy the image the operating system, runtime, security patch level, etc. will be the same. 
     
-This gives you great **reproducibility** and gets away from the classic ‘**but it works for me!**’ issue. We lose much of this value if we bake in the configuration with the image, as we will have to produce an image for each new configuration. 
+This gives you great **reproducibility** and gets away from the classic ‘**but it works for me!**’ issue. You lose much of this value if you bake in the configuration with the image, as you will have to produce an image for each new configuration. 
     
 Instead of using the exact same image in each of your development, staging and production environments, you would be using different images. 
 
@@ -811,7 +821,7 @@ ___
 **It is never best practice to hard code configuration into your image.** 
 
 
-In the next section we will look at how the `migration plan` helps you manage this configuration easily across all your environments and how it will simplify deployment to your OpenShift cluster. The migration plan uses `Kustomize` to help achieve this.
+In the next section you will look at how the `migration plan` helps you manage this configuration easily across all your environments and how it will simplify deployment to your OpenShift cluster. The migration plan uses `Kustomize` to help achieve this.
 
 ___
 
@@ -839,7 +849,7 @@ The structure of the kustomize folder is as follows.
 
 ___
 
-**Note:** In the next section we will use this kustomize structure to deploy your application image. 
+**Note:** In the next section you will use this kustomize structure to deploy your application image. 
 
 Further information on **kustomize** can be found at <http://kustomize.io>
     
@@ -848,13 +858,13 @@ ___
 
 ## 4 Deploy to OpenShift with config
 
-You have now created a container image without any application specific configuration. In this section, we will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
+You have now created a container image without any application specific configuration. In this section, you will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
 
 ### 4.1 Update the Kustomize structure to move the configmap configuration to the overlays folder
 
-It is common to have different application configuration between deployments such as `dev` and `staging`. In this lab, we use only use one different DB2 application databases between the two configurations. For this reason , we want the configMap to be located in the Kustomize `overlays` folder, rather than the `base` where it is placed, by default, in the Application Modernization Accelerator migration plan. 
+It is common to have different application configuration between deployments such as `dev` and `staging`. In this lab, you use only use one different DB2 application databases between the two configurations. For this reason , you want the configMap to be located in the Kustomize `overlays` folder, rather than the `base` where it is placed, by default, in the Application Modernization Accelerator migration plan. 
 
-For the lab, we have provided the updated file structure for you. You just need to run the commands below to update the migration plan. 
+For the lab, you have provided the updated file structure for you. You just need to run the commands below to update the migration plan. 
 
 1. Move the configMap to the Kustomize `overlays` folder
 
@@ -1045,11 +1055,11 @@ You will make the following updates to the configuration YAML files in the migra
       The update to the `plantsbywebsphereee6-secret.yaml` in the **overlays/dev** directory is now complete. The sensitive data is encoded and added to the yaml file. 
 
 
-    a. `How did we encode the values?` 
+    a. `How did You encode the values?` 
     
-    We updated the values in the YAML file with the sensitive data by  **Base64 encoding** the values as illustrated below.
+    You updated the values in the YAML file with the sensitive data by  **Base64 encoding** the values as illustrated below.
  
-    - We encoded the following values:
+    - You encoded the following values:
    
       ___
 
@@ -1320,9 +1330,7 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
     ![OCP-Console_Liberty-Application-PBW6.png](./images/media/OCP-Console_Liberty-Application-PBW6.png)
 
 
-    d.  Click on the **`Location`** link for the route
-
-       https://plantsbywebsphereee6-apps-pbw.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/ 
+    d.  Click on the **`Location`** link for the route.
 
     ![OCP-Console_Liberty-Application-PBW7.png](./images/media/OCP-Console_Liberty-Application-PBW7.png)
 
@@ -1331,16 +1339,20 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
 
     ![screenshot](./images/media/image95.png)
 
-    f.  Append the context root ‘**PlantsByWebSphere’** to access the PlantsByWebSphere application
+    f.  Append the context root ‘**PlantsByWebSphere’** to access the PlantsByWebSphere application, for example:
 
       https://plantsbywebsphereee6-apps-pbw.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/PlantsByWebSphere
+
+    g. You should see the PlantsByWebSphere application. Feel free to test it again.
+
+    ![pbw](./images/media/pbw_OCP.png)
 
 
 ## 4.5 Re-deploy app with different configuration to OpenShift  - To be done
 
-We have deployed the PlantsByWebSphere application with its configuration to `dev`, using a single kustomize command. 
+You have deployed the PlantsByWebSphere application with its configuration to `dev`, using a single kustomize command. 
 
-In this section, we will explain how to deploy the same application again with a new configuration for `staging`, again using a single kustomize command. But as there is no second database deployed, this is a read-only task.
+In this section, you will explain how to deploy the same application again with a new configuration for `staging`, again using a single kustomize command. But as there is no second database deployed, this is a read-only task.
 
 
 1.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
