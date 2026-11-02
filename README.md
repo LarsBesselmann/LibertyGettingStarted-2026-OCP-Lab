@@ -1119,7 +1119,7 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
 1. Login to OpenShift using your IBM ID 
 
-        oc login -w
+        oc login -w --server=$OCP_CONSOLE_URL:6443
 
 2. Create a new project where you will dpeloy the application 
 
