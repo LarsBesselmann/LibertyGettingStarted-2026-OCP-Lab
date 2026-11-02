@@ -1207,6 +1207,11 @@ You must specify which overlay will provide the configuration (dev in this case)
 
         oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
 
+    The output should be similar to:
+
+        plantsbywebsphereee6-apps-pbw.apps.itz-3035es.infra01-lb.dal14.techzone.ibm.com
+
+
 11. Open in the browser the PlantsByWebSphere route for the `dev` deployment:
 
         /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
@@ -1230,10 +1235,15 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
 
 1.  Login to OpenShift console
 
-    a.  Open a new tab in the web browser
+    a.  On the desktop, click on the icon for the OpenShift Desktop.
 
-    b.  Click on the **`OpenShift Console`** bookmark on the bookmark toolbar
+    ![OCP_WebConsole_Desktop_Icon](./images/media/OCP_WebConsole_Desktop_Icon.png)
+    
+    Alternatively use the command:
 
+        /usr/bin/xdg-open "https://$OCP_CONSOLE_URL"
+    
+    b. 
     ![OCP Console Login](./images/media/OCP-Console-Login.png)
     
     c.  Log in using your **IBMid**
