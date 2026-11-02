@@ -1152,12 +1152,10 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
 6. Push the container image to OpenShift internal registry 
 
-       imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
-        echo $imageReference
+       imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
+       echo $imageReference
 
        podman push ${imageReference}
-
-       #podman push default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/apps-pbw/pbw-app:1.0         
 
 
 In previous steps, you configured the sensitive data that is needed, accepted the license, pointed to the image that is needed to pull,  and logged into OpenShift. Now, with a single command, you can deploy to OpenShift and configure the image. 
