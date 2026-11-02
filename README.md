@@ -773,9 +773,10 @@ In this section, you will build and run the PlantsByWebSphere application in a l
 
         podman stop pbw-app
 
-        podman run -d --rm -p 9080:9080 -e Dmgr01Node_DB2INST1_password="db2password" \
-        -e Dmgr01Node_DB2INST1_user="db2inst1" \
-        --name pbw-app  apps/pbw 
+       podman run -d --rm -p 9080:9080 \
+       -e Dmgr01Node_DB2INST1_password="db2password" \
+       -e Dmgr01Node_DB2INST1_user="db2inst1" \
+       --name pbw-app  apps/pbw 
 
 7.  From the browser, access the PlantsByWebSphere application that is running in the local container:
 
