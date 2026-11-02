@@ -1241,7 +1241,7 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
     
     Alternatively use the command:
 
-        /usr/bin/xdg-open "https://$OCP_CONSOLE_URL"
+        /usr/bin/xdg-open "$OCP_CONSOLE_URL"
     
     b. 
     ![OCP Console Login](./images/media/OCP-Console-Login.png)
