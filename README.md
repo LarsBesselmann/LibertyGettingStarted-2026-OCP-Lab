@@ -1121,6 +1121,8 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
         oc login -w --server=$OCP_CONSOLE_URL:6443
 
+    A browser window will open where you need to log in via IBM ID.
+
 2. Create a new project where you will dpeloy the application 
 
         oc new-project apps-pbw
@@ -1130,7 +1132,7 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
         oc registry login
 
-    The command will return the registry public hostname which should be 
+    The command will return the registry public hostname which should be similar to (but maybe with a differnt base URL)
     default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com
 
 4. Tag the container image using the following podman command
@@ -1139,8 +1141,6 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
         echo $imageReference
 
         podman tag apps/pbw ${imageReference}
-
-        #podman tag apps/pbw default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/apps-pbw/pbw-app:1.0
 
 5. Verify the image was tagged
 
