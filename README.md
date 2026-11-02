@@ -94,6 +94,7 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 # Part 0: Prepare environment
 
+<!--
 **Disable docker**
 
     sudo mv /bin/docker /bin/docker.sav
@@ -106,12 +107,13 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
     OCP_BASE_URL="${OCP_CONSOLE_URL:34}"
     sudo echo "export OCP_BASE_URL=$OCP_BASE_URL" >> ~/.bashrc
 
-
-
 **Install AMA**
 
     /tmp/post_deploy_repo/scripts/AMA_510_install_new.sh
     sh ~/software/AMA/AMA_apply_Full_Key.sh 
+
+-->
+
 
 **Move/remove files to backup**
 
@@ -1395,4 +1397,5 @@ Now you can log in via the command:
 
     oc login -w --server=$OCP_CONSOLE_URL:6443
     
+
 
