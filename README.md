@@ -722,6 +722,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
     - `--tag` allows you to define the name and version of the image to build
     - `.` is the "current directory" of the migration plan that includes the artifacts for building the container image. 
 
+    The whole build process might take a couple of minutes.
     
 2. Confirm the container image has been built
 
@@ -764,15 +765,17 @@ In this section, you will build and run the PlantsByWebSphere application in a l
  
     ![](./images/media/pbw-container-db-error.png)
  
-    The error is because we are using the unchanged server.xml file that came with the migration plan. 
+    The error is because you used the unchanged server.xml file that came with the migration plan. 
     
     As outlined already, Application Modernization Accelerator does not collect any sensitive data so the application specific configuration information has not been set. 
 
-6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with slightly different parameters. (This approach is not recommended for production accounts)
+6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with slightly different parameters. (This approach is not recommended for production environments.)
 
         podman stop pbw-app
 
-        podman run -d --rm -p 9080:9080 -e Dmgr01Node_DB2INST1_password="db2password" -e Dmgr01Node_DB2INST1_user="db2inst1" --name pbw-app  apps/pbw 
+        podman run -d --rm -p 9080:9080 -e Dmgr01Node_DB2INST1_password="db2password" \
+        -e Dmgr01Node_DB2INST1_user="db2inst1" \
+        --name pbw-app  apps/pbw 
 
 7.  From the browser, access the PlantsByWebSphere application that is running in the local container:
 
