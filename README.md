@@ -1203,10 +1203,15 @@ You must specify which overlay will provide the configuration (dev in this case)
         NAME                                    READY   STATUS       
         plantsbywebsphereee6-7476449666-shnx8   1/1     Running   
 
-10. From the browser, navigate to the PlantsByWebSphere route for the `dev` deployment:
+10. List the route of the PlantsByWebSphere application:
 
-      https://plantsbywebsphereee6-apps-pbw.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/PlantsByWebSphere
- 
+        oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
+
+11. Open in the browser the PlantsByWebSphere route for the `dev` deployment:
+
+        /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
+
+
     The PlantsByWebSphere main page is displayed.
 
     ![A website page of a garden Description automatically generated](./images/media/image78a.png)
