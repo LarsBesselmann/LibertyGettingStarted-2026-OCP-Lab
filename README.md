@@ -174,6 +174,8 @@ The Application Modernization Accelerator is installed locally on the **Workstat
 
         ./launch.sh
         
+     If both Docker and Podman are installed on the system, select **Podman (1) as container manager.
+     
      Wait for Application Modernization Accelerator to initialize and display the **action menu** list.
 
     c.  If not already started, type **`5`** and press **`Enter`** to “Start” the **Application Modernization Accelerator**.
@@ -187,7 +189,7 @@ The Application Modernization Accelerator is installed locally on the **Workstat
      ![](./images/media/image13.png)
  
 
-    e. Accept the security warning
+    e. Accept the security warning (the screen might look different)
 
      ![](./images/media/image13a.png)
  
@@ -219,13 +221,13 @@ A `workspace` is a designated area that will house the migration recommendations
 
      ![screenshot](./images/media/image15.png)
 
-2. Upload an existing **'scan results'** file provided for the lab.
+2. Upload an existing **data collection** file provided for the lab.
 
-    The scan results file is provided for you.
+    The data collection file is provided for you.
 
-    It was produced by running the Application Modernization Accelerator **Data Collector** on a WebSphere Application Server that had the **PlantsByWebSphere** application deployed.
+    It was produced by running the **Application Modernization Accelerator Discovery Tool** to inspect a WebSphere Application Server environment that had the **PlantsByWebSphere** application deployed.
 
-    a. Click the **`Upload results`** button
+    a. Click the **`Upload results'** button.
 
     ![Upload results](./images/media/image16.png)
 
@@ -238,7 +240,7 @@ A `workspace` is a designated area that will house the migration recommendations
     
     c.  Navigate to **Home \> itzuser \> Student \> ama**
 
-    d.  Select **`Dmgr.zip`** file. Then click the **`Open`** button
+    d.  Select **`Dmgr01.zip`** file, then click the **`Open`** button
 
     ![Upload data collection](./images/media/image17.png)
 
@@ -282,11 +284,10 @@ A `workspace` is a designated area that will house the migration recommendations
  
  In this case, the application has four **`Informational`** issues.
  
- Informational issues do not prevent the application from executing on the new runtime (WebSphere Liberty) but there may be small changes in the application’s behavior.
- 
- If unexpected behavior is found during testing, then reviewing these **Informational** issues may help explain what is happening.
+ Informational issues do not prevent the application from executing on the new runtime (WebSphere Liberty) but there may be small changes in the application’s behavior. If unexpected behavior is found during testing, then reviewing these **Informational** issues may help explain what is happening.
 
-1.  We are now ready to review the **'migration plan'** for this application. 
+
+1.  Review the **'migration plan'** for this application. 
 
     a. Click on the **`Migration plan`** link at the end of the row of the **plantsbywebsphereee6.ear** application.
 
@@ -325,9 +326,9 @@ A `workspace` is a designated area that will house the migration recommendations
 
     A zip file named “**plantsbywebsphereee6.ear_migrationPlan.zip**” will download to your **Download** folder.
 
+<br>
 
-
-We will go through a step-by-step process of using the Application Modernization Accelerator migration plan to deploy **plantsbywebsphereee6.ear** as follows:
+In the next section, we will go through a step-by-step process of using the Application Modernization Accelerator migration plan to deploy **plantsbywebsphereee6.ear** as follows:
 
   1. Ensure the application can run locally on WebSphere Liberty
 
@@ -336,6 +337,8 @@ We will go through a step-by-step process of using the Application Modernization
   3. Deploy the image to OpenShift (and configure it) using a single command
 
   4. Redeploy and reconfigure this image for a new environment with a single command
+
+<br>
 
 # Part 2: Deploy PlantsByWebSphere app to a locally running WebSphere Liberty    
 
