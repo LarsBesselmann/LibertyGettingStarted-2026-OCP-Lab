@@ -432,7 +432,7 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
   - Copy the **server.xml** file from the migration plan to the Liberty server, replacing the default server.xml file
 
 
-1. Extract the migration plan that you downloaded
+1. Extract the migration plan that you downloaded.
 
         mkdir ~/Student/migrationPlan
         cd ~/Student/migrationPlan
@@ -440,7 +440,7 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
         unzip plantsbywebsphereee6.ear_migrationPlan.zip
 
 
-2. List the directory of the extracted migration plan
+2. List the directory of the extracted migration plan.
 
         ls -l        
 
@@ -449,11 +449,11 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
     ![](./images/media/migrationplan_content.png)
  
 
-3.	Copy the PlantsByWebSphere application binary file into the `apps` location in Liberty
+3.	Copy the PlantsByWebSphere application binary file into the `apps` location of the Liberty instance.
 
         cp ~/Student/plantsbywebsphereee6.ear ~/Student/wlp/usr/servers/pbwserver/apps
 
-4. Create the `global shared` directory in Liberty. 
+4. Create the `global shared` directory in Liberty that will be used to store the DB2 libraries. 
 
     This is where you will copy the DB2 libraries for Liberty
 
@@ -605,11 +605,11 @@ The **server.xml** file defines a set of **`features`** that the application req
 
     http://localhost:9080/PlantsByWebSphere
 
-    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the error has gone but you would see another error like this as the database has not been initialized yet..
+    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the error has gone but you would see another error like in the screenshot below as the database has not been initialized yet..
 
     ![PBW Error not init](./images/media/pbw_dB_not_initialized.png)
     
-    Therefore, before we can fully test the application, we need to initialize the database.
+    Therefore, before you can fully test the application, you need to initialize the database.
 
     a. Click on Help to get the help panel
 
@@ -634,6 +634,8 @@ The **server.xml** file defines a set of **`features`** that the application req
 At this point in the lab, you have successfully demonstrated the PlantsByWebSphere application runs successfully in WebSphere Liberty on a local VM. 
 
 In the next sections, you will deploy the PlantsByWebSphere application to containers and Red Hat OpenShift. 
+
+<br>
 
 # Part 3: Create and run the PlantsByWebSphere application as a container image    
 
