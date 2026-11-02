@@ -164,7 +164,7 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
         netstat -an | grep 50000
 
 
-# Part 1: Application Assesment    
+# Part 1: Application Assessment    
 
 ## 1.1 Launch Application Modernization Accelerator (local)
 
@@ -354,7 +354,7 @@ In the next section, you will go through a step-by-step process of using the App
 
 In this step, you will create a new Liberty server to run the PlantsByWebSphere application.
 
-Then, you will review the migration plan to see what files you need to add, and use the provided `server.xml` Liberty configuration file. This file is used to configure Liberty by providing values for ports, security, context routes and by providing application-specific configuration. 
+Then, you will review the migration plan to see what files you need to add and use the provided `server.xml` Liberty configuration file. This file is used to configure Liberty by providing values for ports, security, context routes and by providing application-specific configuration. 
 
 ### 2.1   Create a local Liberty Server
 
@@ -527,7 +527,7 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
 
     These pages should display a catalog of items in their respective category, which are retrieved from the application database. 
 
-    **So what happened?** 
+    **So, what happened?** 
     
     Application Modernization Accelerator does not collect any `sensitive data` for the application server.  This means the application-specific configuration information in the **server.xml** file has not been set. In this case, the `username` and `password` to access the database are missing.
 
@@ -539,7 +539,7 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
 
 Now you will review the **`server.xml`** file and set the necessary configuration information. 
 
-The **server.xml** file defines a set of **`features`** that the application requires. By importing only the necessary **features** to support the application’s API needs, the footprint of the deployed application and Liberty server is kept as small as possible.
+The **server.xml** file defines a set of **`features`** that the application requires. By importing only, the necessary **features** to support the application’s API needs, the footprint of the deployed application and Liberty server is kept as small as possible.
 
 1. Review the server.xml file
 
@@ -589,7 +589,7 @@ The **server.xml** file defines a set of **`features`** that the application req
 
         ~/Student/wlp/bin/server stop pbwserver
 
-2. From the `gedit` editor that you have open, update the values in the **server.xml** file for the sensitive data as illustrtated below:
+2. From the `gedit` editor that you have open, update the values in the **server.xml** file for the sensitive data as illustrated below:
 
     a. Scroll to the bottom of the `server.xml` file to view the sensitive-data variables. 
 
@@ -615,7 +615,7 @@ The **server.xml** file defines a set of **`features`** that the application req
 
     http://localhost:9080/PlantsByWebSphere
 
-    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the error has gone but you would see another error like in the screenshot below as the database has not been initialized yet..
+    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the error has gone but you would see another error like in the screenshot below as the database has not been initialized yet.
 
     ![PBW Error not init](./images/media/pbw_dB_not_initialized.png)
     
@@ -654,21 +654,21 @@ In the next sections, you will deploy the PlantsByWebSphere application to conta
 
 In the previous section, you used the **server.xml** to get the  application running on a `local Liberty instance`. This was to show you how the Application Modernization Accelerator **server.xml** file is used. If you are moving to Liberty in VMs as your new runtime, then you are done! 
 
-However if containers are to be your final destination, this section explores the Application Modernization Accelerator migration plan artifacts that accelerate application deployment to Liberty in containers. 
+However, if containers are to be your final destination, this section explores the Application Modernization Accelerator migration plan artifacts that accelerate application deployment to Liberty in containers. 
 
 In the case of **`Simple`** applications, it is not necessary to carry out a separate step of deploying to a local Liberty instance at all. Instead, by using the Application Modernization Accelerator migration plan, you can deploy your application to **Liberty running in a container** all in one go. 
 
 This is what you will do now.
 
 
-1.	Add the PlantsByWebSphere binary file to your migration plan, and remove the placeholder.
+1.	Add the PlantsByWebSphere binary file to your migration plan and remove the placeholder.
 
         cp ~/Student/plantsbywebsphereee6.ear ~/Student/migrationPlan/target
 
         rm ~/Student/migrationPlan/target/plantsbywebsphereee6.ear.placeholder
 
 
-2.	Add the db2 library files to your migration plan, and remove the placeholder.
+2.	Add the db2 library files to your migration plan and remove the placeholder.
 
         cp ~/Student/db2_drivers/* ~/Student/migrationPlan/src/main/liberty/lib  
 
@@ -752,7 +752,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
     -  `--name` is the name you are giving the container 
 
 
-4.	Check that the contaier is up and running. 
+4.	Check that the container is up and running. 
 
         podman ps | grep pbw-app
 
@@ -777,7 +777,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
  
     The error is because you used the unchanged server.xml file that came with the migration plan. 
     
-    As outlined already, Application Modernization Accelerator does not collect any sensitive data so the application specific configuration information has not been set. 
+    As outlined already, Application Modernization Accelerator does not collect any sensitive data. Based on that, the application specific configuration information has not been set. 
 
 6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with this time set user id and password as environment variables. (This approach is not recommended for production environments.)
 
@@ -920,7 +920,7 @@ For the lab, you have provided the updated file structure for you. You just need
 
 
 
-### 4.2 Update the YAML files to add the application configuraton for deployment
+### 4.2 Update the YAML files to add the application configuration for deployment
 
 Recall, the container image does not have the application configuration baked in. 
 
@@ -930,11 +930,11 @@ You will make the following updates to the configuration YAML files in the migra
      - Add the reference to the container image
      - Accept the Liberty license
   
-  -  Update the `overays/dev/plantsbywebsphereee6-secret.yaml` file
-     -  Add the sensitive-data to the **secret** YAML file
+  -  Update the `overlays/dev/plantsbywebsphereee6-secret.yaml` file
+     -  Add the sensitive data to the **secret** YAML file
   
   - Update the `overlays/dev/plantsbywebsphereee6-configmap.yaml` file
-     -  Add the database host imformation to access the dev database
+     -  Add the database host information to access the dev database
 
 
 1.  Update the `application-cr.yaml` file
@@ -1124,7 +1124,7 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
  
   - Push the tagged container image to the OpenShift internal registry   
 
-  - Use a single command to deploy and configure the application to openShift
+  - Use a single command to deploy and configure the application to OpenShift
 
 
 1. Login to OpenShift using your IBM ID 
@@ -1133,16 +1133,16 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
     A browser window will open where you need to log in via IBM ID.
 
-2. Create a new project where you will dpeloy the application 
+2. Create a new project where you will deploy the application 
 
         oc new-project apps-pbw
 
 
-3. Login to the OpnShift internal registry so you can push the image 
+3. Login to the OpenShift internal registry so you can push the image 
 
         oc registry login
 
-    The command will return the registry public hostname which should be similar to (but maybe with a differnt base URL)
+    The command will return the registry public hostname which should be similar to (but maybe with a different base URL)
 
     `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
 
@@ -1196,19 +1196,19 @@ You must specify which overlay will provide the configuration (dev in this case)
 
         oc get deployment -n apps-pbw
 
-    Wait for the `deployment` to be ready and availabe, as illustrated below:
+    Wait for the `deployment` to be ready and available, as illustrated below:
 
         NAME                   READY   UP-TO-DATE   AVAILABLE  
         plantsbywebsphereee6   1/1     1            1    
 
 
-9. Verify the appliation `pod` is ready.
+9. Verify the application `pod` is ready.
 
     This may take a few moments. Just keep checking with command below
 
         oc get pods -n apps-pbw
 
-    Wait for the `pod` to be ready and availabe, as illustrated below:
+    Wait for the `pod` to be ready and available, as illustrated below:
 
         NAME                                    READY   STATUS       
         plantsbywebsphereee6-7476449666-shnx8   1/1     Running   
@@ -1273,7 +1273,7 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
 
 2.  View the **IBM WebSphere Liberty** `Operator`
 
-    a.  Click on **`Ecosysytem > Installed Operators`** in the left-hand menu
+    a.  Click on **`Ecosystem > Installed Operators`** in the left-hand menu
 
     ![OCP-Console_Liberty-Operator.png](./images/media/OCP-Console_Liberty-Operator.png)
 
