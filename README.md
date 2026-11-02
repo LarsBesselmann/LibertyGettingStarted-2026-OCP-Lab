@@ -1089,7 +1089,7 @@ You will make the following updates to the configuration YAML files in the migra
 
     Review the final file:
 
-        ls -Rl ~/Student/migrationPlan/deploy/kustomize/
+        cat overlays/dev/plantsbywebsphereee6-configmap.yaml
 
     The output should look like this:
 
@@ -1100,7 +1100,7 @@ You will make the following updates to the configuration YAML files in the migra
 
 Review the final configuration:
 
-        cat overlays/dev/plantsbywebsphereee6-configmap.yaml
+        ls -Rl ~/Student/migrationPlan/deploy/kustomize/
 
 The output should look like this:
 
