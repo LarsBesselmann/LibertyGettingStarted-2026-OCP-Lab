@@ -769,7 +769,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
     
     As outlined already, Application Modernization Accelerator does not collect any sensitive data so the application specific configuration information has not been set. 
 
-6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with slightly different parameters. (This approach is not recommended for production environments.)
+6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with this time set user id and password as environment variables. (This approach is not recommended for production environments.)
 
         podman stop pbw-app
 
@@ -933,16 +933,16 @@ You will make the following updates to the configuration YAML files in the migra
   
 
     a. Adjust the value of applicationImage from `IMAGE_REFERENCE` to something like
-    `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/apps-pbw/pbw-app:1.0`
+    `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/apps-pbw/pbw-app:1.0`.
+
+    The OpenShift base URL is stored in the variable **OCP_BASE_URL**. Check the content of the variable, then replace the imageReference string.
+
+        echo ${OCP_BASE_URL}
 
         imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
         echo $imageReference
 
         sed -i "s|IMAGE_REFERENCE|${imageReference}|g" base/application-cr.yaml
-
-
-
-        #sed -i 's/applicationImage: IMAGE_REFERENCE/applicationImage: default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com\/apps-pbw\/pbw-app:1.0/g' base/application-cr.yaml
 
     b. Accept the license by replacing `accept: false` with `accept: true`
 
