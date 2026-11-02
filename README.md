@@ -1248,12 +1248,18 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
     ![OCP Console Login](./images/media/OCP-Console-Login.png)
     
 
-    c. After successful login, you should land on the overview page
+    c. After successful login, you should land on the panel **Welcome to the new OpenShift experience!**
+    
+    ![OCP_Tour](./images/media/OCP_Tour.png)
+
+    Klick on **Skip tour**.
+
+    d. Finally you should land on the overview page
 
     ![OCP-Console_Overview](./images/media/OCP-Console_Overview.png)
     
 
-
+    
 
 2.  View the **IBM WebSphere Liberty** `Operator`
 
