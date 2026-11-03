@@ -169,7 +169,7 @@ The Application Modernization Accelerator is installed locally on the **Workstat
 
         ./launch.sh
         
-     If both Docker and Podman are installed on the system, select **Podman (1) as container manager.
+     If both Docker and Podman are installed on the system, select **Podman (1)** as container manager.
      
      Wait for Application Modernization Accelerator to initialize and display the **action menu** list.
 
