@@ -96,29 +96,14 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 <!--
 **Disable docker**
-
     sudo mv /bin/docker /bin/docker.sav
-
-**Set OCP variables**
-
-    cat /usr/local/share/applications/OpenShiftConsole.desktop | grep http > OCP_URL.txt
-    OCP_CONSOLE_URL=$(sed 's/Exec=\/usr\/bin\/xdg-open //g' OCP_URL.txt)
-    sudo echo "export OCP_CONSOLE_URL=$OCP_CONSOLE_URL" >> ~/.bashrc
-    OCP_BASE_URL="${OCP_CONSOLE_URL:34}"
-    sudo echo "export OCP_BASE_URL=$OCP_BASE_URL" >> ~/.bashrc
-
-**Install AMA**
-
-    /tmp/post_deploy_repo/scripts/AMA_510_install_new.sh
-    sh ~/software/AMA/AMA_apply_Full_Key.sh 
 
 -->
 
 
 **Move/remove files to backup**
 
-    mkdir ~/backup
-    mv ~/Student ~/backup
+    sudo rm -rf ~/Student
     rm -rf ~/binary-scanner
     rm -rf ~/IBM
     rm -rf ~/transformation-advisor-local-3.8.1
