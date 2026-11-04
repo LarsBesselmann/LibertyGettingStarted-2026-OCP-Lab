@@ -153,11 +153,11 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 ## 1.1 Launch Application Modernization Accelerator (local)
 
-Application Modernization Accelerator provides a **`migration plan`** for each application being assessed for modernization. The migration plan includes a **`migration plan`** of generated artifacts that accelerate the deployment of applications to Liberty in containers and Kubernetes / OpenShift.
+Application Modernization Accelerator (AMA) provides a **`migration plan`** for each application being assessed for modernization. The migration plan includes a **`migration plan`** of generated artifacts that accelerate the deployment of applications to Liberty in containers and Kubernetes / OpenShift.
 
 The migration plan includes diverse artifacts, depending on the needs of the application to accelerate the build and deployment of an application Container image into an OpenShift container platform.
 
-The Application Modernization Accelerator is installed locally on the **Workstation** VM. 
+The Application Modernization Accelerator is installed locally on the **Workstation** VM. AMA might have a higher version than shown in the screenshots. Also the host name might be slightly different.
 
 1. Launch the Application Modernization Accelerator tool using the steps below.
 
@@ -169,7 +169,7 @@ The Application Modernization Accelerator is installed locally on the **Workstat
 
         ./launch.sh
         
-     If both Docker and Podman are installed on the system, select **Podman (1)** as container manager.
+     If both Docker and Podman are installed on the system, you will  be asked to select a container manager. Select **Podman (1)**
      
      Wait for Application Modernization Accelerator to initialize and display the **action menu** list.
 
@@ -177,11 +177,12 @@ The Application Modernization Accelerator is installed locally on the **Workstat
 
      ![](./images/media/image12.png)
  
-    d. The **Application Modernization Accelerator** application is started, **`right-click`** the application URL link and select **`Open Link`** to launch it in a web browser window.
- 
-     The URL is displayed in the output from the AMA command: **https://desktop-2xxx:3000**
+    d. The **Application Modernization Accelerator** application is started, and the URL is displayed in the output similar to `https://desktop-2xxx:3000`. 
  
      ![](./images/media/image13.png)
+
+    **`Right-click`** the application URL link and select **`Open Link`** to launch it in a web browser window.
+    (Alternatively you can also access AMA directly in a browser using the URL https://localhost:3000).
  
 
     e. Accept the security warning (the screen might look different)
@@ -199,8 +200,11 @@ The Application Modernization Accelerator is installed locally on the **Workstat
  
      ![](./images/media/image14.png)
 
-    In the next section, you will create a new “**Workspace**” in Application Modernization Accelerator and upload the saved results from the scan of a WebSphere Application Server that has a single application deployed, named “PlantsByWebSphere”.
+    <br>
 
+In the next section, you will create a new “**Workspace**” in Application Modernization Accelerator and upload the saved results from the scan of a WebSphere Application Server that has a single application deployed, named “PlantsByWebSphere”.
+
+<br>
 
 ## 1.3 Create new workspace and upload scan results from a WebSphere Application Server
 
