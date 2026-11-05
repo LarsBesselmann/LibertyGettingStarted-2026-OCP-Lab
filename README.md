@@ -73,7 +73,7 @@ If you are doing this lab as part of an instructor led workshop (virtual or face
 
 Otherwise, you will need to reserve an environment for the lab. You can obtain one here. Follow the on-screen instructions for the “**Reserve now**” option.
 
-[https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/environments?platform=6ae1b4145090306a5c3b1a83](https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/environments?platform=6ae1b4145090306a5c3b1a83)
+[https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift](https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift)
 
 The lab environment contains of a Desktop machine and several other VMs spinning up an OpenShift cluster five Linux VMs and an OpenShift cluster.
 
