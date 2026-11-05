@@ -1361,7 +1361,10 @@ In this section, you will explain how to deploy the same application again with 
         -v plantsdb-data2:/database \
         plantsdb-db2
 
- netstat -an | grep 5000
+2. Verify that the database is running
+
+        sudo podman ps | grep plantsdb
+        netstat -an | grep 5000
 
 1.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
 
