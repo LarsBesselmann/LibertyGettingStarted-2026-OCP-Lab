@@ -1352,7 +1352,7 @@ In this section, you will explain how to deploy the same application again with 
 
 1. Stop the `dev`database and OCP deployment
 
-        cd ~/Student/migrationPlan/deploy/kustomize/overlays/
+        cd ~/Student/migrationPlan/deploy/kustomize/
         oc delete -n apps-pbw -k overlays/dev
         sudo podman stop plantsdb-db2
 
