@@ -1366,15 +1366,32 @@ In this section, you will explain how to deploy the same application again with 
         sudo podman ps | grep plantsdb
         netstat -an | grep 5000
 
-1.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
+    You should see an output like this showing that both databases are running:
+
+        9f9b7102c4f5  localhost/plantsdb-db2:latest              23 hours ago    Up 23 hours   0.0.0.0:50000->50000/tcp, 22/tcp, 55000/tcp, 60006-60007/tcp  plantsdb-db2
+        
+        08c592726a0b  localhost/plantsdb-db2:latest              10 seconds ago  Up 9 seconds  0.0.0.0:50001->50000/tcp, 22/tcp, 55000/tcp, 60006-60007/tcp  plantsdb-db2-staging
+
+        tcp        0      0 0.0.0.0:50001           0.0.0.0:*               LISTEN     
+
+        tcp        0      0 0.0.0.0:50000           0.0.0.0:*               LISTEN     
+
+
+3.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
 
         cd ~/Student/migrationPlan/deploy/kustomize/overlays/
 
         cp -r dev staging
 
-2.	Update the **plantsbywebsphereee6-configmap.yaml** file, which contains the database name and host for the **staging** configuration.
 
-    As there is no staging database deployed, there is nothing to change here.
+4.	Update the **plantsbywebsphereee6-configmap.yaml** file, which contains the database name and host for the **staging** configuration.
+
+    You need to update the port from 50000 to 50001, the rest is the same.
+
+
+        cd ~/Student/migrationPlan/deploy/kustomize
+        sed -i 's/50000/50001/g' overlays/staging/plantsbywebsphereee6-configmap.yaml
+
  
 3. From the `kustomize` directory, apply the new `staging` overlay
 
