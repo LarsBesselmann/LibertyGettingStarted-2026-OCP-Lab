@@ -1374,7 +1374,7 @@ In this section, you will explain how to deploy the same application again with 
         sudo podman ps | grep plantsdb
         netstat -an | grep 50001
 
-    You should see an output like this showing that the database is running and listeing on port 50001:
+    You should see an output like this showing that a database container with the name **plantsdb-db2-staging** is running  and listeing on port 50001:
 
         08c592726a0b  localhost/plantsdb-db2:latest  10 seconds ago  Up 9 seconds  
         0.0.0.0:50001->50000/tcp, 22/tcp, 55000/tcp, 60006-60007/tcp  plantsdb-db2-staging
