@@ -770,7 +770,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
 
 6. To make sure the container as is works, let's inject the credentials via environment variables. Restart the container but with this time set user id and password as environment variables. (This approach is not recommended for production environments.)
 
-        podman stop pbw-app
+       podman stop pbw-app
 
        podman run -d --rm -p 9080:9080 \
        -e Dmgr01Node_DB2INST1_password="db2password" \
@@ -790,7 +790,7 @@ In this section, you will build and run the PlantsByWebSphere application in a l
 
 8. Finally stop the container
 
-        podman stop pbw-app
+       podman stop pbw-app
 
 
     ___
@@ -1350,7 +1350,15 @@ You have deployed the PlantsByWebSphere application with its configuration to `d
 
 In this section, you will explain how to deploy the same application again with a new configuration for `staging`, again using a single kustomize command. 
 
-1. Create a second database, this time exposed on port 50001.
+1. Stop the `dev`database and OCP deployment
+
+        cd ~/Student/migrationPlan/deploy/kustomize/overlays/
+        oc delete -n apps-pbw -k overlays/dev
+        sudo podman stop plantsdb-db2
+
+
+
+2. Create a `staging` database, exposed on port 50001.
 
         sudo podman run --privileged=true -d \
         --name plantsdb-db2-staging \
@@ -1361,30 +1369,25 @@ In this section, you will explain how to deploy the same application again with 
         -v plantsdb-data2:/database \
         plantsdb-db2
 
-2. Verify that the database is running
+3. Verify that the database is running
 
         sudo podman ps | grep plantsdb
-        netstat -an | grep 5000
+        netstat -an | grep 50001
 
-    You should see an output like this showing that both databases are running:
+    You should see an output like this showing that the database is running and listeing on port 50001:
 
-        9f9b7102c4f5  localhost/plantsdb-db2:latest              23 hours ago    Up 23 hours   0.0.0.0:50000->50000/tcp, 22/tcp, 55000/tcp, 60006-60007/tcp  plantsdb-db2
-        
         08c592726a0b  localhost/plantsdb-db2:latest              10 seconds ago  Up 9 seconds  0.0.0.0:50001->50000/tcp, 22/tcp, 55000/tcp, 60006-60007/tcp  plantsdb-db2-staging
 
         tcp        0      0 0.0.0.0:50001           0.0.0.0:*               LISTEN     
 
-        tcp        0      0 0.0.0.0:50000           0.0.0.0:*               LISTEN     
-
-
-3.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
+4.	Create a new `overlay` directory called **staging** that will store the new staging configuration, coping the existing dev directory.
 
         cd ~/Student/migrationPlan/deploy/kustomize/overlays/
 
         cp -r dev staging
 
 
-4.	Update the **plantsbywebsphereee6-configmap.yaml** file, which contains the database name and host for the **staging** configuration.
+5.	Update the **plantsbywebsphereee6-configmap.yaml** file, which contains the database name and host for the **staging** configuration.
 
     You need to update the port from 50000 to 50001, the rest is the same.
 
@@ -1395,7 +1398,7 @@ In this section, you will explain how to deploy the same application again with 
         cat overlays/staging/plantsbywebsphereee6-configmap.yaml 
 
  
-5. From the `kustomize` directory, apply the new `staging` overlay
+6. From the `kustomize` directory, apply the new `staging` overlay
 
         cd ~/Student/migrationPlan/deploy/kustomize
 
@@ -1404,18 +1407,15 @@ In this section, you will explain how to deploy the same application again with 
     The output should look like this:
     
        configmap/plantsbywebsphereee6-config configured
-       secret/plantsbywebsphereee6-secret unchanged
-       webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 unchanged
+       secret/plantsbywebsphereee6-secret configured
+       webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 configured
 
-    **Note:** that the configmap is displayed as `configured`, but  `secret` and the application are shown as `unchanged`.
-
-
-6. Ensure the pod has restarted
+7. Ensure the pod has restarted
 
         oc get pods -n apps-pbw
 
 
-7. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
+8. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
 
         /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
 
@@ -1425,6 +1425,15 @@ In this section, you will explain how to deploy the same application again with 
     ![A website page of a garden Description automatically generated](./images/media/image78a.png)
  
  
+9. Click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, and you should see that the authentication error has gone but you would see another error like in the screenshot below as the database has not been initialized yet.
+
+    ![PBW Error not init](./images/media/pbw_dB_not_initialized.png)
+    
+    Therefore, before you can fully test the application, you need to initialize the database.
+
+   
+
+
 # Summary
 
 ___
