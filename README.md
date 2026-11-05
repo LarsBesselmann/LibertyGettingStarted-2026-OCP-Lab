@@ -214,7 +214,7 @@ A `workspace` is a designated area that will house the migration recommendations
 
 1. Create a new workspace named **Evaluation**
 
-    a.  From the Application Modernization Accelerator Home page, click the **`Create New`** button
+    a.  From the Application Modernization Accelerator Home page, click the **`Create workspace`** button
 
     b.  Type **`Evaluation`** as the Workspace name. Then click the **`Create`** button
 
@@ -231,7 +231,7 @@ A `workspace` is a designated area that will house the migration recommendations
     ![Upload results](./images/media/image16.png)
 
 
-    b. Click the **`Drop or add file`** link. Then click the **`Upload`** button
+    b. Click the **`Drop or add file`** link. 
 
     ![Upload results](./images/media/image16a.png)
 
@@ -590,8 +590,8 @@ The **server.xml** file defines a set of **`features`** that the application req
     
     d. **`Save`** and **`close`** the server.xml in the editor
 
-    e. You might have detected that the database host is defined in the server.xml as **vm-1** but now is located on the host **desktop-2**.
-    Use the following command to replace it.
+    e. You might have detected that the database host is defined in the server.xml as **vm-1**. In your environment, the database is located on the host **desktop-2**.
+    Use the following command to adjust the hostname.
 
         sed -i 's/vm-1/desktop-2/g' /home/itzuser/Student/wlp/usr/servers/pbwserver/server.xml
 
@@ -604,7 +604,7 @@ The **server.xml** file defines a set of **`features`** that the application req
 
     http://localhost:9080/PlantsByWebSphere
 
-    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the error has gone but you would see another error like in the screenshot below as the database has not been initialized yet.
+    If you would now attempt to click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, you would see that the authentication error has gone but you would see another error like in the screenshot below as the database has not been initialized yet.
 
     ![PBW Error not init](./images/media/pbw_dB_not_initialized.png)
     
@@ -892,6 +892,7 @@ For the lab, you have provided the updated file structure for you. You just need
 
        - plantsbywebsphereee6-configmap.yaml
 
+    ![OCP-Kustomize-config](./images/media/OCP-Kustomize-config.png)
     
     c. Use the following command to review the final file:
 
