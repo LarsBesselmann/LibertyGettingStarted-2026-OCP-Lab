@@ -4,7 +4,7 @@
 
 **Last updated:** November 2026
 
-**Status: ** DRAFT - work in progress
+**Status: ** Ready for usage
 
 **Duration:** 60 minutes
 
@@ -13,7 +13,8 @@ Need support? Contact **Lars Besselmann, Sebastian Porro**
 ## Overview
 This lab provides fundamental hands-on experience with modernizing existing Java applications to WebSphere Liberty, deployed into a container platform, such as Red Hat OpenShift. 
 
-The focus of this lab is on the practical aspects of application deployment and configurations and not the analysis of the Application Modernization Accelerator results. *Other labs cover Application Modernization Accelerator in detail.*
+The focus of this lab is on the practical aspects of application deployment and configurations and not the analysis of the Application Modernization Accelerator results. 
+*Other labs cover Application Modernization Accelerator in detail.*
 
 Upon completion of this lab, you will have gained skills to download and use the `Application Modernization Accelerator migration plan` to deploy and configure your application in the following scenarios: 
 
