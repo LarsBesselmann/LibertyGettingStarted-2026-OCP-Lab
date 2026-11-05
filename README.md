@@ -1350,7 +1350,7 @@ You have deployed the PlantsByWebSphere application with its configuration to `d
 
 In this section, you will explain how to deploy the same application again with a new configuration for `staging`, again using a single kustomize command. 
 
-1. Create a second database
+1. Create a second database, this time exposed on port 50001.
 
         sudo podman run --privileged=true -d \
         --name plantsdb-db2-staging \
@@ -1392,22 +1392,37 @@ In this section, you will explain how to deploy the same application again with 
         cd ~/Student/migrationPlan/deploy/kustomize
         sed -i 's/50000/50001/g' overlays/staging/plantsbywebsphereee6-configmap.yaml
 
+        cat overlays/staging/plantsbywebsphereee6-configmap.yaml 
+
  
-3. From the `kustomize` directory, apply the new `staging` overlay
+5. From the `kustomize` directory, apply the new `staging` overlay
 
         cd ~/Student/migrationPlan/deploy/kustomize
 
         oc apply -n apps-pbw -k overlays/staging
 
-    **Note:** that the configmap and secret were `configured`,  but the application is `unchanged`, as illustrated below.  
+    The output should look like this:
+    
+       configmap/plantsbywebsphereee6-config configured
+       secret/plantsbywebsphereee6-secret unchanged
+       webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 unchanged
 
-4. Ensure the pod has restarted
+    **Note:** that the configmap is displayed as `configured`, but  `secret` and the application are shown as `unchanged`.
+
+
+6. Ensure the pod has restarted
 
         oc get pods -n apps-pbw
 
 
-5. From the browser, navigate to the PlantsByWebSphere route for the application
+7. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
 
+        /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
+
+
+    The PlantsByWebSphere main page is displayed.
+
+    ![A website page of a garden Description automatically generated](./images/media/image78a.png)
  
  
 # Summary
