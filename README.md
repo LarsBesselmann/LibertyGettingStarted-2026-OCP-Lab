@@ -1407,9 +1407,9 @@ In this section, you will explain how to deploy the same application again with 
 
     The output should look like this:
     
-       configmap/plantsbywebsphereee6-config configured
-       secret/plantsbywebsphereee6-secret configured
-       webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 configured
+       configmap/plantsbywebsphereee6-config created
+       secret/plantsbywebsphereee6-secret created
+       webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 created
 
 7. Ensure the pod has restarted
 
