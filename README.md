@@ -1411,12 +1411,17 @@ In this section, you will explain how to deploy the same application again with 
        secret/plantsbywebsphereee6-secret created
        webspherelibertyapplication.liberty.websphere.ibm.com/plantsbywebsphereee6 created
 
-7. Ensure the pod has restarted
+7. Ensure the pod has been started
 
         oc get pods -n apps-pbw
 
 
-8. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
+8. Execute the following command to monitor the database log.
+
+        sudo podman logs -f plantsdb-db2-staging
+
+
+9. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
 
         /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
 
@@ -1424,16 +1429,24 @@ In this section, you will explain how to deploy the same application again with 
     The PlantsByWebSphere main page is displayed.
 
     ![A website page of a garden Description automatically generated](./images/media/image78a.png)
- 
- 
-9. Click on any of the tabs: “Flowers”, Fruits & Vegetables”, or “Trees”, and you should see that the authentication error has gone but you would see another error like in the screenshot below as the database has not been initialized yet.
 
-    ![PBW Error not init](./images/media/pbw_dB_not_initialized.png)
+10. Initialize the database.
+
+    a. Click on Help to get the help panel
+
+    ![PBW Help](./images/media/pbw-help.png)
     
-    Therefore, before you can fully test the application, you need to initialize the database.
+    b. Click on the **Reset database** button to reset the database.
 
-   
+    ![PBW Reset Database](./images/media/pbw-reset-database.png)
 
+11. Switch back to the terminal window where the `podman logs` command is running. You should see that the log has been updated. 
+(Feel free to run the reset command again if you did not recognize any update)
+
+12. Finally click on `Accessories` or any of the tabs “Flowers”, Fruits & Vegetables”, or “Trees” to verify that the application works fine.
+
+    ![PBW_Accessories](./images/media/PBW_Accessories.png)
+    
 
 # Summary
 
@@ -1461,9 +1474,6 @@ You explored the PlantsByWebSphere assessment details and reports in Application
 
 ___
 
-You may continue your learning journey with the optional sections of the lab. 
-
-___
 
 # Troubleshooting:
 
