@@ -109,6 +109,8 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
     rm -rf ~/IBM
     rm -rf ~/transformation-advisor-local-3.8.1
     sudo rm -rf /home/techzone
+    /tmp/post_deploy_repo/scripts/Firefox_setBookmarks.sh
+
 
 
 **Set the OCP environment variables**
