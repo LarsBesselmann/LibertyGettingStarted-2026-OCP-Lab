@@ -339,6 +339,14 @@ In the next section, you will go through a step-by-step process of using the App
 
 <br>
 
+## Troubleshooting
+In the next section of the lab, you will need the migration plan.
+If you run into any issues that hinder you from creating the AMA migration plan, use the following command to get it.
+
+        cp ~/Student/ama/plantsbywebsphereee6.ear_migrationPlan.zip ~/Downloads/
+
+
+
 # Part 2: Deploy PlantsByWebSphere app to a locally running WebSphere Liberty    
 
 In this step, you will create a new Liberty server to run the PlantsByWebSphere application.
