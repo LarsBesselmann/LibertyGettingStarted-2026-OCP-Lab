@@ -122,19 +122,16 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 -->
 
 
-1. Create Student directory
+1. Create Student directory and clone the project repository
 
-        mkdir -p ~/Student/temp
-
-2. Clone the project repository
-
+       mkdir -p ~/Student/temp
        git clone https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab ~/Student/temp
        mv ~/Student/temp/lab_sources/* ~/Student
        rm -rf ~/Student/temp
        ls -lrt ~/Student
     
 
-3. Create podman container with the PlantsByWebSphere database pbwdb
+2. Create podman container with the PlantsByWebSphere database pbwdb
 
        cd ~/Student
 
