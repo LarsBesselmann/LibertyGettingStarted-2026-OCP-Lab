@@ -93,13 +93,13 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
   - The **PlantsByWebSphere Sample Application**, built as an Enterprise Archive file (EAR) is available from the lab resource provided.
 
+<!--
+
+
 # Part 0: Prepare environment
 
-<!--
 **Disable docker**
     sudo mv /bin/docker /bin/docker.sav
-
--->
 
 
 **Move/remove files to backup**
@@ -111,8 +111,6 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
     sudo rm -rf /home/techzone
     /tmp/post_deploy_repo/scripts/Firefox_setBookmarks.sh
 
-
-
 **Set the OCP environment variables**
 
     cat /usr/local/share/applications/OpenShiftConsole.desktop | grep http > OCP_URL.txt
@@ -120,6 +118,8 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
     sudo echo "export OCP_CONSOLE_URL=$OCP_CONSOLE_URL" >> ~/.bashrc
     OCP_BASE_URL="${OCP_CONSOLE_URL:34}"
     sudo echo "export OCP_BASE_URL=$OCP_BASE_URL" >> ~/.bashrc
+
+-->
 
 
 1. Create Student directory
