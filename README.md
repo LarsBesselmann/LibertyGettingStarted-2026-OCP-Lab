@@ -638,7 +638,7 @@ The **server.xml** file defines a set of **`features`** that the application req
 
 ### Checkpoint
 
-At this point in the lab, you have successfully demonstrated the PlantsByWebSphere application runs successfully in WebSphere Liberty on a local VM. 
+At this point in the lab, you have successfully demonstrated that the PlantsByWebSphere application runs successfully in WebSphere Liberty on a local VM.
 
 In the next sections, you will deploy the PlantsByWebSphere application to containers and Red Hat OpenShift. 
 
@@ -1358,7 +1358,7 @@ You have deployed the PlantsByWebSphere application with its configuration to `d
 
 In this section, you will explain how to deploy the same application again with a new configuration for `staging`, again using a single kustomize command. 
 
-1. Stop the `dev`database and OCP deployment
+1. Stop the `dev`database and delete the OCP deployment
 
         cd ~/Student/migrationPlan/deploy/kustomize/
         oc delete -n apps-pbw -k overlays/dev
@@ -1438,6 +1438,8 @@ In this section, you will explain how to deploy the same application again with 
 
     ![A website page of a garden Description automatically generated](./images/media/image78a.png)
 
+    **Note:** If the application is not available, wait a moment and then reload the page.
+
 10. Initialize the database.
 
     a. Click on Help to get the help panel
@@ -1455,6 +1457,18 @@ In this section, you will explain how to deploy the same application again with 
 
     ![PBW_Accessories](./images/media/PBW_Accessories.png)
     
+
+13. Clean up.
+
+    a. Delete the OCP deployment
+
+        cd ~/Student/migrationPlan/deploy/kustomize/
+        oc delete -n apps-pbw -k overlays/staging
+
+
+    b. Stop the `staging`database.
+
+        sudo podman stop plantsdb-db2-staging
 
 # Summary
 
