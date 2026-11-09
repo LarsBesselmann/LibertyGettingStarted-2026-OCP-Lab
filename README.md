@@ -173,7 +173,7 @@ The Application Modernization Accelerator is installed locally on the **Workstat
      
      Wait for Application Modernization Accelerator to initialize and display the **action menu** list.
 
-    c.  If not already started, type **`5`** and press **`Enter`** to “Start” the **Application Modernization Accelerator**.
+    c.  If AMA is installed but not already started, type **`5`** and press **`Enter`** to “Start” the **Application Modernization Accelerator**.
 
      ![](./images/media/image12.png)
  
