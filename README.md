@@ -177,7 +177,7 @@ The Application Modernization Accelerator is installed locally on the **Workstat
      
      Wait for Application Modernization Accelerator to initialize and display the **action menu** list.
 
-    c.  If AMA is installed but not already started, type **`5`** and press **`Enter`** to “Start” the **Application Modernization Accelerator**.
+    c.  If AMA is installed but not already started, type **`5`** to “Start” the **Application Modernization Accelerator**.
 
      ![](./images/media/image12.png)
  
@@ -191,8 +191,9 @@ The Application Modernization Accelerator is installed locally on the **Workstat
 
     e. Accept the security warning (the screen might look different)
 
-     ![](./images/media/image13a.png)
+     ![Firefox_Security_Alert1.png](./images/media/Firefox_Security_Alert1.png)
  
+    ![Firefox_Security_Alert2.png](./images/media/Firefox_Security_Alert2.png)
  
     f. Accept all cookies
 
