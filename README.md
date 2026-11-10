@@ -95,7 +95,7 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 - **git, maven and other tools**
 
-- The **PlantsByWebSphere Sample Application** , built as an Enterprise Archive file (EAR) is provided via git repository.
+- The **PlantsByWebSphere Sample Application**, built as an Enterprise Archive file (EAR) is provided via git repository.
 
 <!--
 
