@@ -713,7 +713,7 @@ This is what you will do now.
       ![Containerfile-RUN](./images/media/image52.png)
       ![Containerfile-RUN](./images/media/image52a.png)
 
-    - The **RUN features.sh** command will install the features required to run the application. As the initial installation was done using the kernel image, this will make sure that only those features are installed that are required (the once defined in the server.xml).
+    - The **RUN features.sh** command will install the features required to run the application. As the initial installation was done using the Liberty kernel image, this will minimize the container image by installing only those features that are required for the application to run.
 
       ![Containerfile-RUN](./images/media/image52b.png)
 
