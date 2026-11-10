@@ -85,13 +85,17 @@ In this lab, you will use the Application Modernization Accelerator `migration p
 
 To simplify the lab and to allow you to focus on the migration plan, certain software and artifacts have already been put in place for you. These are as follows:
 
-  - **Application Modernization Accelerator** has been installed and collected data has been loaded
+- **Application Modernization Accelerator** has been installed
 
-  - **podman** (for creating and running images) has been installed
+- **podman** (for creating and running images) has been installed
 
-  - **oc** (OpenShift command Line tool for running OCP commands) has been installed
+- **oc** (OpenShift command Line tool for running OCP commands) has been installed
 
-  - The **PlantsByWebSphere Sample Application**, built as an Enterprise Archive file (EAR) is available from the lab resource provided.
+- **IBM Semeru Java SDKs** 
+
+- **git, maven and other tools**
+
+- The **PlantsByWebSphere Sample Application** , built as an Enterprise Archive file (EAR) is provided via git repository.
 
 <!--
 
