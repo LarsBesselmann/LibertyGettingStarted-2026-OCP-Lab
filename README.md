@@ -325,7 +325,9 @@ A `workspace` is a designated area that will house the migration recommendations
 
     If you get a security warning, accept the risk and continue.
 
-    ![screenshot](./images/media/image24_alert.png)
+    ![Firefox_Security_Alert1a.png](./images/media/Firefox_Security_Alert1a.png)
+ 
+    ![Firefox_Security_Alert2a.png](./images/media/Firefox_Security_Alert2a.png)
     
 
     A zip file named “**plantsbywebsphereee6.ear_migrationPlan.zip**” will download to your **Download** folder.
