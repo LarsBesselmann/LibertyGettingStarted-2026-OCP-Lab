@@ -699,18 +699,26 @@ This is what you will do now.
  
     - The **FROM** statements in the **Containerfile** pull in the following two images. 
      
-      - **`Open JDK 8`**
-      - **Latest `WebSphere Liberty`**
+      - **`IBM Semeru JDK 8`**
+      - **`WebSphere Liberty Kernel image`**The 
 
       ![](./images/media/image50.png)
 
       ![](./images/media/image51.png)
 
+        The Liberty kernel image is used to start with a minimual Liberty installation. The required features will 
        
-    - The **RUN** commands in the Containerfile create the necessary folder structures and copies the **`binary files`** from the migration plan into the appropriate locations in the image.
+    - The following commands in the Containerfile create the necessary folder structures and copies the **`binary files`** from the migration plan into the appropriate locations in the image.
 
       ![Containerfile-RUN](./images/media/image52.png)
+      ![Containerfile-RUN](./images/media/image52a.png)
 
+    - The **RUN features.sh** command will install the features required to run the application. As the initial installation was done using the kernel image, this will make sure that only those features are installed that are required (the once defined in the server.xml).
+
+      ![Containerfile-RUN](./images/media/image52b.png)
+
+    
+    
     - There are several lines in the file that have been commented out. 
     
       By default, the **Containerfile** assumes that your application is available as a **binary** file. However, it can also be used to build your application from **source** code. The full details of how to do this can be found in **README.md** in the migration plan.
