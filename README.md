@@ -1444,7 +1444,7 @@ In this section, you will explain how to deploy the same application again with 
         sudo podman logs -f plantsdb-db2-staging
 
 
-9. Open in the browser the PlantsByWebSphere route for the `staging` deployment:
+9. Open a new terminal and open in the browser the PlantsByWebSphere route for the `staging` deployment via the command:
 
         /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
 
