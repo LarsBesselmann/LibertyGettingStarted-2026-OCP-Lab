@@ -1136,6 +1136,8 @@ The output should look like this:
 
 ![](./images/media/updated-kustomize-structure.png)
 
+Review the date and time of the yaml file to make sure you modified all of those files.
+
  ### 4.3 Deploy the application and its configuration to OpenShift
 
 To deploy the PlantsByWebSphere application to OpenShift, you must perform the following basic steps.
