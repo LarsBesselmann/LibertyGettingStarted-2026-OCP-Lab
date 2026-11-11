@@ -1163,7 +1163,7 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
     ![](./images/media/wlp-operator-installed.png)
 
-    If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the appendix and then continue here.
+    If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the **Appendix** and then continue here.
 
 
 3. Create a new project where you will deploy the application 
@@ -1207,7 +1207,7 @@ You must specify which overlay will provide the configuration (dev in this case)
 
 8. Deploy the PlantsByWebSphere application to OpenShift    
 
-        cd ~/Student/labs/appmod/migration-plan/deploy/kustomize
+        cd ~/Student/migrationPlan/deploy/kustomize
 
         oc apply -n apps-pbw -k overlays/dev
 
