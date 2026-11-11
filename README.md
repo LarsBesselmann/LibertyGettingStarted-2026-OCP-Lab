@@ -1840,7 +1840,7 @@ Start from scratch without any deployment:
         cd ~/Student/migrationPlan/deploy/kustomize/
         oc apply -n apps-pbw -k overlays/dev
 
-    Reload the ILS Status page and it should show a Liberty instance.
+    Reload the ILS Status page and take a look at the changes.
 
     ![ILS_Status-Page-2WLP-noLimit.png](./images/media/ILS_Status-Page-2WLP-noLimit.png)
     
@@ -1852,6 +1852,8 @@ Start from scratch without any deployment:
 
 8. Add a cpu limit to avoid that the whole worker node must be licensed.
 
+    Go back to the open editor or open a new one.
+
        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
 
    Add the following 5 lines just the line after line 10:
@@ -1860,7 +1862,7 @@ Start from scratch without any deployment:
            requests:
                cpu: 500m
            limits:
-               cpu: 1000m
+               cpu: 800m
                memory: 512Mi
 
     ![ILS_application-cr3](./images/media/ILS_application-cr3.png)
@@ -1872,12 +1874,33 @@ Start from scratch without any deployment:
         cd ~/Student/migrationPlan/deploy/kustomize/
         oc apply -n apps-pbw -k overlays/dev
 
-    Reload the ILS Status page and it should show a Liberty instance.
+    Reload the ILS Status page and take a look at the changes.
 
-    ![ILS_Status-Page-2WLP-noLimit.png](./images/media/ILS_Status-Page-2WLP-noLimit.png)
+    ![ILS_Status-Page-3WLP-Limit.png](./images/media/ILS_Status-Page-3WLP-Limit.png)
     
-    - The product is annotated for WebSphere Application Server but now based on VPCs as WebSphere Hybrid Edition (WSHE) has the VPC metric.
-    - The node has 8 cores
-    - A CPU limit is not set, so the whole worker node will be licensed.
-    - WAS has the ratio 4:1 within the WebSphere Hybrid Edition, which means 4 deployed cores require 1 VPC of WSHE. 
-    - As the whole worker node must be licensed and the ratio 4:1 is applied, the metric value is 2.
+    - A CPU limit has been set, so only those cores will be licensed.
+    - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
+
+10. Add additional replicas.
+
+    Go back to the open editor or open a new one.
+
+        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
+
+    In line 8, change the number of replica to 5.
+
+    ![ILS_application-cr4](./images/media/ILS_application-cr4.png)
+
+    Save the changes but keep the editor open.
+
+11. Apply the changes and see the results: 
+   
+        cd ~/Student/migrationPlan/deploy/kustomize/
+        oc apply -n apps-pbw -k overlays/dev
+
+    Reload the ILS Status page and take a look at the changes.
+
+    ![ILS_Status-Page-4WLP-Replica.png](./images/media/ILS_Status-Page-4WLP-Replica.png)
+    
+    - You can now see 5 pods A CPU limit has been set, so only those cores will be licensed.
+    - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
