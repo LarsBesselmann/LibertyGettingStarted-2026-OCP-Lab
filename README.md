@@ -876,7 +876,7 @@ You have now created a container image without any application specific configur
 
 It is common to have different application configuration between deployments such as `dev` and `staging`. In this lab, you use only use one different DB2 application databases between the two configurations. For this reason , you want the configMap to be located in the Kustomize `overlays` folder, rather than the `base` where it is placed, by default, in the Application Modernization Accelerator migration plan. 
 
-For the lab, you have provided the updated file structure for you. You just need to run the commands below to update the migration plan. 
+In the next step, you will update the file structure and the related kustomization.yaml configuration files. 
 
 1. Move the configMap to the Kustomize `overlays` folder
 
@@ -1640,7 +1640,7 @@ But if not, here the  steps to install it.
 </details>
 
 
-## How to use the IBM License Service (ILS)
+## How to install and use the IBM License Service (ILS)
 
 ### Install the IBM License Service
 
@@ -1776,3 +1776,44 @@ Useful links how to install the IBM License Service:
 https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=service-installing-license)
 https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=registry-installing-license-service-openshift-container-platform
 
+
+### Use the IBM License Service 
+
+Start from scratch without any deployment:
+
+1. Delete the OCP deployment
+
+        cd ~/Student/migrationPlan/deploy/kustomize/
+        oc delete -n apps-pbw -k overlays/dev
+        oc delete -n apps-pbw -k overlays/staging
+
+2. Access the ILS Status Page:
+
+        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+
+    The ILS Status page should show no Liberty instance.
+
+    ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
+
+3. Create an OCP deployment for Liberty dev
+
+        cd ~/Student/migrationPlan/deploy/kustomize/
+        oc apply -n apps-pbw -k overlays/dev
+
+    Reload the ILS Status page and it should show a Liberty instance.
+
+    ![ILS_Status-Page-1WLP-noLimit.png](./images/media/ILS_Status-Page-1WLP-noLimit.png)
+    
+4. Let's take a look at the information
+
+    - The product is annotated for WebSphere Application Server which is based on PVUs.
+    - The node has 8 cores
+    - A CPU limit is not set, so the whole worker node will be licensed.
+    - As each core is counted with 70 PVU, the metric value is 560.
+
+cd ~/Student/migrationPlan/deploy/kustomize/
+        oc apply -n apps-pbw -k overlays/dev
