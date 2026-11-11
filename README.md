@@ -1526,11 +1526,13 @@ You explored the PlantsByWebSphere assessment details and reports in Application
 ___
 
 
-# Troubleshooting:
+# Appendix
 
-## OpenShift related issues
+## Troubleshooting:
 
-### oc login fails
+### OpenShift related issues
+
+#### oc login fails
 <details>
 <summary>Details around how to fix OpenShif login issues</summary>
 
@@ -1557,7 +1559,7 @@ Now you can log in via the command:
     
 </details>
 
-### WebSphere Liberty Operator not installed
+#### WebSphere Liberty Operator not installed
 <details>
 <summary>Details around how to install the WebSphere Liberty Operator into OpenShift</summary>
 The WebSphere Liberty Operator is installed by default.
@@ -1636,3 +1638,141 @@ But if not, here the  steps to install it.
 
 
 </details>
+
+
+## How to use the IBM License Service (ILS)
+
+### Install the IBM License Service
+
+1. Check if the IBM License Service is already installed:
+
+    To verify the installation of License Service with CLI, run the following command:
+	
+       oc get deployment --all-namespaces | grep ibm-licensing-operator
+    If a deployment is returned, ILS is already installed and you can skip the next steps
+
+2. Install the ibm-licensing-catalog
+
+    Execute the following comand to install the ILS catalog
+
+        cat <<EOF | oc apply -f -
+        apiVersion: operators.coreos.com/v1alpha1
+        kind: CatalogSource
+        metadata:
+            name: ibm-licensing-catalog
+            namespace: openshift-marketplace
+        spec:
+            displayName: IBM License Service Catalog
+            publisher: IBM
+            sourceType: grpc
+            image: icr.io/cpopen/ibm-licensing-catalog
+            updateStrategy:
+                registryPoll:
+                    interval: 45m
+            grpcPodConfig:
+                securityContextConfig: restricted
+        EOF
+
+    Output:
+
+    `catalogsource.operators.coreos.com/ibm-licensing-catalog created`
+
+
+3. Verify that the CatalogSource for your IBM License Service operator is created.
+
+        oc get pods -n openshift-marketplace | grep licensing
+        oc get catalogsource -n openshift-marketplace | grep licensing
+
+
+4. Install the IBM License Service operator.
+
+    1. Create a namespace for License Service.
+
+            oc create namespace ibm-licensing
+
+        Output: `namespace/ibm-licensing created`
+
+    2. Create the operator group to deploy the OperatorGroup resource.
+
+            cat <<EOF | oc apply -f -
+            apiVersion: operators.coreos.com/v1
+            kind: OperatorGroup
+            metadata:
+                name: licensing-og
+                namespace: ibm-licensing
+            spec:
+                targetNamespaces:
+                - ibm-licensing
+            EOF
+
+        Output: `operatorgroup.operators.coreos.com/licensing-og created`
+ 
+
+    3. Create the subscription for License Service.
+
+            export LS_CHANNEL=v4.2 
+            cat <<EOF | oc apply -f -
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+                name: ibm-licensing-operator-app
+                namespace: ibm-licensing
+            spec:
+            channel: $LS_CHANNEL
+            installPlanApproval: Automatic
+            name: ibm-licensing-operator-app
+            source: ibm-licensing-catalog
+            sourceNamespace: openshift-marketplace
+            EOF
+
+        Output: `subscription.operators.coreos.com/ibm-licensing-operator-app created`
+
+    4. Verify that your License Service operator is installed:
+
+            oc get pod -n $NAMESPACE
+ 
+        The licensing-operator pod should be shown as "Running". Otherwise wait and try again (It might take up to 15 minutes for all the pods to show the Running status.
+
+    5. Update the License Service instance that was created during installation to accept the license.
+
+           echo -e "
+            spec:	\n
+                license:	\n
+                    accept: true	\
+            " > accept-license.yaml
+
+           cat accept-license.yaml
+
+           oc patch IBMLicensing instance --type merge --patch-file accept-license.yaml
+ 
+    6. Get the route of the IBM License Service
+
+            oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
+
+5. Get the authentication token
+
+        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+6. Get the URL of the status page
+
+    To display the URL of the ILS status page including token, use the command:
+
+        echo https://${LICENSING_URL}/status?token=${TOKEN}
+
+    Access the status page via the command:
+
+        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+
+
+7. You can retrieve the licensing report .zip file by running:
+
+        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report.zip
+
+
+
+Useful links how to install the IBM License Service: 
+https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=service-installing-license)
+https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=registry-installing-license-service-openshift-container-platform
+
