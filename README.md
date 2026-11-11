@@ -1867,6 +1867,7 @@ Start from scratch without any deployment:
 
     ![ILS_application-cr3](./images/media/ILS_application-cr3.png)
 
+    Make sure that the number of spaces before `resources` is correct, otherwise the deployment will fail.
     Save the changes but keep the editor open.
 
 9. Apply the changes and see the results: 
@@ -1878,7 +1879,8 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-3WLP-Limit.png](./images/media/ILS_Status-Page-3WLP-Limit.png)
     
-    - A CPU limit has been set, so only those cores will be licensed.
+    - A CPU limit has been recognized, so only those cores will be licensed (here 0.8 cores).
+    - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core.
     - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
 
 10. Add additional replicas.
@@ -1891,7 +1893,7 @@ Start from scratch without any deployment:
 
     ![ILS_application-cr4](./images/media/ILS_application-cr4.png)
 
-    Save the changes but keep the editor open.
+    Save the changes and feel free to close the editor.
 
 11. Apply the changes and see the results: 
    
@@ -1902,5 +1904,10 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-4WLP-Replica.png](./images/media/ILS_Status-Page-4WLP-Replica.png)
     
-    - You can now see 5 pods A CPU limit has been set, so only those cores will be licensed.
-    - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
+    - You can now see 5 pods that are contributing to the number of licenses, each with 0.8 cores.
+    - The total number or cores running WebSphere Liberty Base is 4 (5 x 0.8).
+    
+    - As only 4 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
+
+This completes the section about IBM License Service.
+
