@@ -1155,12 +1155,23 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
     A browser window will open where you need to log in via IBM ID.
 
-2. Create a new project where you will deploy the application 
+2. Verify that the WebSphere Liberty Operator has been installed
+
+        oc get operators -n openshift-operators | grep websphere-liberty
+
+    The output should look like this:
+
+    ![](./images/media/wlp-operator-installed.png)
+
+    If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the appendix and then continue here.
+
+
+3. Create a new project where you will deploy the application 
 
         oc new-project apps-pbw
 
 
-3. Login to the OpenShift internal registry so you can push the image 
+4. Login to the OpenShift internal registry so you can push the image 
 
         oc registry login
 
@@ -1168,21 +1179,21 @@ To deploy the PlantsByWebSphere application to OpenShift, you must perform the f
 
     `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
 
-4. Tag the container image using the following podman command
+5. Tag the container image using the following podman command
 
         imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
         echo $imageReference
 
         podman tag apps/pbw ${imageReference}
 
-5. Verify the image was tagged
+6. Verify the image was tagged
 
         podman images | grep pbw-app
 
     ![](./images/media/pbw-apps-tagged.png)
 
 
-6. Push the container image to OpenShift internal registry 
+7. Push the container image to OpenShift internal registry 
 
        imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
        echo $imageReference
@@ -1194,7 +1205,7 @@ In previous steps, you configured the sensitive data that is needed, accepted th
 
 You must specify which overlay will provide the configuration (dev in this case).
 
-7. Deploy the PlantsByWebSphere application to OpenShift    
+8. Deploy the PlantsByWebSphere application to OpenShift    
 
         cd ~/Student/labs/appmod/migration-plan/deploy/kustomize
 
@@ -1214,7 +1225,7 @@ You must specify which overlay will provide the configuration (dev in this case)
 
 
 
-8. Verify the deployment
+9. Verify the deployment
 
         oc get deployment -n apps-pbw
 
@@ -1224,7 +1235,7 @@ You must specify which overlay will provide the configuration (dev in this case)
         plantsbywebsphereee6   1/1     1            1    
 
 
-9. Verify the application `pod` is ready.
+10. Verify the application `pod` is ready.
 
     This may take a few moments. Just keep checking with command below
 
@@ -1235,7 +1246,7 @@ You must specify which overlay will provide the configuration (dev in this case)
         NAME                                    READY   STATUS       
         plantsbywebsphereee6-7476449666-shnx8   1/1     Running   
 
-10. List the route of the PlantsByWebSphere application:
+11. List the route of the PlantsByWebSphere application:
 
         oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
 
@@ -1244,7 +1255,7 @@ You must specify which overlay will provide the configuration (dev in this case)
         plantsbywebsphereee6-apps-pbw.apps.itz-3035es.infra01-lb.dal14.techzone.ibm.com
 
 
-11. Open in the browser the PlantsByWebSphere route for the `dev` deployment:
+12. Open in the browser the PlantsByWebSphere route for the `dev` deployment:
 
         /usr/bin/xdg-open "https://$(oc get route -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')/PlantsByWebSphere"
 
@@ -1253,7 +1264,7 @@ You must specify which overlay will provide the configuration (dev in this case)
 
     ![A website page of a garden Description automatically generated](./images/media/image78a.png)
 
-11. Click on the **`Trees`** category and view the trees that are loaded in the ‘dev’ database.
+13. Click on the **`Trees`** category and view the trees that are loaded in the ‘dev’ database.
 
     This catalog of trees was retrieved from the DB2 database in the `dev` configuration.
  
@@ -1519,7 +1530,10 @@ ___
 
 ## OpenShift related issues
 
-1. oc login fails
+### oc login fails
+<details>
+<summary>Details around how to fix OpenShif login issues</summary>
+
 
 If `oc login -w` fails with an error like
 
@@ -1541,5 +1555,84 @@ Now you can log in via the command:
 
     oc login -w --server=$OCP_CONSOLE_URL:6443
     
+</details>
+
+### WebSphere Liberty Operator not installed
+<details>
+<summary>Details around how to install the WebSphere Liberty Operator into OpenShift</summary>
+The WebSphere Liberty Operator is installed by default.
+But if not, here the  steps to install it.
+
+<br>
+
+1. Make sure that the ibm-operator-catalog is installed 
+
+        oc get catalogsource -n openshift-marketplace
+
+    The command output lists the installed operators for CatalogSources. Ensure the ibm-operator-catalog is listed.
+
+    a. If the ibm-operator-catalog is not listed, perform the following steps:
 
 
+    a. Install the ibm-operator-catalog
+    
+        cat <<EOF | oc apply -n openshift-marketplace -f -
+        apiVersion: operators.coreos.com/v1alpha1
+        kind: CatalogSource
+        metadata:
+            name: ibm-operator-catalog
+            namespace: openshift-marketplace
+        spec:
+            displayName: IBM Operator Catalog
+            publisher: IBM
+            sourceType: grpc
+            image: icr.io/cpopen/ibm-operator-catalog:latest
+            updateStrategy:
+                registryPoll:
+                interval: 45m
+        EOF
+
+    b. Check that the pods for CatalogSources are running.
+
+
+       oc get pods -n openshift-marketplace | grep ibm-operator-catalog
+
+        This might take some time, Wait until the pod is running.
+
+
+    Hint: You can find more details here:
+        https://www.ibm.com/docs/en/was-liberty/base?topic=operator-preparing-installation
+
+2. Install the liberty operator 
+
+    1. Specify the namespace and trigger the installation
+
+            WLO_NAMESPACE=openshift-operators
+            cat <<EOF | oc apply -f -
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+                name: ibm-websphere-liberty
+                namespace: $WLO_NAMESPACE
+            spec:
+                installPlanApproval: Automatic
+                name: ibm-websphere-liberty
+                source: ibm-operator-catalog
+                sourceNamespace: openshift-marketplace
+            EOF
+
+    2. Check if pod wlo-controller-manager is available
+
+            WLO_NAMESPACE=openshift-operators
+            oc get pods -n $WLO_NAMESPACE
+
+    3. Check the status of the WebSphere Liberty operator:
+
+            WLO_NAMESPACE=openshift-operators
+            oc get operators -n $WLO_NAMESPACE | grep websphere-liberty
+
+    Hint: You can find more details here:
+    https://www.ibm.com/docs/en/was-liberty/base?topic=operator-installing-red-hat-openshift-cli
+
+
+</details>
