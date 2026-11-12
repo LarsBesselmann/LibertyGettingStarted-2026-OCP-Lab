@@ -97,10 +97,19 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 - The **PlantsByWebSphere Sample Application**, built as an Enterprise Archive file (EAR) is provided via git repository.
 
+
+<br>
+
+**Main Steps:**
+![OCP_Steps.png](./images/media/OCP_Steps.png)
+
+
+<br>
+
+# Part 0: Complete setup
+
 <!--
 
-
-# Part 0: Prepare environment
 
 **Disable docker**
     sudo mv /bin/docker /bin/docker.sav
@@ -153,7 +162,7 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
         netstat -an | grep 50000
 
 
-# Part 1: Application Assessment    
+# Part 1: Assess the application and generate a migration plan
 
 You decide to use the IBM Application Modernization Accelerator (AMA) to do a quick evaluation of the PlantsByWebSphere application without the source code to identify if it is a good candidate application to move to Liberty and/or container-based deployments.
 
@@ -889,7 +898,7 @@ Further information on **kustomize** can be found at <http://kustomize.io>
 ___
 
 
-# 4 Deploy to OpenShift with config
+# Part 4: Deploy to OpenShift with config
 
 You have now created a container image without any application specific configuration. In this section, you will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
 
