@@ -81,9 +81,17 @@ The lab environment contains of a Desktop machine and several other VMs spinning
 
 ## Lab Tasks
 
-In this lab, you will use the Application Modernization Accelerator `migration plan` to build a container image and deploy an application to a local container for testing.
+In this lab, you will use the Application Modernization Accelerator `migration plan` to build a container image and deploy an application to a local container for testing and finally to OpenShift.
 
-To simplify the lab and to allow you to focus on the migration plan, certain software and artifacts have already been put in place for you. These are as follows:
+**Main Steps:**
+![OCP_Steps.png](./images/media/OCP_Steps.png)
+
+
+<br>
+
+# Part 0: Complete setup
+
+To simplify the lab and to allow you to focus on the migration, certain software and artifacts have already been put in place for you. These are as follows:
 
 - **Application Modernization Accelerator** has been installed
 
@@ -97,16 +105,10 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 - The **PlantsByWebSphere Sample Application**, built as an Enterprise Archive file (EAR) is provided via git repository.
 
-
 <br>
 
-**Main Steps:**
-![OCP_Steps.png](./images/media/OCP_Steps.png)
+To complete the setup, the git project must be downloaded and the PlantsByWebSphere application must be installed.
 
-
-<br>
-
-# Part 0: Complete setup
 
 <!--
 
