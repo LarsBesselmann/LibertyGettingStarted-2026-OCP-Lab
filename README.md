@@ -872,6 +872,9 @@ ___
 
 You have now created a container image without any application specific configuration. In this section, you will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
 
+Main Steps: 
+![OCP_Steps_4.x.png](./images/media/OCP_Steps_4.x.png)
+
 ### 4.1 Update the Kustomize structure to move the configmap configuration to the overlays folder
 
 It is common to have different application configuration between deployments such as `dev` and `staging`. In this lab, you use only use one different DB2 application databases between the two configurations. For this reason , you want the configMap to be located in the Kustomize `overlays` folder, rather than the `base` where it is placed, by default, in the Application Modernization Accelerator migration plan. 
