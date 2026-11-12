@@ -155,12 +155,22 @@ To simplify the lab and to allow you to focus on the migration plan, certain sof
 
 # Part 1: Application Assessment    
 
-## 1.1 Launch Application Modernization Accelerator (local)
+You decide to use the IBM Application Modernization Accelerator (AMA) to do a quick evaluation of the PlantsByWebSphere application without the source code to identify if it is a good candidate application to move to Liberty and/or container-based deployments.
 
-Application Modernization Accelerator (AMA) provides a **`migration plan`** for each application being assessed for modernization. The migration plan includes a **`migration plan`** of generated artifacts that accelerate the deployment of applications to Liberty in containers and Kubernetes / OpenShift.
+
+Application Modernization Accelerator (AMA) can also generate a **`migration plan`** for the assessed application. The migration plan includes a **`migration plan`** of generated artifacts that accelerate the deployment of applications to Liberty in containers and Kubernetes / OpenShift.
 
 The migration plan includes diverse artifacts, depending on the needs of the application to accelerate the build and deployment of an application Container image into an OpenShift container platform.
 
+
+**Main Steps:**
+![OCP_Steps_1.x.png](./images/media/OCP_Steps_1.x.png)
+
+
+
+
+
+## 1.1 Launch Application Modernization Accelerator (local)
 The Application Modernization Accelerator is installed locally on the **Workstation** VM. AMA might have a higher version than shown in the screenshots. Also the host name might be slightly different.
 
 1. Launch the Application Modernization Accelerator tool using the steps below.
@@ -211,7 +221,7 @@ In the next section, you will create a new “**Workspace**” in Application Mo
 
 <br>
 
-## 1.3 Create new workspace and upload scan results from a WebSphere Application Server
+## 1.2 Create new workspace and upload scan results from a WebSphere Application Server
 
 In this section, create a new workspace named **'Evaluation'**.
 
@@ -272,7 +282,7 @@ A `workspace` is a designated area that will house the migration recommendations
     
 
 
-## 1.4 Analyze the plantsbywebsphereee6 application
+## 1.3 Analyze the PlantsByWebSphere application and generate a migration plan
 
  Application Modernization Accelerator provides detailed information about each application that has been analyzed. This application **plantsbywebsphereee6.ear** has a complexity of **`Simple`**.
  
@@ -360,7 +370,12 @@ In this step, you will create a new Liberty server to run the PlantsByWebSphere 
 
 Then, you will review the migration plan to see what files you need to add and use the provided `server.xml` Liberty configuration file. This file is used to configure Liberty by providing values for ports, security, context routes and by providing application-specific configuration. 
 
-### 2.1   Create a local Liberty Server
+**Main Steps:**
+![OCP_Steps_2.x.png](./images/media/OCP_Steps_2.x.png)
+
+
+
+## 2.1 Create a local Liberty Server
 
 1.  From a **`Terminal`** window, download and install the Liberty archive.
 
@@ -411,7 +426,7 @@ Then, you will review the migration plan to see what files you need to add and u
 
 
 
-### 2.1.3 Review the placeholder files in the migration plan
+## 2.2 Review the placeholder files in the migration plan
 
 In this section, you will review the migration plan to see what files need to be added to the WebSphere Liberty configuration to run the application. 
 
@@ -433,7 +448,7 @@ In this section, you will review the migration plan to see what files need to be
 
     <br/>
 
-### 2.1.4   Configure the Liberty server for PlantsByWebSphere
+## 2.3 Configure the Liberty server for PlantsByWebSphere and test it
 
 In this section, extract the migration plan that you downloaded. Then, copy the required dependency files and server configuration to the Liberty server.
 
@@ -539,13 +554,18 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
 
     <br/>
 
-### 2.1.5   Review the server.xml file
+## 2.4 Review the Liberty configuration regarding sensitive data
 
-Now you will review the **`server.xml`** file and set the necessary configuration information. 
+Now you will review the **`server.xml`** file and find the necessary configuration information. 
 
 The **server.xml** file defines a set of **`features`** that the application requires. By importing only, the necessary **features** to support the application’s API needs, the footprint of the deployed application and Liberty server is kept as small as possible.
 
-1. Review the server.xml file
+1. From a Terminal window, `stop` the Liberty server named ‘pbwserver”
+
+        ~/Student/wlp/bin/server stop pbwserver
+
+
+2. Review the server.xml file
 
     Using the “**`gedit`**” editor in a **`Terminal`** window, open the **server.xml** file located in the Liberty server
 
@@ -579,21 +599,19 @@ The **server.xml** file defines a set of **`features`** that the application req
       ![sensitive config data](./images/media/image42.png)
 
 
-2.  The reason that the **PlantsByWebSphere** application returned an “Exception” is because the values for the **sensitive variables** have not been set - neither in the server.xml nor in the environment. 
+        The reason that the **PlantsByWebSphere** application returned an “Exception” is because the values for the **sensitive variables** have not been set - neither in the server.xml nor in the environment. 
   
-    ![](./images/media/image43.png)
+        ![](./images/media/image43.png)
 
-    Next, you will update the server.xml to include the credentials required to access the application database. 
-
-
-### 2.1.6   Update the server.xml and retest the PlantsByWebSphere application
+Next, you will update the server.xml to include the credentials required to access the application database. 
 
 
-1. From a Terminal window, `stop` the Liberty server named ‘pbwserver”
+## 2.5 Add the sensitive data and retest the PlantsByWebSphere application
 
-        ~/Student/wlp/bin/server stop pbwserver
+Now you will add in the **`server.xml`** file the necessary configuration information. 
 
-2. From the `gedit` editor that you have open, update the values in the **server.xml** file for the sensitive data as illustrated below:
+
+1. From the `gedit` editor that you have open, update the values in the **server.xml** file for the sensitive data as illustrated below:
 
     a. Scroll to the bottom of the `server.xml` file to view the sensitive-data variables. 
 
@@ -610,12 +628,12 @@ The **server.xml** file defines a set of **`features`** that the application req
 
         sed -i 's/vm-1/desktop-2/g' /home/itzuser/Student/wlp/usr/servers/pbwserver/server.xml
 
-3. From a Terminal window, `start` the Liberty server named ‘pbwserver”
+2. From a Terminal window, `start` the Liberty server named ‘pbwserver”
 
         ~/Student/wlp/bin/server start pbwserver
 
 
-4. Reload and test PlantsByWebSphere application in the browser
+3. Reload and test PlantsByWebSphere application in the browser
 
     http://localhost:9080/PlantsByWebSphere
 
@@ -638,7 +656,7 @@ The **server.xml** file defines a set of **`features`** that the application req
     ![PBW Flowers](./images/media/image45.png)
 
 
-3. From a **Terminal** window, `Stop` the Liberty server named ‘**pbwserver**”
+4. From a **Terminal** window, `Stop` the Liberty server named ‘**pbwserver**”
 
         ~/Student/wlp/bin/server stop pbwserver
 
@@ -652,6 +670,9 @@ In the next sections, you will deploy the PlantsByWebSphere application to conta
 <br>
 
 # Part 3: Create and run the PlantsByWebSphere application as a container image    
+
+**Main Steps:**
+![OCP_Steps_3.x.png](./images/media/OCP_Steps_3.x.png)
 
 
 ## 3.1  Explore the Containerfile used to build PlantsByWebSphere as a container image
@@ -730,7 +751,7 @@ This is what you will do now.
     <br/>
 
 
-### 3.2 Setup, build and run PlantsByWebSphere in a local container
+## 3.2 Setup, build and run PlantsByWebSphere in a local container
 
 In this section, you will build and run the PlantsByWebSphere application in a local container.
 
@@ -838,7 +859,7 @@ In the next section you will look at how the `migration plan` helps you manage t
 ___
 
 
-## 3.2 Understand how Kustomize is used in the migration plan
+## 3.3 Understand how Kustomize is used in the migration plan
 
 **`kustomize`** is simple way to manage configuration across all your different deployments and environments without the need for templates.
 
@@ -868,14 +889,14 @@ Further information on **kustomize** can be found at <http://kustomize.io>
 ___
 
 
-## 4 Deploy to OpenShift with config
+# 4 Deploy to OpenShift with config
 
 You have now created a container image without any application specific configuration. In this section, you will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
 
-Main Steps: 
+**Main Steps:**
 ![OCP_Steps_4.x.png](./images/media/OCP_Steps_4.x.png)
 
-### 4.1 Update the Kustomize structure to move the configmap configuration to the overlays folder
+## 4.1 Update the Kustomize structure to move the configmap configuration to the overlays folder
 
 It is common to have different application configuration between deployments such as `dev` and `staging`. In this lab, you use only use one different DB2 application databases between the two configurations. For this reason , you want the configMap to be located in the Kustomize `overlays` folder, rather than the `base` where it is placed, by default, in the Application Modernization Accelerator migration plan. 
 
@@ -936,7 +957,7 @@ In the next step, you will update the file structure and the related kustomizati
 
 
 
-### 4.2 Update the YAML files to add the application configuration for deployment
+## 4.2 Update the YAML files to add the application configuration for deployment
 
 Recall, the container image does not have the application configuration baked in. 
 
@@ -1141,7 +1162,7 @@ The output should look like this:
 
 Review the date and time of the yaml file to make sure you modified all of those files.
 
- ### 4.3 Deploy the application and its configuration to OpenShift
+ ## 4.3 Deploy the application and its configuration to OpenShift
 
 To deploy the PlantsByWebSphere application to OpenShift, you must perform the following basic steps.
 
@@ -1275,7 +1296,7 @@ You must specify which overlay will provide the configuration (dev in this case)
 
 
 
-##  4.4 Explore the WebSphere Liberty Operator in OpenShift
+## 4.4 Explore the WebSphere Liberty Operator in OpenShift
 
 In this section, you will take a look at the **WebSphere Liberty Operator** in the OpenShift console to see what has been deployed.
 
@@ -1384,7 +1405,7 @@ In this section, you will take a look at the **WebSphere Liberty Operator** in t
     ![pbw](./images/media/pbw_OCP.png)
 
 
-## 4.5 Optional: Re-deploy app with different configuration to OpenShift  - To be done
+## 4.5 Optional: Re-deploy app with different configuration to OpenShift
 
 You have deployed the PlantsByWebSphere application with its configuration to `dev`, using a single kustomize command. 
 
