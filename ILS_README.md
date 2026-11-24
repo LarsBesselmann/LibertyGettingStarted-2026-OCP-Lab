@@ -395,15 +395,7 @@ https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=registry-
 
 # Part 4: Track Liberty Deployments via IBM License Service 
 
-## 4.1: Deploy a Liberty instance without WebSphere Liberty Operator
-
-
-If you would deploy the WebSphere Liberty container without Liberty Operator, the pod would not be detected by IBM License Service as no annotations are set.
-
-
-## 4.2: Deploy a Liberty instance via WebSphere Liberty Operator
-
-## 4.2.1: Adjust the Plants application configuration files 
+## 4.1: Adjust the Plants application configuration files 
 
 1. Create a directory for the application configuration
 
@@ -512,8 +504,7 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
 
     ___
 
-
- ### Use the IBM License Service (ILS)
+## 4.2: Deploy the Liberty application and track it using the IBM License Service (ILS)
 
 Start from scratch without any deployment:
 
@@ -552,7 +543,7 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-1WLP-noLimit.png](./images/media/ILS_Status-Page-1WLP-noLimit.png)
     
-4. Let's take a look at the information
+    Let's take a look at the information
 
     - The product is annotated for WebSphere Application Server which is based on PVUs.
     - The node has 8 cores
@@ -627,7 +618,7 @@ Start from scratch without any deployment:
     
     - A CPU limit has been recognized, so only those cores will be licensed (here 0.8 cores).
     - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results into a WAS metric value of 1.
-    - As only 1 core must be licensed and the EAR ratio 11:2 is applied, the EAR metric value is 2.
+    - As only 1 core must be licensed with WAS Base and the EAR ratio 11:2 is applied, the EAR metric value is 2.
 
 10. Add additional replicas.
 
@@ -635,7 +626,7 @@ Start from scratch without any deployment:
 
         gedit ~/Student/deploy/dev/application-cr.yaml &
 
-    In line 8, change the number of replica to 9.
+    In line 8, change the number of replica to 5.
 
     ![ILS_application-cr4](./images/media/ILS_application-cr4.png)
 
@@ -651,21 +642,76 @@ Start from scratch without any deployment:
     ![ILS_Status-Page-4WLP-Replica.png](./images/media/ILS_Status-Page-4WLP-Replica.png)
     
     - You can now see 5 pods that are contributing to the number of licenses, each with 0.8 cores.
-    - The total number or cores running WebSphere Liberty Base is 4 (5 x 0.8).
+    - The total number or cores running WebSphere Liberty Base is 4 (5 x 0.8) which results in a WAS metric value of 4.
     
-    - As only 4 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
+    - As only 4 cores must be licensed with WAS Base and the ratio 11:2 is applied, the EAR metric value is 1.
 
-You can more details about the Liberty License tracking here:
-https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-license-use-in-kubernetes
 
-This completes the section about IBM License Service.
+## 4.3: Deploy another Liberty application and track it using the IBM License Service (ILS)
 
-12. Review the **Technology Report** which is part of the migration plan and you will find out that the application only requires WebSphere Liberty Core
+The current deployment assumes that the application requires Liberty Base entitlements. But in fact, in only requires WebSphere Liberty Core.
 
-        /usr/bin/xdg-open ~/Student/migrationPlan/reports/plantsbywebsphereee6.ear_TechnologyReport.html 
+1. Review the **Technology Report** which is part of the migration plan and you will find out that the application only requires WebSphere Liberty Core.
+
+       /usr/bin/xdg-open ~/Student/migrationPlan/reports/plantsbywebsphereee6.ear_TechnologyReport.html 
 
     ![PBW_Liberty_Core.png](./images/media/PBW_Liberty_Core.png)
-    
+
+
+2. Let's create a second application and deployment, this time for Liberty Core.
+ 
+    1. Duplicate the existing deployment yaml files
+        cd ~/Student/deploy
+        cp -r dev stage
+
+    2. Tag the container image using the following podman command
+
+        imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
+        echo $imageReference
+
+        podman tag apps/pbw ${imageReference}
+
+6. Verify the image was tagged
+
+        podman images | grep pbw-app
+
+    ![](./images/media/pbw-apps-tagged.png)
+
+
+
+4. Login to the OpenShift internal registry so you can push the image 
+
+        oc registry login
+
+    The command will return the registry public hostname which should be similar to (but maybe with a different base URL)
+
+    `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
+
+
+7. Push the container image to OpenShift internal registry 
+
+       imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
+       echo $imageReference
+
+       podman push ${imageReference}
+
+
+
+
+
+    cd ~/Student/deploy/dev
+           echo $OCP_BASE_URL
+
+           imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
+           echo $imageReference
+
+           sed -i "s|IMAGE_REFERENCE|${imageReference}|g" application-cr.yaml
+
+
+    pbw-app:1.0
+
+
+
     Adjust the application-cr.yaml to use Liberty Core only.
 
         edition: IBM WebSphere Application Server Liberty Core
@@ -674,6 +720,16 @@ This completes the section about IBM License Service.
 
     You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
+
+
+
+
+
+
+This completes the section about IBM License Service.
+
+You can more details about the Liberty License tracking here:
+https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-license-use-in-kubernetes
 
 
 
