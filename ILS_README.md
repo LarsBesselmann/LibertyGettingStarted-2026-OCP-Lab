@@ -519,11 +519,11 @@ Start from scratch without any deployment:
 
 1. Access the ILS Status Page:
 
-        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
-        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
-        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+       /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
     The ILS Status page should show no Liberty instance.
 
@@ -531,8 +531,10 @@ Start from scratch without any deployment:
 
 2. Create an OCP deployment for Liberty dev
 
-        cd ~/Student/deploy
-        oc apply -n apps-pbw -f dev/application-cr.yaml
+       cd ~/Student/deploy
+       oc apply -n apps-pbw -f plantsbywebsphereee6-secret.yaml
+       oc apply -n apps-pbw -f dev/plantsbywebsphereee6-configmap.yaml
+       oc apply -n apps-pbw -f dev/application-cr.yaml
 
     Reload the ILS Status page and it should show a Liberty instance.
 
