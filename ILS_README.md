@@ -673,6 +673,9 @@ The current deployment assumes that the application requires Liberty Base entitl
 
            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
 
+        You can find more details about Liberty Core annotations at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
+
+
     4. Change the number of replica for stage from 5 to 10.
 
            cd ~/Student/deploy
@@ -708,12 +711,34 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
     
+    As you can see, two products are now contributing to the overall number of entitlements.
+    - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
+        - This results in a Liberty Core metric value of 8. 
+        - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
+    - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
+        - This results in a WAS metric value of 4. 
+        - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
 
+## 4.4: Access the other statistics of the IBM License Service (ILS)
 
-    You can find more details about annotations at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
+1. Access the ILS Page for bundled products:
 
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
+
+2. Access the ILS Page for bundled products:
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}"
+    
+
 
 
 This completes the section about IBM License Service.
