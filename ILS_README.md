@@ -51,7 +51,7 @@ The lab environment contains of a Desktop machine and several other VMs spinning
 In this lab, you will use IBM License Service to track the WebSphere Liberty deployments on Red Hat OpenShift.
 
 **Main Steps:**
-![OCP_Steps.png](./images/media/OCP_Steps.png)
+![OCP_Steps.png](./images/media/ILS_Steps.png)
 
 
 <br>
@@ -105,7 +105,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
        cp ~/Student/ama/plantsbywebsphereee6.ear_migrationPlan.zip ~/Downloads/
 
-4. Extract the migration plan that you downloaded.
+4. Extract the migration plan.
 
        rm -rf ~/Student/migrationPlan
        mkdir ~/Student/migrationPlan
