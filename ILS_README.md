@@ -307,20 +307,20 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
     3. Create the subscription for License Service.
 
-            export LS_CHANNEL=v4.2 
-            cat <<EOF | oc apply -f -
-            apiVersion: operators.coreos.com/v1alpha1
-            kind: Subscription
-            metadata:
-                name: ibm-licensing-operator-app
-                namespace: ibm-licensing
-            spec:
-            channel: $LS_CHANNEL
-            installPlanApproval: Automatic
-            name: ibm-licensing-operator-app
-            source: ibm-licensing-catalog
-            sourceNamespace: openshift-marketplace
-            EOF
+           export LS_CHANNEL=v4.2 
+           cat <<EOF | oc apply -f -
+           apiVersion: operators.coreos.com/v1alpha1
+           kind: Subscription
+           metadata:
+               name: ibm-licensing-operator-app
+               namespace: ibm-licensing
+           spec:
+           channel: $LS_CHANNEL
+           installPlanApproval: Automatic
+           name: ibm-licensing-operator-app
+           source: ibm-licensing-catalog
+           sourceNamespace: openshift-marketplace
+           EOF
 
         Output: `subscription.operators.coreos.com/ibm-licensing-operator-app created`
 
