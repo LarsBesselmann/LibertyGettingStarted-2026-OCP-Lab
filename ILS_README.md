@@ -597,7 +597,7 @@ Start from scratch without any deployment:
 
        resources:
            requests:
-               cpu: 500m
+               cpu: 300m
            limits:
                cpu: 800m
                memory: 512Mi
@@ -660,25 +660,24 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 2. Let's create a second application and deployment, this time for Liberty Core.
  
-    1. To not exceed the number of CPUs in the OCP environment, reduce the number of replica for dev.
-
-           cd ~/Student/deploy
-           sed -i "s|replicas: 5|replicas: 3|g" dev/application-cr.yaml
-           oc apply -n apps-pbw -f dev/application-cr.yaml
-
-    2. Duplicate the existing deployment yaml files
+    1. Duplicate the existing deployment yaml files
 
             cd ~/Student/deploy
             cp -r dev stage
 
-    3. For the stage environment, change the deployment name
+    2. For the stage environment, change the deployment name
 
            sed -i '0,/name: plantsbywebsphereee6/s/name: plantsbywebsphereee6/name: plantsbywebsphereee6s/' stage/application-cr.yaml
 
-    4. Adjust the application-cr.yaml to use Liberty Core only.
+    3. Adjust the application-cr.yaml to use Liberty Core only.
 
            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
-       
+
+    4. Change the number of replica for stage from 5 to 10.
+
+           cd ~/Student/deploy
+           sed -i "s|replicas: 5|replicas: 10|g" stage/application-cr.yaml
+
     5. Review the changes
 
            cat stage/application-cr.yaml
