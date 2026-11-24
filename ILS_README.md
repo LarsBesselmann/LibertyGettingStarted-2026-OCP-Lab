@@ -600,7 +600,7 @@ Start from scratch without any deployment:
 
     Go back to the open editor or open a new one.
 
-       gedit ~/Student/deploy/dev/application-cr.yaml
+       gedit ~/Student/deploy/dev/application-cr.yaml &
 
    Add the following 5 lines just the line after line 10:
 
@@ -633,9 +633,9 @@ Start from scratch without any deployment:
 
     Go back to the open editor or open a new one.
 
-        gedit ~/Student/deploy/dev/application-cr.yaml
+        gedit ~/Student/deploy/dev/application-cr.yaml &
 
-    In line 8, change the number of replica to 5.
+    In line 8, change the number of replica to 9.
 
     ![ILS_application-cr4](./images/media/ILS_application-cr4.png)
 
