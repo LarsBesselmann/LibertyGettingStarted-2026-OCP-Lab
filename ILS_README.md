@@ -403,7 +403,7 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
 
 ## 4.2: Deploy a Liberty instance via WebSphere Liberty Operator
 
-## 4.2.1: Adjust the Plants application configuration file 
+## 4.2.1: Adjust the Plants application configuration files 
 
 1. Create a directory for the application configuration
 
@@ -413,32 +413,64 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
        cp ~/Student/migrationPlan/deploy/kustomize/base/plantsbywebsphereee6-configmap.yaml ~/Student/deploy/dev
        cp ~/Student/migrationPlan/deploy/kustomize/overlays/dev/plantsbywebsphereee6-secret.yaml ~/Student/deploy/dev
 
-2. Update the `application-cr.yaml` file
+2. Update the **plantsbywebsphereee6-secret.yaml** file. 
+
+    1. Add the credentials
+
+           cd ~/Student/deploy/dev
+           sed -i 's/Dmgr01Node_DB2INST1_user: <REPLACE_WITH_BASE64_ENCODED_DATA>/Dmgr01Node_DB2INST1_user: ZGIyaW5zdDE=/g' plantsbywebsphereee6-secret.yaml
+
+           sed -i 's/Dmgr01Node_DB2INST1_password: <REPLACE_WITH_BASE64_ENCODED_DATA>/Dmgr01Node_DB2INST1_password: ZGIycGFzc3dvcmQ=/g' plantsbywebsphereee6-secret.yaml
+
+           sed -i 's/WIMUserRegistry_1_Default01Cell_userRegistry_primaryAdminId: <REPLACE_WITH_BASE64_ENCODED_DATA>/WIMUserRegistry_1_Default01Cell_userRegistry_primaryAdminId: d2FzYWRtaW4=/g' plantsbywebsphereee6-secret.yaml
+
+    2. Review the final file:
+
+           cat plantsbywebsphereee6-secret.yaml
+
+        The output should look like this:
+
+        ![](./images/media/secret-yaml-pbw.png)
+
+3.	Update the **plantsbywebsphereee6-configmap.yaml** file.
+
+    1. Adjust the database endpoint
+
+           cd ~/Student/deploy/dev
+           sed -i 's/vm-1/desktop-2/g' overlays/dev/plantsbywebsphereee6-configmap.yaml
+
+    2. Review the final file:
+
+           cat plantsbywebsphereee6-configmap.yaml
+
+        The output should look like this:
+
+        ![](./images/media/pbw-configmap-yaml-update.png)
+
+
+4. Update the `application-cr.yaml` file
     
-    a. Adjust the value of applicationImage from `IMAGE_REFERENCE` to something like
-    `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com/apps-pbw/pbw-app:1.0`.
+    1. Adjust the applicationImage
 
+           cd ~/Student/deploy/dev
+           echo $OCP_BASE_URL
 
-        cd ~/Student/deploy/dev
+           imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
+           echo $imageReference
 
-        echo $OCP_BASE_URL
+           sed -i "s|IMAGE_REFERENCE|${imageReference}|g" application-cr.yaml
 
-        imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
-        echo $imageReference
+    2. Accept the license by setting `accept: true`
 
-        sed -i "s|IMAGE_REFERENCE|${imageReference}|g" application-cr.yaml
+           sed -i 's/accept: false/accept: true/g' application-cr.yaml
 
-    b. Accept the license by replacing `accept: false` with `accept: true`
-
-        sed -i 's/accept: false/accept: true/g' application-cr.yaml
-
-    c. Review the updated **application-cr.yaml**
+    3. Review the updated **application-cr.yaml**
         
-        cat ~/Student/deploy/dev/application-cr.yaml
+           cat ~/Student/deploy/dev/application-cr.yaml
 
-    The output should look like this:
+        The output should look like this:
 
-    ![](./images/media/application-cr-yaml-pbw.png)
+        ![](./images/media/application-cr-yaml-pbw.png)
 
     Review also the rest of the file. 
     - **replicas** specifies the number of pods
