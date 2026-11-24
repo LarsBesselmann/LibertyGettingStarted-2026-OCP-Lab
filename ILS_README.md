@@ -662,9 +662,9 @@ The current deployment assumes that the application requires Liberty Base entitl
  
     1. To not exceed the number of CPUs in the OCP environment, reduce the number of replica for dev.
 
-        cd ~/Student/deploy
-        sed -i "s|replicas: 5|replicas: 2|g" dev/application-cr.yaml
-        oc apply -n apps-pbw -f dev/application-cr.yaml
+           cd ~/Student/deploy
+           sed -i "s|replicas: 5|replicas: 2|g" dev/application-cr.yaml
+           oc apply -n apps-pbw -f dev/application-cr.yaml
 
     2. Duplicate the existing deployment yaml files
 
