@@ -797,13 +797,15 @@ You can more details about the Liberty License tracking here:
 https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-license-use-in-kubernetes
 
 
+## Clean up.
 
-13. Clean up.
+To clean up the environment, perform the following steps:
 
     a. Delete the OCP deployment
 
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc delete -n apps-pbw -k overlays/staging
+        cd ~/Student/deploy
+        oc apply -n apps-pbw -f dev/application-cr.yaml
+        oc apply -n apps-pbw -f stage/application-cr.yaml
 
 
     b. Stop the `staging`database.
