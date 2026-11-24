@@ -562,7 +562,7 @@ Start from scratch without any deployment:
 
 5. Compare the findings with the deployment file.
 
-        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
+        cat dev/application-cr.yaml
 
     ![ILS_application-cr1](./images/media/ILS_application-cr1.png)
 
