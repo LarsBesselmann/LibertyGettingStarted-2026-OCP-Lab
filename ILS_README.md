@@ -529,6 +529,8 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
+    If you see any Liberty instances, delete the related deployments.
+
 2. Create an OCP deployment for Liberty dev
 
        cd ~/Student/deploy
@@ -570,7 +572,10 @@ Start from scratch without any deployment:
 
 6. Adjust the deployment to add entitlement details.
 
-    For easiness just remove the # from the lines 27 to 29
+       sed -i "s|#edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server|g" dev/application-cr.yaml
+       sed -i "s|#metric: Virtual Processor Core (VPC)|metric: Virtual Processor Core (VPC)|g" dev/application-cr.yaml
+       sed -i "s|#productEntitlementSource: IBM WebSphere Hybrid Edition|productEntitlementSource: IBM Enterprise Application Runtimes|g" dev/application-cr.yaml
+       cat dev/application-cr.yaml
     
     ![ILS_application-cr2](./images/media/ILS_application-cr2.png)
 
