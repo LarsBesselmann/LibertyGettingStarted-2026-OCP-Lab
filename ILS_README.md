@@ -677,18 +677,25 @@ The current deployment assumes that the application requires Liberty Base entitl
 
            cat stage/application-cr.yaml
 
-        You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
+        ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
 
 
-    4. Deploy the second application
+    5. Deploy the second application
 
            cd ~/Student/deploy
            oc apply -n apps-pbw -f stage/application-cr.yaml
 
 
+    6. Reload the ILS Status page and take a look at the changes.
+
+    ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+    
 
 
+    You can find more details about annotations at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
+
+    
 
 
 This completes the section about IBM License Service.
