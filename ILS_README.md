@@ -671,8 +671,11 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     3. Adjust the application-cr.yaml to use Liberty Core only.
 
-            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
+           sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
        
+    4. Review the changes
+
+           cat stage/application-cr.yaml
 
         You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
