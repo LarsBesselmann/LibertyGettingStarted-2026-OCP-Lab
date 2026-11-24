@@ -536,7 +536,17 @@ Start from scratch without any deployment:
        oc apply -n apps-pbw -f dev/plantsbywebsphereee6-configmap.yaml
        oc apply -n apps-pbw -f dev/application-cr.yaml
 
-    Reload the ILS Status page and it should show a Liberty instance.
+3. Verify the deployment
+
+       oc get deployment -n apps-pbw
+
+    Wait for the `deployment` to be ready and available, as illustrated below:
+
+        NAME                   READY   UP-TO-DATE   AVAILABLE  
+        plantsbywebsphereee6   1/1     1            1    
+
+
+4. Reload the ILS Status page and it should show a Liberty instance.
 
     ![ILS_Status-Page-1WLP-noLimit.png](./images/media/ILS_Status-Page-1WLP-noLimit.png)
     
