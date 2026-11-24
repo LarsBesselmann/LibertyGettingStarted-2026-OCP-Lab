@@ -437,7 +437,7 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
     1. Adjust the database endpoint
 
            cd ~/Student/deploy/dev
-           sed -i 's/vm-1/desktop-2/g' overlays/dev/plantsbywebsphereee6-configmap.yaml
+           sed -i 's/vm-1/desktop-2/g' plantsbywebsphereee6-configmap.yaml
 
     2. Review the final file:
 
