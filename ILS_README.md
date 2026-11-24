@@ -661,64 +661,26 @@ The current deployment assumes that the application requires Liberty Base entitl
 2. Let's create a second application and deployment, this time for Liberty Core.
  
     1. Duplicate the existing deployment yaml files
-        cd ~/Student/deploy
-        cp -r dev stage
 
-    2. Tag the container image using the following podman command
+            cd ~/Student/deploy
+            cp -r dev stage
 
-        imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
-        echo $imageReference
+    2. For the stage environment, change the deployment name
 
-        podman tag apps/pbw ${imageReference}
+           sed -i "s|name: plantsbywebsphereee6|name: plantsbywebsphereee6S|g" stage/application-cr.yaml
 
-6. Verify the image was tagged
+    3. Adjust the application-cr.yaml to use Liberty Core only.
 
-        podman images | grep pbw-app
+            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
+       
 
-    ![](./images/media/pbw-apps-tagged.png)
-
+        You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
 
-4. Login to the OpenShift internal registry so you can push the image 
+    4. Deploy the second application
 
-        oc registry login
-
-    The command will return the registry public hostname which should be similar to (but maybe with a different base URL)
-
-    `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
-
-
-7. Push the container image to OpenShift internal registry 
-
-       imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
-       echo $imageReference
-
-       podman push ${imageReference}
-
-
-
-
-
-    cd ~/Student/deploy/dev
-           echo $OCP_BASE_URL
-
-           imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw\/pbw-app:1.0"
-           echo $imageReference
-
-           sed -i "s|IMAGE_REFERENCE|${imageReference}|g" application-cr.yaml
-
-
-    pbw-app:1.0
-
-
-
-    Adjust the application-cr.yaml to use Liberty Core only.
-
-        edition: IBM WebSphere Application Server Liberty Core
-        productEntitlementSource: IBM Enterprise Application Runtimes
-
-
-    You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
+           cd ~/Student/deploy
+           oc apply -n apps-pbw -f stage/application-cr.yaml
 
 
 
