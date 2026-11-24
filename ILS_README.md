@@ -721,7 +721,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 ## 4.4: Access the other statistics of the IBM License Service (ILS)
 
-1. Access the ILS Page for bundled products:
+1. Access the **IBM License Service** page for **Products**:
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
@@ -742,7 +742,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 
 
-2. Access the ILS Page for bundled products:
+2. Access the **IBM License Service** page for **Bundled products**:
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
@@ -761,7 +761,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     - As WAS based on PVUs is no bundled product, it is not listed here.
 
-3. You can retrieve the licensing report.zip file by running:
+3. Retrieve the **IBM License Service Snapshot** report.zip:
 
        cd ~/Student
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")

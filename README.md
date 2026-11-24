@@ -166,12 +166,9 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
 # Part 1: Assess the application and generate a migration plan
 
-You decide to use the IBM Application Modernization Accelerator (AMA) to do a quick evaluation of the PlantsByWebSphere application without the source code to identify if it is a good candidate application to move to Liberty and/or container-based deployments.
+You use IBM Application Modernization Accelerator (AMA) to evaluate the PlantsByWebSphere application binary — without requiring access to its source code — to determine its readiness for WebSphere Liberty and containerized deployments.
 
-
-Application Modernization Accelerator (AMA) can also generate a **`migration plan`** for the assessed application. The migration plan includes a **`migration plan`** of generated artifacts that accelerate the deployment of applications to Liberty in containers and Kubernetes / OpenShift.
-
-The migration plan includes diverse artifacts, depending on the needs of the application to accelerate the build and deployment of an application Container image into an OpenShift container platform.
+Beyond the initial assessment, AMA generates a **migration plan** tailored to the application's specific needs. This bundle provides ready-to-use deployment artifacts (such as Containerfile, Liberty server configurations, and Kubernetes/OpenShift manifests) that accelerate building and deploying the containerized application to Red Hat OpenShift."
 
 
 **Main Steps:**
@@ -246,11 +243,10 @@ A `workspace` is a designated area that will house the migration recommendations
 
      ![screenshot](./images/media/image15.png)
 
-2. Upload an existing **data collection** file provided for the lab.
+2. Collector file import
 
-    The data collection file is provided for you.
-
-    It was produced by running the **Application Modernization Accelerator Discovery Tool** to inspect a WebSphere Application Server environment that had the **PlantsByWebSphere** application deployed.
+    For the sake of simplicity, we have already run the AMA Discovery tool against a WebSphere Application Server cell and obtained the data collector file. You will be importing this collector file into your recently created AMA workspace.
+    As the data collection was created from a different environment, the database host is different and will be changed as part of the lab.
 
     a. Click the **`Upload results'** button.
 
@@ -526,8 +522,9 @@ In this section, extract the migration plan that you downloaded. Then, copy the 
 
 9. Install the missing Liberty features required to run the application
 
-        ~/Student/wlp/bin/featureUtility installServerFeatures pbwserver
+    The Liberty instance contains several Liberty features but not all f the features required to run the application. This is where the featureutility comes into the game. It checks the list of features defined in server.xml and if not present, it downloads to the local installation.
 
+        ~/Student/wlp/bin/featureUtility installServerFeatures pbwserver
 
     ___
 
