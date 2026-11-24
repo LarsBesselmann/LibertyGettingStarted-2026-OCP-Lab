@@ -626,8 +626,8 @@ Start from scratch without any deployment:
     ![ILS_Status-Page-3WLP-Limit.png](./images/media/ILS_Status-Page-3WLP-Limit.png)
     
     - A CPU limit has been recognized, so only those cores will be licensed (here 0.8 cores).
-    - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core.
-    - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
+    - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results into a WAS metric value of 1.
+    - As only 1 core must be licensed and the EAR ratio 11:2 is applied, the EAR metric value is 2.
 
 10. Add additional replicas.
 
