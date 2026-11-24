@@ -673,7 +673,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     3. For the stage environment, change the deployment name
 
-           sed -i "s|plantsbywebsphereee6|plantsbywebsphereee6s|g" stage/application-cr.yaml
+           sed -i "s|name: plantsbywebsphereee6|name: plantsbywebsphereee6s|g" stage/application-cr.yaml
            mv stage/plantsbywebsphereee6-configmap.yaml  stage/plantsbywebsphereee6a-configmap.yaml
            mv stage/plantsbywebsphereee6-secret.yaml stage/plantsbywebsphereee6s-secret.yaml
 
@@ -704,7 +704,8 @@ The current deployment assumes that the application requires Liberty Base entitl
         Finally take a look at the status of the pods
 
              oc get pods
-
+        
+        Wait until the pods have been created.
 
     8. Reload the ILS Status page and take a look at the changes.
 
