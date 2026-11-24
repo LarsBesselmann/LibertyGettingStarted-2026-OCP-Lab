@@ -1695,23 +1695,25 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
     Execute the following comand to install the ILS catalog
 
-        cat <<EOF | oc apply -f -
-        apiVersion: operators.coreos.com/v1alpha1
-        kind: CatalogSource
-        metadata:
-            name: ibm-licensing-catalog
-            namespace: openshift-marketplace
-        spec:
-            displayName: IBM License Service Catalog
-            publisher: IBM
-            sourceType: grpc
-            image: icr.io/cpopen/ibm-licensing-catalog
-            updateStrategy:
-                registryPoll:
-                    interval: 45m
-            grpcPodConfig:
-                securityContextConfig: restricted
-        EOF
+Execute the following comand to install the ILS catalog
+
+       cat <<EOF | oc apply -f -
+       apiVersion: operators.coreos.com/v1alpha1
+       kind: CatalogSource
+       metadata:
+           name: ibm-licensing-catalog
+           namespace: openshift-marketplace
+       spec:
+           displayName: IBM License Service Catalog
+           publisher: IBM
+           sourceType: grpc
+           image: icr.io/cpopen/ibm-licensing-catalog
+           updateStrategy:
+               registryPoll:
+                   interval: 45m
+           grpcPodConfig:
+               securityContextConfig: restricted
+       EOF
 
     Output:
 
