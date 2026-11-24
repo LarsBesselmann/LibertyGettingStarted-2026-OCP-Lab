@@ -592,10 +592,9 @@ Start from scratch without any deployment:
     ![ILS_Status-Page-2WLP-noLimit.png](./images/media/ILS_Status-Page-2WLP-noLimit.png)
     
     - The product is annotated for WebSphere Application Server but now based on VPCs.
-    - The node has 8 cores
-    - A CPU limit is not set, so the whole worker node will be licensed.
-    - WAS Base has the ratio 11:2 within IBM Enterprise Application Runtimes (EAR), which means 11 deployed cores require 2 VPC of EAR. 
-    - As the whole worker node must be licensed and the ratio 4:1 is applied, the metric value is 2.
+    - A CPU limit is not set, so the whole worker node (8 cores) will be licensed. This results in a WAS metric value of 8.
+    - WAS Base has the ratio 11:2 within IBM Enterprise Application Runtimes (EAR), which means 11 deployed cores require 2 VPC of EAR.
+    - As 8 WAS cores must be licensed and the ratio 11:2 is applied, the EAR metric value is 2.
 
 8. Add a cpu limit to avoid that the whole worker node must be licensed.
 
