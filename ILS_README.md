@@ -362,6 +362,10 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
+    After accepting the security warnings, you should see something like this:
+        
+    ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
+
 
 7. You can retrieve the licensing report .zip file by running:
 
