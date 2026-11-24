@@ -366,7 +366,7 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
     ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
-7. You can retrieve the licensing report .zip file by running:
+7. You can retrieve the licensing report.zip file by running:
 
        cd ~/Student
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
@@ -729,6 +729,18 @@ The current deployment assumes that the application requires Liberty Base entitl
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
+    As you can see, the product page contains 2 products.
+
+    ![ILS_Products_Page.png](./images/media/ILS_Products_Page.png)
+    
+    For each product, the quantities are reported
+
+    - IBM Enterprise Application Runtimes with a quantity of 3 VPCs.
+    This reflects the current deployment of Liberty Base and Liberty Core.
+
+    - IBM WebSphere Application Server with a quantity of 560 PVUs. This reflects the initial deployment where no annotation was applied and therefore the default values were used and the full worker node was counted. 
+
+
 
 2. Access the ILS Page for bundled products:
 
@@ -736,9 +748,42 @@ The current deployment assumes that the application requires Liberty Base entitl
 
        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
-       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}"
+       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
     
+    ![ILS_Bundled_Products_Page.png](./images/media/ILS_Bundled_Products_Page.png)
 
+    For each bundled product, the quantities are reported.
+    
+    - IBM WebSphere Application Server with a quantity of 8 VPCs and a converted quantity of 2 based on the EAR ratio 11:2.
+    This reflects the current deployment of Liberty Base.
+
+    - IBM WebSphere Application Server Liberty Core with a quantity of 8 VPCs and a converted quantity of 1 based on the EAR ratio 11:1.
+
+    - As WAS based on PVUs is no bundled product, it is not listed here.
+
+3. You can retrieve the licensing report.zip file by running:
+
+       cd ~/Student
+       timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
+       curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
+
+    Take a look at the content via the command:
+
+       unzip -l report_*.zip
+
+    The report.zip contains files like:
+    - bundled_products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - bundled_products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - data_condition.txt
+    - data_condition.json
+    - unrecognized-apps-2026-10-25-2026-11-24.csv
+    - signature.rsa
+    - pub_key.pem
+    - checksum.txt
+
+    If you ran the command before, yoiu likely have more than one report_*.zip file now.
 
 
 This completes the section about IBM License Service.
