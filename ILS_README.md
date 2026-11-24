@@ -410,9 +410,8 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
        mkdir -p ~/Student/deploy/dev
 
        cp ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml ~/Student/deploy/dev
-       cp ~/Student/migrationPlan/deploy/kustomize/base/
-       plantsbywebsphereee6-configmap.yaml ~/Student/deploy/dev
-       cp ~/Student/migrationPlan/deploy/kustomize/base/overlays/dev/plantsbywebsphereee6-secret.yaml ~/Student/deploy/dev
+       cp ~/Student/migrationPlan/deploy/kustomize/base/plantsbywebsphereee6-configmap.yaml ~/Student/deploy/dev
+       cp ~/Student/migrationPlan/deploy/kustomize/overlays/dev/plantsbywebsphereee6-secret.yaml ~/Student/deploy/dev
 
 2. Update the `application-cr.yaml` file
     
