@@ -674,9 +674,19 @@ https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-li
 
 This completes the section about IBM License Service.
 
+12. Review the **Technology Report** which is part of the migration plan and you will find out that the application only requires WebSphere Liberty Core
+
+        /usr/bin/xdg-open ~/Student/migrationPlan/reports/plantsbywebsphereee6.ear_TechnologyReport.html 
+
+    ![PBW_Liberty_Core.png](./images/media/PBW_Liberty_Core.png)
+    
+    Adjust the application-cr.yaml to use Liberty Core only.
+
+        edition: IBM WebSphere Application Server Liberty Core
+        productEntitlementSource: IBM Enterprise Application Runtimes
 
 
-
+    You can find more details at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
 
 
