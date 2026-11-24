@@ -1673,6 +1673,10 @@ But if not, here the  steps to install it.
 
 
 ## How to install and use the IBM License Service (ILS)
+<details>
+<summary>Details around how to install and use the IBM License Service. An extended version is available as part of this repository in the file ILS_README.md
+</summary>
+
 You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
 
 In this example, you will first install the IBM License Service.
@@ -1953,4 +1957,4 @@ https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-li
 
 This completes the section about IBM License Service.
 
-
+</details>

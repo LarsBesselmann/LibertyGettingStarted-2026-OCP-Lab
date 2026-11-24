@@ -241,6 +241,11 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
 ### Install the IBM License Service
 
+A CatalogSource is a Kubernetes Custom Resource managed by the Operator Lifecycle Manager (OLM). It acts as a curated "app store" repository — a registry of metadata pointing OLM to where operator bundles, versions, and installation instructions live.
+
+By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs, which appear in OperatorHub. Because IBM License Service is distributed from IBM's own container registry (icr.io/cpopen/ibm-licensing-catalog) rather than the default Red Hat catalogs, OLM has no awareness of it until you register a CatalogSource.
+
+
 1. Check if the IBM License Service is already installed:
 
     To verify the installation of License Service with CLI, run the following command:
