@@ -1736,16 +1736,16 @@ Execute the following comand to install the ILS catalog
 
     2. Create the operator group to deploy the OperatorGroup resource.
 
-            cat <<EOF | oc apply -f -
-            apiVersion: operators.coreos.com/v1
-            kind: OperatorGroup
-            metadata:
-                name: licensing-og
-                namespace: ibm-licensing
-            spec:
-                targetNamespaces:
-                - ibm-licensing
-            EOF
+           cat <<EOF | oc apply -f -
+           apiVersion: operators.coreos.com/v1
+           kind: OperatorGroup
+           metadata:
+               name: licensing-og
+               namespace: ibm-licensing
+           spec:
+               targetNamespaces:
+               - ibm-licensing
+           EOF
 
         Output: `operatorgroup.operators.coreos.com/licensing-og created`
  
