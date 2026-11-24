@@ -23,6 +23,8 @@ The objectives of this lab are to:
 
   - Apply anntations to make the WebSphere Liberty instances detectable
 
+If you want to learn in more details how to deploy Liberty in containers, take a look at the tutorial: 
+https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/README.md
 
 ## Prerequisites
 
