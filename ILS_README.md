@@ -660,44 +660,53 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 2. Let's create a second application and deployment, this time for Liberty Core.
  
-    1. Duplicate the existing deployment yaml files
+    1. To not exceed the number of CPUs in the OCP environment, reduce the number of replica for dev.
+
+        cd ~/Student/deploy
+        sed -i "s|replicas: 5|replicas: 2|g" dev/application-cr.yaml
+        oc apply -n apps-pbw -f dev/application-cr.yaml
+
+    2. Duplicate the existing deployment yaml files
 
             cd ~/Student/deploy
             cp -r dev stage
 
-    2. For the stage environment, change the deployment name
+    3. For the stage environment, change the deployment name
 
            sed -i "s|plantsbywebsphereee6|plantsbywebsphereee6s|g" stage/application-cr.yaml
            mv stage/plantsbywebsphereee6-configmap.yaml  stage/plantsbywebsphereee6a-configmap.yaml
            mv stage/plantsbywebsphereee6-secret.yaml stage/plantsbywebsphereee6s-secret.yaml
 
-    3. Adjust the application-cr.yaml to use Liberty Core only.
+    4. Adjust the application-cr.yaml to use Liberty Core only.
 
            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
        
-    4. Review the changes
+    5. Review the changes
 
            cat stage/application-cr.yaml
 
         ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
 
 
-    5. Deploy the second application
+    6. Deploy the second application
 
            cd ~/Student/deploy
            oc apply -n apps-pbw -f stage/application-cr.yaml
 
-    6. Take a look at the deployment status
+    7. Take a look at the deployment status
 
            oc get deployments
 
         You can also use the following command to get more details about the deployment
 
-            oc describe plantsbywebsphereee6s
+            oc describe deployment plantsbywebsphereee6s
+
+        Finally take a look at the status of the pods
+
+             oc get pods
 
 
-
-    6. Reload the ILS Status page and take a look at the changes.
+    8. Reload the ILS Status page and take a look at the changes.
 
     ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
     
