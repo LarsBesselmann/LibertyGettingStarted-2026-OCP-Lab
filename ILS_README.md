@@ -229,85 +229,7 @@ You must specify which overlay will provide the configuration (dev in this case)
 
 # Part 3: Install the IBM License Service
 
-#### WebSphere Liberty Operator not installed
-<details>
-<summary>Details around how to install the WebSphere Liberty Operator into OpenShift</summary>
-The WebSphere Liberty Operator is installed by default.
-But if not, here the  steps to install it.
-
-<br>
-
-1. Make sure that the ibm-operator-catalog is installed 
-
-        oc get catalogsource -n openshift-marketplace
-
-    The command output lists the installed operators for CatalogSources. Ensure the ibm-operator-catalog is listed.
-
-    a. If the ibm-operator-catalog is not listed, perform the following steps:
-
-
-    a. Install the ibm-operator-catalog
-    
-        cat <<EOF | oc apply -n openshift-marketplace -f -
-        apiVersion: operators.coreos.com/v1alpha1
-        kind: CatalogSource
-        metadata:
-            name: ibm-operator-catalog
-            namespace: openshift-marketplace
-        spec:
-            displayName: IBM Operator Catalog
-            publisher: IBM
-            sourceType: grpc
-            image: icr.io/cpopen/ibm-operator-catalog:latest
-            updateStrategy:
-                registryPoll:
-                interval: 45m
-        EOF
-
-    b. Check that the pods for CatalogSources are running.
-
-
-       oc get pods -n openshift-marketplace | grep ibm-operator-catalog
-
-        This might take some time, Wait until the pod is running.
-
-
-    Hint: You can find more details here:
-        https://www.ibm.com/docs/en/was-liberty/base?topic=operator-preparing-installation
-
-2. Install the liberty operator 
-
-    1. Specify the namespace and trigger the installation
-
-            WLO_NAMESPACE=openshift-operators
-            cat <<EOF | oc apply -f -
-            apiVersion: operators.coreos.com/v1alpha1
-            kind: Subscription
-            metadata:
-                name: ibm-websphere-liberty
-                namespace: $WLO_NAMESPACE
-            spec:
-                installPlanApproval: Automatic
-                name: ibm-websphere-liberty
-                source: ibm-operator-catalog
-                sourceNamespace: openshift-marketplace
-            EOF
-
-    2. Check if pod wlo-controller-manager is available
-
-            WLO_NAMESPACE=openshift-operators
-            oc get pods -n $WLO_NAMESPACE
-
-    3. Check the status of the WebSphere Liberty operator:
-
-            WLO_NAMESPACE=openshift-operators
-            oc get operators -n $WLO_NAMESPACE | grep websphere-liberty
-
-    Hint: You can find more details here:
-    https://www.ibm.com/docs/en/was-liberty/base?topic=operator-installing-red-hat-openshift-cli
-
-
-</details>
+The IBM License Service is not installed by default. Here the steps to install it.
 
 
 ## How to install and use the IBM License Service (ILS)
@@ -763,4 +685,83 @@ Now you can log in via the command:
     
 </details>
 
+#### WebSphere Liberty Operator not installed
+<details>
+<summary>Details around how to install the WebSphere Liberty Operator into OpenShift</summary>
+The WebSphere Liberty Operator is installed by default.
+But if not, here the  steps to install it.
+
+<br>
+
+1. Make sure that the ibm-operator-catalog is installed 
+
+        oc get catalogsource -n openshift-marketplace
+
+    The command output lists the installed operators for CatalogSources. Ensure the ibm-operator-catalog is listed.
+
+    a. If the ibm-operator-catalog is not listed, perform the following steps:
+
+
+    a. Install the ibm-operator-catalog
+    
+        cat <<EOF | oc apply -n openshift-marketplace -f -
+        apiVersion: operators.coreos.com/v1alpha1
+        kind: CatalogSource
+        metadata:
+            name: ibm-operator-catalog
+            namespace: openshift-marketplace
+        spec:
+            displayName: IBM Operator Catalog
+            publisher: IBM
+            sourceType: grpc
+            image: icr.io/cpopen/ibm-operator-catalog:latest
+            updateStrategy:
+                registryPoll:
+                interval: 45m
+        EOF
+
+    b. Check that the pods for CatalogSources are running.
+
+
+       oc get pods -n openshift-marketplace | grep ibm-operator-catalog
+
+        This might take some time, Wait until the pod is running.
+
+
+    Hint: You can find more details here:
+        https://www.ibm.com/docs/en/was-liberty/base?topic=operator-preparing-installation
+
+2. Install the liberty operator 
+
+    1. Specify the namespace and trigger the installation
+
+            WLO_NAMESPACE=openshift-operators
+            cat <<EOF | oc apply -f -
+            apiVersion: operators.coreos.com/v1alpha1
+            kind: Subscription
+            metadata:
+                name: ibm-websphere-liberty
+                namespace: $WLO_NAMESPACE
+            spec:
+                installPlanApproval: Automatic
+                name: ibm-websphere-liberty
+                source: ibm-operator-catalog
+                sourceNamespace: openshift-marketplace
+            EOF
+
+    2. Check if pod wlo-controller-manager is available
+
+            WLO_NAMESPACE=openshift-operators
+            oc get pods -n $WLO_NAMESPACE
+
+    3. Check the status of the WebSphere Liberty operator:
+
+            WLO_NAMESPACE=openshift-operators
+            oc get operators -n $WLO_NAMESPACE | grep websphere-liberty
+
+    Hint: You can find more details here:
+    https://www.ibm.com/docs/en/was-liberty/base?topic=operator-installing-red-hat-openshift-cli
+
+
+</details>
 
