@@ -479,17 +479,11 @@ If you would deploy the WebSphere Liberty container without Liberty Operator, th
     ___
 
 
- ### Use the IBM License Service 
+ ### Use the IBM License Service (ILS)
 
 Start from scratch without any deployment:
 
-1. Delete the OCP deployment
-
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc delete -n apps-pbw -k overlays/dev
-        oc delete -n apps-pbw -k overlays/staging
-
-2. Access the ILS Status Page:
+1. Access the ILS Status Page:
 
         export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
@@ -501,10 +495,10 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
-3. Create an OCP deployment for Liberty dev
+2. Create an OCP deployment for Liberty dev
 
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
+        cd ~/Student/deploy
+        oc apply -n apps-pbw -f dev/application-cr.yaml
 
     Reload the ILS Status page and it should show a Liberty instance.
 
