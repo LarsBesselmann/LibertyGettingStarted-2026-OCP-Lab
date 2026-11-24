@@ -326,7 +326,7 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
     4. Verify that your License Service operator is installed:
 
-            oc get pod -n $NAMESPACE
+           oc get pod -n ibm-licensing
  
         The licensing-operator pod should be shown as "Running". Otherwise wait and try again (It might take up to 15 minutes for all the pods to show the Running status.
 
