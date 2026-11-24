@@ -667,7 +667,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     2. For the stage environment, change the deployment name
 
-           sed -i "s|name: plantsbywebsphereee6|name: plantsbywebsphereee6S|g" stage/application-cr.yaml
+           sed -i "s|name: plantsbywebsphereee6|name: plantsbywebsphereee6s|g" stage/application-cr.yaml
 
     3. Adjust the application-cr.yaml to use Liberty Core only.
 
