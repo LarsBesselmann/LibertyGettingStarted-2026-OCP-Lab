@@ -600,7 +600,7 @@ Start from scratch without any deployment:
 
     Go back to the open editor or open a new one.
 
-       gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
+       gedit ~/Student/deploy/dev/application-cr.yaml
 
    Add the following 5 lines just the line after line 10:
 
@@ -618,8 +618,8 @@ Start from scratch without any deployment:
 
 9. Apply the changes and see the results: 
    
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
+        cd ~/Student/deploy
+        oc apply -n apps-pbw -f dev/application-cr.yaml
 
     Reload the ILS Status page and take a look at the changes.
 
@@ -633,7 +633,7 @@ Start from scratch without any deployment:
 
     Go back to the open editor or open a new one.
 
-        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
+        gedit ~/Student/deploy/dev/application-cr.yaml
 
     In line 8, change the number of replica to 5.
 
@@ -643,8 +643,8 @@ Start from scratch without any deployment:
 
 11. Apply the changes and see the results: 
    
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
+        cd ~/Student/deploy
+        oc apply -n apps-pbw -f dev/application-cr.yaml
 
     Reload the ILS Status page and take a look at the changes.
 
