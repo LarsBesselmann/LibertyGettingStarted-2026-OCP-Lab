@@ -363,15 +363,30 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
     After accepting the security warnings, you should see something like this:
-        
-    ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
+    ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
 7. You can retrieve the licensing report .zip file by running:
 
        cd ~/Student
-       curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report.zip
+       timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
+       curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
+    Take a look at the content via the command:
+
+       unzip -l report_*.zip
+
+    The report.zip contains files like:
+    - bundled_products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - bundled_products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
+    - data_condition.txt
+    - data_condition.json
+    - unrecognized-apps-2026-10-25-2026-11-24.csv
+    - signature.rsa
+    - pub_key.pem
+    - checksum.txt
 
 
 Useful links how to install the IBM License Service: 
