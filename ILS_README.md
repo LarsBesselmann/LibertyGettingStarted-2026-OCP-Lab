@@ -532,7 +532,7 @@ Start from scratch without any deployment:
 2. Create an OCP deployment for Liberty dev
 
        cd ~/Student/deploy
-       oc apply -n apps-pbw -f plantsbywebsphereee6-secret.yaml
+       oc apply -n apps-pbw -f dev/plantsbywebsphereee6-secret.yaml
        oc apply -n apps-pbw -f dev/plantsbywebsphereee6-configmap.yaml
        oc apply -n apps-pbw -f dev/application-cr.yaml
 
