@@ -348,24 +348,25 @@ Then you will use the Liberty operator to deploy the PlantsByWebSphere applicati
 
 5. Get the authentication token
 
-        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
-        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
 6. Get the URL of the status page
 
     To display the URL of the ILS status page including token, use the command:
 
-        echo https://${LICENSING_URL}/status?token=${TOKEN}
+       echo https://${LICENSING_URL}/status?token=${TOKEN}
 
     Access the status page via the command:
 
-        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+       /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
 
 7. You can retrieve the licensing report .zip file by running:
 
-        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report.zip
+       cd ~/Student
+       curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report.zip
 
 
 
