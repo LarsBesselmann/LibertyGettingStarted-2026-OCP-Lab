@@ -763,6 +763,8 @@ The current deployment assumes that the application requires Liberty Base entitl
     - IBM Enterprise Application Runtimes with a quantity of 2 VPCs.
     This reflects the current deployment of Liberty Base and Liberty Core.
 
+    HINT: If you only see a metricQuantity of 1, this means that ILS has not scanned the environment after the Liberty Core deployment. Wait a few minutes and then reload the page.
+
 2. Access the **IBM License Service** page for **Bundled products**:
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
