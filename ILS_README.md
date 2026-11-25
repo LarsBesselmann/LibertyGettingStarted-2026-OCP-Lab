@@ -921,8 +921,8 @@ To clean up the environment, perform the following steps:
     a. Delete the OCP deployment
 
         cd ~/Student/deploy
-        oc apply -n apps-pbw -f dev/application-cr.yaml
-        oc apply -n apps-pbw -f stage/application-cr.yaml
+        oc delete -n apps-pbw -f dev/application-cr.yaml
+        oc delete -n apps-pbw -f stage/application-cr.yaml
 
 
     b. Stop the `staging`database.
