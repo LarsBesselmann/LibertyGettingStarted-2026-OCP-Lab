@@ -781,7 +781,8 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     Take a look at the content via the command:
 
-       unzip -l report_*.zip
+       mkdir -p ~/Student/ILS_reports/temp 
+       unzip report_*.zip -d ~/Student/ILS_reports/temp 
 
     The report.zip contains files like:
     - bundled_products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
@@ -795,7 +796,7 @@ The current deployment assumes that the application requires Liberty Base entitl
     - pub_key.pem
     - checksum.txt
 
-    If you ran the command before, yoiu likely have more than one report_*.zip file now.
+    If you ran the command before, you likely have more than one report_*.zip file now.
 
 
 This completes the section about IBM License Service.
