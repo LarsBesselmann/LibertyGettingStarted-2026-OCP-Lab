@@ -777,12 +777,11 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     For each bundled product, the quantities are reported:
     
-    - IBM WebSphere Application Server with a quantity of 8 VPCs and a converted quantity of 2 based on the EAR ratio 11:2.
+    - IBM WebSphere Application Server with a metricMeasuredQuantity of 4 VPCs (5 pods of 0.8 cores) and a converted quantity of 1 based on the EAR ratio 11:2.
     This reflects the current deployment of Liberty Base.
 
-    - IBM WebSphere Application Server Liberty Core with a quantity of 8 VPCs and a converted quantity of 1 based on the EAR ratio 11:1.
+    - IBM WebSphere Application Server Liberty Core with a metricMeasuredQuantity of 8 VPCs (10 pods of 0.8 cores) and a converted quantity of 1 based on the EAR ratio 11:1.
 
-    - As WAS based on PVUs is no bundled product, it is not listed here.
 
 3. Review the **IBM License Service Snapshot** report.zip:
 
