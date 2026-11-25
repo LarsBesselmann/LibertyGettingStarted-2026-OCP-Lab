@@ -1,6 +1,7 @@
 # Tracking WebSphere Liberty deployments on OpenShift Container Platform using IBM License Service
 
-![banner](./images/media/image1.jpeg) 
+![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+    
 
 **Last updated:** November 2026
 
@@ -60,7 +61,7 @@ The lab environment consists of a Desktop machine and several other VMs spinning
 In this lab, you will use IBM License Service to track the WebSphere Liberty deployments on Red Hat OpenShift.
 
 **Main Steps:**
-![OCP_Steps.png](./images/media/ILS_Steps.png)
+![ILS_Steps.png](./images/media/ILS_Steps.png)
 
 
 <br>
