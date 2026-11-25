@@ -852,7 +852,12 @@ The current deployment assumes that the application requires Liberty Base entitl
 
             cat temp/unrecognized-apps-2026-10-26-2026-11-25.csv
 
-    
+## 4.5: License capping 
+
+IBM License Service applies capping if the number of counted virtual cores is higher that he number of physical cores.
+
+
+
 
 This completes the section about IBM License Service.
 
