@@ -407,12 +407,18 @@ The IBM License Service is not installed by default. But it is best practice to 
     - pub_key.pem
     - checksum.txt
 
+    You will look into the files later in the tutorial.
 
 Useful links how to install the IBM License Service: 
 https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=service-installing-license)
 https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=registry-installing-license-service-openshift-container-platform
 
 # Part 4: Track Liberty Deployments via IBM License Service 
+
+Before you can track a Liberty deployment, you need to adjust the deployment configuration that is provided in the migration plan. This includes several steps:
+- setting in the secret yaml the credentials for the database
+- adjusting in the config map the database endpoint
+- setting the image URL and accept the license
 
 ## 4.1: Adjust the Plants application configuration files 
 
@@ -748,18 +754,14 @@ The current deployment assumes that the application requires Liberty Base entitl
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
-    As you can see, the product page contains 2 products.
+    As you can see, the product page contains 1 products.
 
     ![ILS_Products_Page.png](./images/media/ILS_Products_Page.png)
     
     For each product, the quantities are reported:
 
-    - IBM Enterprise Application Runtimes with a quantity of 3 VPCs.
+    - IBM Enterprise Application Runtimes with a quantity of 2 VPCs.
     This reflects the current deployment of Liberty Base and Liberty Core.
-
-    - IBM WebSphere Application Server with a quantity of 560 PVUs. This reflects the initial deployment where no annotation was applied and therefore the default values were used and the full worker node was counted. 
-
-
 
 2. Access the **IBM License Service** page for **Bundled products**:
 
