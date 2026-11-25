@@ -11,7 +11,14 @@
 Need support? Contact **Lars Besselmann, Sebastian Porro**
 
 ## Overview
-This lab provides fundamental hands-on experience with tracking WebSphere Liberty deployment on OpenSHift using Red Hat OpenShift. 
+This lab provides fundamental hands-on experience with tracking WebSphere Liberty deployment on OpenShift using Red Hat OpenShift. 
+
+You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
+
+In this example, you will first install the IBM License Service.
+Then you will use the Liberty operator to deploy the PlantsByWebSphere application with license information (annotations) into the OpenShift cluster.
+
+
 
 ## Objective
 
@@ -19,11 +26,11 @@ The objectives of this lab are to:
 
   - Install IBM License Service
 
-  - Deploy WebSphere Liberty instances using the WebSpere Liberty Operator
+  - Deploy WebSphere Liberty instances using the WebSphere Liberty Operator
 
-  - Apply anntations to make the WebSphere Liberty instances detectable
+  - Apply annotations to make the WebSphere Liberty instances detectable
 
-If you want to learn in more details how to deploy Liberty in containers, take a look at the tutorial: 
+If you want to learn in more detail how to deploy Liberty in containers, take a look at the tutorial: 
 https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/README.md
 
 ## Prerequisites
@@ -44,7 +51,7 @@ Otherwise, you will need to reserve an environment for the lab. You can obtain o
 
 [https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift](https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift)
 
-The lab environment contains of a Desktop machine and several other VMs spinning up an OpenShift cluster five Linux VMs and an OpenShift cluster.
+The lab environment consists of a Desktop machine and several other VMs spinning up an OpenShift cluster five Linux VMs and an OpenShift cluster.
 
 
 
@@ -60,7 +67,7 @@ In this lab, you will use IBM License Service to track the WebSphere Liberty dep
 
 # Part 0: Complete setup
 
-To simplify the lab and to allow you to focus on the migration, certain software and artifacts have already been put in place for you. These are as follows:
+To simplify the lab and to allow you to focus on the IBM License Service, certain software and artifacts have already been put in place for you. These are as follows:
 
 - **podman** (for creating and running images) has been installed
 
@@ -140,7 +147,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
         sed -i 's/jpa-2.1/jpa-2.0/g' /home/itzuser/Student/migrationPlan/src/main/liberty/config/server.xml
 
 
-4.  Modify the "**Containerfile**" to specify a specific version of Liberty to deploy: in this case, **icr.io/appcafe/websphere-liberty:26.0.0.6-kernel-java8-openj9-ubi**
+4. Modify the "**Containerfile**" to specify a specific version of Liberty to deploy: in this case, **icr.io/appcafe/websphere-liberty:26.0.0.6-kernel-java8-openj9-ubi**
 
         sed -i 's/websphere-liberty:25.0.0.6-kernel-java8-openj9-ubi/websphere-liberty:26.0.0.6-kernel-java8-openj9-ubi/g' /home/itzuser/Student/migrationPlan/Containerfile
 
@@ -162,7 +169,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
     The whole build process might take a couple of minutes.
     
-2. Confirm the container image has been built
+2. Confirm the container image has been built.
 
         podman images | grep apps/pbw
 
@@ -189,7 +196,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
     If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the **Appendix** and then continue here.
 
 
-3. Create a new project where you will deploy the application 
+3. Create a new project where you will deploy the application. 
 
         oc new-project apps-pbw
 
@@ -202,7 +209,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
     `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
 
-5. Tag the container image using the following podman command
+5. Tag the container image using the following podman command:
 
         imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
         echo $imageReference
@@ -231,33 +238,33 @@ You must specify which overlay will provide the configuration (dev in this case)
 
 # Part 3: Install the IBM License Service
 
-The IBM License Service is not installed by default. Here the steps to install it.
+The IBM License Service is not installed by default. You will do it as part of the section.
 
-
-## How to install and use the IBM License Service (ILS)
-You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
-
-In this example, you will first install the IBM License Service.
-Then you will use the Liberty operator to deploy the PlantsByWebSphere application with license information (annotations) into the OpenShift cluster.
-
-
-### Install the IBM License Service
+To install the IBM License Service, the ibm-licensing-catalog must be registered to OpenShift.
 
 A CatalogSource is a Kubernetes Custom Resource managed by the Operator Lifecycle Manager (OLM). It acts as a curated "app store" repository — a registry of metadata pointing OLM to where operator bundles, versions, and installation instructions live.
 
 By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs, which appear in OperatorHub. Because IBM License Service is distributed from IBM's own container registry (icr.io/cpopen/ibm-licensing-catalog) rather than the default Red Hat catalogs, OLM has no awareness of it until you register a CatalogSource.
 
 
+
+## 3.1 Check if the IBM License Service is already installed
+
+The IBM License Service is not installed by default. But it is best practice to verify that is not installed before trying to install it.
+
 1. Check if the IBM License Service is already installed:
 
     To verify the installation of License Service with CLI, run the following command:
 	
        oc get deployment --all-namespaces | grep ibm-licensing-operator
-    If a deployment is returned, ILS is already installed and you can skip the next steps
+    
+    If a deployment is returned, ILS is already installed and you can skip the next steps and continue with the section how to acces the License Service.
 
-2. Install the ibm-licensing-catalog
+## 3.2 Install the IBM Licensing Catalog
 
-    Execute the following comand to install the ILS catalog
+1. Install the ibm-licensing-catalog
+
+    Execute the following comand to install the ILS catalog:
 
        cat <<EOF | oc apply -f -
        apiVersion: operators.coreos.com/v1alpha1
@@ -282,13 +289,14 @@ By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs
     `catalogsource.operators.coreos.com/ibm-licensing-catalog created`
 
 
-3. Verify that the CatalogSource for your IBM License Service operator is created.
+2. Verify that the CatalogSource for your IBM License Service operator is created.
 
         oc get pods -n openshift-marketplace | grep licensing
         oc get catalogsource -n openshift-marketplace | grep licensing
 
+## 3.3 Install the IBM License Service Operator and the Service instance
 
-4. Install the IBM License Service operator.
+1. Install the IBM License Service operator.
 
     1. Create a namespace for License Service.
 
@@ -348,24 +356,26 @@ By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs
            cat accept-license.yaml
 
            oc patch IBMLicensing instance --type merge --patch-file accept-license.yaml
- 
-    6. Get the route of the IBM License Service
 
-            oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
+## 3.4 Access the IBM License Service 
 
-5. Get the authentication token
+1. Get the route of the IBM License Service
+
+       oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
+
+2. Get the authentication token
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
-6. Get the URL of the status page
+3. Get the URL of the status page
 
     To display the URL of the ILS status page including token, use the command:
 
        echo https://${LICENSING_URL}/status?token=${TOKEN}
 
-    Access the status page via the command:
+4. Access the status page via the command:
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
@@ -373,7 +383,7 @@ By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs
 
     ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
 
-7. You can retrieve the licensing report.zip file by running:
+5. Retrieve the licensing snapshot report.zip file:
 
        mkdir ~/Student/ILS_reports
        cd ~/Student/ILS_reports
@@ -551,7 +561,7 @@ Start from scratch without any deployment:
 
     ![ILS_Status-Page-1WLP-noLimit.png](./images/media/ILS_Status-Page-1WLP-noLimit.png)
     
-    Let's take a look at the information
+    Let's take a look at the information:
 
     - The product is annotated for WebSphere Application Server which is based on PVUs.
     - The node has 8 cores
@@ -593,7 +603,7 @@ Start from scratch without any deployment:
     - The product is annotated for WebSphere Application Server but now based on VPCs.
     - A CPU limit is not set, so the whole worker node (8 cores) will be licensed. This results in a WAS metric value of 8.
     - WAS Base has the ratio 11:2 within IBM Enterprise Application Runtimes (EAR), which means 11 deployed cores require 2 VPC of EAR.
-    - As 8 WAS cores must be licensed and the ratio 11:2 is applied, the EAR metric value is 2.
+    - As 8 WAS cores must be licensed and the ratio 11:2 applies, the EAR metric value is 2.
 
 8. Add a cpu limit to avoid that the whole worker node must be licensed.
 
@@ -625,8 +635,8 @@ Start from scratch without any deployment:
     ![ILS_Status-Page-3WLP-Limit.png](./images/media/ILS_Status-Page-3WLP-Limit.png)
     
     - A CPU limit has been recognized, so only those cores will be licensed (here 0.8 cores).
-    - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results into a WAS metric value of 1.
-    - As only 1 core must be licensed with WAS Base and the EAR ratio 11:2 is applied, the EAR metric value is 2.
+    - The total number of cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results in a WAS metric value of 1.
+    - As only 1 core must be licensed with WAS Base and the EAR ratio 11:2 applies, the EAR metric value is 2.
 
 10. Add additional replicas.
 
@@ -652,12 +662,12 @@ Start from scratch without any deployment:
     - You can now see 5 pods that are contributing to the number of licenses, each with 0.8 cores.
     - The total number or cores running WebSphere Liberty Base is 4 (5 x 0.8) which results in a WAS metric value of 4.
     
-    - As only 4 cores must be licensed with WAS Base and the ratio 11:2 is applied, the EAR metric value is 1.
+    - As only 4 cores must be licensed with WAS Base and the ratio 11:2 applies, the EAR metric value is 1.
 
 
 ## 4.3: Deploy another Liberty application and track it using the IBM License Service (ILS)
 
-The current deployment assumes that the application requires Liberty Base entitlements. But in fact, in only requires WebSphere Liberty Core.
+The current deployment assumes that the application requires Liberty Base entitlements. But in fact, the deployment only requires WebSphere Liberty Core.
 
 1. Review the **Technology Report** which is part of the migration plan and you will find out that the application only requires WebSphere Liberty Core.
 
@@ -668,48 +678,48 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 2. Let's create a second application and deployment, this time for Liberty Core.
  
-    1. Duplicate the existing deployment yaml files
+    1. Duplicate the existing deployment yaml files:
 
             cd ~/Student/deploy
             cp -r dev stage
 
-    2. For the stage environment, change the deployment name
+    2. For the stage environment, change the deployment name:
 
            sed -i '0,/name: plantsbywebsphereee6/s/name: plantsbywebsphereee6/name: plantsbywebsphereee6s/' stage/application-cr.yaml
 
-    3. Adjust the application-cr.yaml to use Liberty Core only.
+    3. Adjust the application-cr.yaml to use Liberty Core only:
 
            sed -i "s|edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server Liberty Core|g" stage/application-cr.yaml
 
         You can find more details about Liberty Core annotations at https://www.ibm.com/docs/en/was-liberty/core?topic=container-tracking-liberty-license-use-in-kubernetes
 
 
-    4. Change the number of replica for stage from 5 to 10.
+    4. Change the number of replica for stage from 5 to 10:
 
            cd ~/Student/deploy
            sed -i "s|replicas: 5|replicas: 10|g" stage/application-cr.yaml
 
-    5. Review the changes
+    5. Review the changes:
 
            cat stage/application-cr.yaml
 
         ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
 
 
-    6. Deploy the second application
+    6. Deploy the second application:
 
            cd ~/Student/deploy
            oc apply -n apps-pbw -f stage/application-cr.yaml
 
-    7. Take a look at the deployment status
+    7. Take a look at the deployment status:
 
            oc get deployments
 
-        You can also use the following command to get more details about the deployment
+        You can also use the following command to get more details about the deployment:
 
             oc describe deployment plantsbywebsphereee6s
 
-        Finally take a look at the status of the pods
+        Finally, take a look at the status of the pods:
 
              oc get pods
         
@@ -741,7 +751,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     ![ILS_Products_Page.png](./images/media/ILS_Products_Page.png)
     
-    For each product, the quantities are reported
+    For each product, the quantities are reported:
 
     - IBM Enterprise Application Runtimes with a quantity of 3 VPCs.
     This reflects the current deployment of Liberty Base and Liberty Core.
@@ -760,7 +770,7 @@ The current deployment assumes that the application requires Liberty Base entitl
     
     ![ILS_Bundled_Products_Page.png](./images/media/ILS_Bundled_Products_Page.png)
 
-    For each bundled product, the quantities are reported.
+    For each bundled product, the quantities are reported:
     
     - IBM WebSphere Application Server with a quantity of 8 VPCs and a converted quantity of 2 based on the EAR ratio 11:2.
     This reflects the current deployment of Liberty Base.
@@ -824,12 +834,12 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         ![ILS_bundled_products_daily_csv_right.png](./images/media/ILS_bundled_products_daily_csv_right.png)
 
-        As you can see in the screenshots (which were captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
-        - For Liberty Core, all 10 Liberty Core pods with 0.8 cores each kept running over the two days. This resulted into a **MetricMeasuredQuantity of 8** at both days which converts for Liberty Core into a **metricConvertedQuantity of 1**. 
+        As you can see from the screenshots (which were captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
+        - For Liberty Core, all 10 Liberty Core pods with 0.8 cores each kept running over the two days. This results in a **MetricMeasuredQuantity of 8** at both days which converts for Liberty Core into a **metricConvertedQuantity of 1**. 
 
         - For WAS, we changed the setup during the first day.
-            - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This resulted into a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
-            - The final WAS deployment with EAR annotations which also ran the second day consisted of 5 pods with 0.8 cores each. This resulted into a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
+            - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This results in a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
+            - The final WAS deployment with EAR annotations which also ran the second day consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
 
         Press `q`to quit the view.
 
@@ -839,11 +849,11 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         ![ILS_products_daily_csv.png](./images/media/ILS_products_daily_csv.png)
 
-        As you can see in the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here EAR and WAS), their metric quantity and their peak of the day.
+        As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here EAR and WAS), their metric quantity and their peak of the day.
         - For EAR, the value of Metric Quantity was 3 the first day but 2 the second day. This is due to the fact that the WAS setup was changed during the first day. See **bundled products daily** above for details.
 
         - WAS based on PVUs metric is only listed on the first day. This is caused by the fact that the initial WAS deployment did not have any annotations defined, so the defaults were used (which is WAS based on PVUs). As no cpu limit was defined at that time, the whole worker node was counted which results based on 70 PVUs per core into 560 PVUs. 
-        As this deyployment was removed during the first day, the product is no longer listed on day 2.
+        As this deployment was removed during the first day, the product is no longer listed on day 2.
 
         Press `q`to quit the view.
 
@@ -856,7 +866,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**"
 
-IBM License Service applies capping on node level if the sum of pods cpu limits exceeds the node capacity. You will now trigger a depployment that causes such a capping.
+IBM License Service applies capping on node level if the sum of pods cpu limits exceeds the node capacity. You will now trigger a deployment that causes such a capping.
 
 1. Access the ILS Status Page:
 
@@ -899,18 +909,18 @@ IBM License Service applies capping on node level if the sum of pods cpu limits 
         - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
 
     - WebSphere Application Server Liberty Core contributes with 10 pods of 2.5 cores each 16 cores in total.
-        - In a Kubernetes cluster with 25 or more cores, the Liberty Core deployment would result into a Liberty Core metric value of 25. 
-        - But as you can see in the screenshot, there is some capping on node 2 indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**".
+        - In a Kubernetes cluster with 25 or more cores, the Liberty Core deployment would result in a Liberty Core metric value of 25. 
+        - But as you can see from the screenshot, there is some capping on node 2 indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**".
             - 3 of the 10 Liberty Core pods are deployed to the first node. The sum of the pod cpu limits on that node is 7.5. 
             - 7 of the 10 Liberty Core pods are deployed to the second node. The sum of the pod cpu limits on that node is 17.5 (7 x 2.5) while the node capacity is 8 cores. Due to this, only 8 cores are counted for the second node. 
-        - In total 15.5 cores will be counted for all LIberty Core pods which results into a Liberty Core metric value of 16.
+        - In total 15.5 cores will be counted for all LIberty Core pods which results in a Liberty Core metric value of 16.
         - Due to the EAR ratio 11:1, this deployment requires 2 VPC of EAR.
     
-    As you have seen in the scenario above, the capping happend on node level and the capping is done per product.
+    As you have seen from the scenario above, the capping happened on node level and the capping is done per product.
 
 This completes the section about IBM License Service.
 
-You can more details about the Liberty License tracking here:
+You can find more details about the Liberty License tracking here:
 https://www.ibm.com/software/passportadvantage/containerlicenses
 
 
@@ -918,14 +928,14 @@ https://www.ibm.com/software/passportadvantage/containerlicenses
 
 To clean up the environment, perform the following steps:
 
-    a. Delete the OCP deployment
+    a. Delete the OCP deployment:
 
         cd ~/Student/deploy
         oc delete -n apps-pbw -f dev/application-cr.yaml
         oc delete -n apps-pbw -f stage/application-cr.yaml
 
 
-    b. Stop the `staging`database.
+    b. Stop the `staging`database:
 
         sudo podman stop plantsdb-db2-staging
 

@@ -75,7 +75,7 @@ Otherwise, you will need to reserve an environment for the lab. You can obtain o
 
 [https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift](https://techzone.ibm.com/collection/liberty-getting-started-labs-demos/journey-liberty-deployment-on-open-shift)
 
-The lab environment contains of a Desktop machine and several other VMs spinning up an OpenShift cluster five Linux VMs and an OpenShift cluster.
+The lab environment consists of a Desktop machine and several other VMs spinning up an OpenShift cluster five Linux VMs and an OpenShift cluster.
 
 
 
