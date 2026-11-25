@@ -773,7 +773,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
        mkdir -p ~/Student/ILS_reports/backups
        cd ~/Student/ILS_reports
-       move report_*.zip backups
+       mv report_*.zip backups
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
