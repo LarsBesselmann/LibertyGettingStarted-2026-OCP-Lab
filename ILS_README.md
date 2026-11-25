@@ -579,7 +579,7 @@ Start from scratch without any deployment:
 
 5. Access the **IBM License Service** page for **Products**:
 
-    The product page shows all products that have been discovered over time.
+    The product page shows all products that have been discovered over time. For each product, the peak value is shown.
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
@@ -628,7 +628,7 @@ Start from scratch without any deployment:
 
 9. Access the **IBM License Service** page for **Products**:
 
-    The product page shows all products that have been discovered over time.
+    The product page shows all products that have been discovered over time. For each product, the peak value is shown.
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
@@ -636,12 +636,27 @@ Start from scratch without any deployment:
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
 
-    ![ILS_Product_Page_WAS](./images/media/ILS_Products_Page_WAS.png)
+    ![ILS_Products_Page_WAS_EAR](./images/media/ILS_Products_Page_WAS_EAR.png)
 
-    If WebSphere Application Server is not listed there, wait a moment and then reload the page.
+    The page should now show WAS as well as EAR. If EAR is not listed there, wait a moment and then reload the page.
+
+10. Access the **IBM License Service** page for **Bundled Products**:
+
+    The bundled product page shows all bundled products that have been discovered over time. For each product, the peak value is shown.
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}"
+
+    ![ILS_Products_Page_WAS_EAR](./images/media/ILS_Products_Page_WAS_EAR.png)
+
+    The page should now show WAS as well as EAR. If EAR is not listed there, wait a moment and then reload the page.
 
 
-9. Add a cpu limit to avoid that the whole worker node must be licensed.
+
+10. Add a cpu limit to avoid that the whole worker node must be licensed.
 
     Go back to the open editor or open a new one.
 
@@ -661,7 +676,7 @@ Start from scratch without any deployment:
     Make sure that the number of spaces before `resources` is correct, otherwise the deployment will fail.
     Save the changes but keep the editor open.
 
-10. Apply the changes and see the results: 
+11. Apply the changes and see the results: 
    
         cd ~/Student/deploy
         oc apply -n apps-pbw -f dev/application-cr.yaml
@@ -674,7 +689,7 @@ Start from scratch without any deployment:
     - The total number of cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results in a WAS metric value of 1.
     - As only 1 core must be licensed with WAS Base and the EAR ratio 11:2 applies, the EAR metric value is 2.
 
-11. Add additional replicas.
+12. Add additional replicas.
 
     Go back to the open editor or open a new one.
 
@@ -686,7 +701,7 @@ Start from scratch without any deployment:
 
     Save the changes and feel free to close the editor.
 
-12. Apply the changes and see the results: 
+13. Apply the changes and see the results: 
    
         cd ~/Student/deploy
         oc apply -n apps-pbw -f dev/application-cr.yaml
