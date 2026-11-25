@@ -856,6 +856,47 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 IBM License Service applies capping if the number of counted virtual cores is higher that he number of physical cores.
 
+1. Access the ILS Status Page:
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+
+2. Change the CPU limit for stage from 0.8 to 2.5.
+
+       cd ~/Student/deploy
+       sed -i "s|cpu: 800m|cpu: 2500m|g" stage/application-cr.yaml
+
+3. Review the changes
+
+       cat stage/application-cr.yaml
+
+    ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
+
+
+4. Deploy the stage application
+
+       cd ~/Student/deploy
+       oc apply -n apps-pbw -f stage/application-cr.yaml
+
+5. Take a look at the deployment status
+
+       oc get deployments
+
+6. Reload the ILS Status page and take a look at the changes.
+
+    ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+    
+    As you can see, two products are now contributing to the overall number of entitlements.
+    - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
+        - This results in a Liberty Core metric value of 8. 
+        - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
+    - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
+        - This results in a WAS metric value of 4. 
+        - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
+
 
 
 
