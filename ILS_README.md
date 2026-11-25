@@ -963,7 +963,7 @@ ___
 
 #### oc login fails
 <details>
-<summary>Details around how to fix OpenShif login issues</summary>
+<summary>Details around how to fix OpenShift login issues</summary>
 
 
 If `oc login -w` fails with an error like
