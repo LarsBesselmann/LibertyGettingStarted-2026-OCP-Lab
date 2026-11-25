@@ -786,27 +786,73 @@ The current deployment assumes that the application requires Liberty Base entitl
            mkdir -p ~/Student/ILS_reports/temp 
            unzip report_*.zip -d ~/Student/ILS_reports/temp 
 
-    3. Review the csv for **bundled products**  
+    3. Review the csv for **bundled products**
+
            column -t -s, temp/bundled_products_20*.csv | less -S
 
         ![ILS_bundled_products_csv.png](./images/media/ILS_bundled_products_csv.png)
 
-        As you can see, the report contains the different bundled products, their converted quantity and their peak and when it happened.
+        To make it more readable, here the content in two screenshots, first the left part, then the right.
 
-    The report.zip contains files like:
-    - bundled_products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
-    - products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
-    - bundled_products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
-    - products_daily_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
-    - data_condition.txt
-    - data_condition.json
-    - unrecognized-apps-2026-10-25-2026-11-24.csv
-    - signature.rsa
-    - pub_key.pem
-    - checksum.txt
+        ![ILS_bundled_products_csv_left.png](./images/media/ILS_bundled_products_csv_left.png)
 
-    If you ran the command before, you likely have more than one report_*.zip file now.
+        ![ILS_bundled_products_csv_right.png](./images/media/ILS_bundled_products_csv_right.png)
 
+        As you can see, the report contains the different bundled products (here WAS and Liberty Core), their converted quantity and their peak and the date when the peak happened.
+
+        Press `q`to quit the view.
+
+    4. Review the csv for **products**  
+
+           column -t -s, temp/products_20*.csv | less -S
+
+        ![ILS_products_csv.png](./images/media/ILS_products_csv.png)
+
+        As you can see, the report contains the different products (here EAR and WAS), their metric quantity peak and the date when the peak happened.
+
+        Press `q`to quit the view.
+
+    5. Review the csv for **bundled products daily**
+
+           column -t -s, temp/bundled_products_daily_*.csv | less -S
+
+        ![ILS_bundled_products_daily_csv.png](./images/media/ILS_bundled_products_daily_csv.png)
+
+        To make it more readable, here the content in two screenshots, first the left part, then the right.
+
+        ![ILS_bundled_products_daily_csv_left.png](./images/media/ILS_bundled_products_daily_csv_left.png)
+
+        ![ILS_bundled_products_daily_csv_right.png](./images/media/ILS_bundled_products_daily_csv_right.png)
+
+        As you can see in the screenshots (which were captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
+        - For Liberty Core, all 10 Liberty Core pods with 0.8 cores each kept running over the two days. This resulted into a **MetricMeasuredQuantity of 8** at both days which converts for Liberty Core into a **metricConvertedQuantity of 1**. 
+
+        - For WAS, we changed the setup during the first day.
+            - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This resulted into a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
+            - The final WAS deployment with EAR annotations which also ran the second day consisted of 5 pods with 0.8 cores each. This resulted into a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
+
+        Press `q`to quit the view.
+
+    6. Review the csv for **products daily**  
+
+           column -t -s, temp/products_daily_*.csv | less -S
+
+        ![ILS_products_daily_csv.png](./images/media/ILS_products_daily_csv.png)
+
+        As you can see in the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here EAR and WAS), their metric quantity and their peak of the day.
+        - For EAR, the value of Metric Quantity was 3 the first day but 2 the second day. This is due to the fact that the WAS setup was changed during the first day. See **bundled products daily** above for details.
+
+        - WAS based on PVUs metric is only listed on the first day. This is caused by the fact that the initial WAS deployment did not have any annotations defined, so the defaults were used (which is WAS based on PVUs). As no cpu limit was defined at that time, the whole worker node was counted which results based on 70 PVUs per core into 560 PVUs. 
+        As this deyployment was removed during the first day, the product is no longer listed on day 2.
+
+        Press `q`to quit the view.
+
+    7. Verify that there are no unrecognized apps.
+        It is recommended to review the file unrecognized-apps-*.csv to make sure it is empty.
+
+            cat temp/unrecognized-apps-2026-10-26-2026-11-25.csv
+
+    
 
 This completes the section about IBM License Service.
 
