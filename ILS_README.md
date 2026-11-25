@@ -775,6 +775,8 @@ The current deployment assumes that the application requires Liberty Base entitl
        cd ~/Student/ILS_reports
        mv report_*.zip backups
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
     Take a look at the content via the command:
