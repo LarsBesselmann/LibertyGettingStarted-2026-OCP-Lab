@@ -854,7 +854,9 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 ## 4.5: License capping 
 
-IBM License Service applies capping if the number of counted virtual cores is higher that he number of physical cores.
+indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**"
+
+IBM License Service applies capping on node level if the sum of pods cpu limits exceeds the node capacity. You will now trigger a depployment that causes such a capping.
 
 1. Access the ILS Status Page:
 
@@ -863,6 +865,8 @@ IBM License Service applies capping if the number of counted virtual cores is hi
        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+
+    ![ILS_Status-Page-Capping1.png](./images/media/ILS_Status-Page-Capping1.png)
 
 2. Change the CPU limit for stage from 0.8 to 2.5.
 
@@ -873,7 +877,7 @@ IBM License Service applies capping if the number of counted virtual cores is hi
 
        cat stage/application-cr.yaml
 
-    ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
+    ![ILS_application-cr6](./images/media/ILS_application-cr6.png)
 
 
 4. Deploy the stage application
@@ -887,23 +891,27 @@ IBM License Service applies capping if the number of counted virtual cores is hi
 
 6. Reload the ILS Status page and take a look at the changes.
 
-    ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+    ![ILS_Status-Page-Capping2.png](./images/media/ILS_Status-Page-Capping2.png)
     
-    As you can see, two products are now contributing to the overall number of entitlements.
-    - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
-        - This results in a Liberty Core metric value of 8. 
-        - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
-    - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
+    As you can see, the two products are still contributing to the overall number of entitlements.
+    - WebSphere Application Server (Base) contributes as before with 5 pods of 0.8 cores each, so 4 cores in total. 
         - This results in a WAS metric value of 4. 
         - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
 
-
-
+    - WebSphere Application Server Liberty Core contributes with 10 pods of 2.5 cores each 16 cores in total.
+        - In a Kubernetes cluster with 25 or more cores, the Liberty Core deployment would result into a Liberty Core metric value of 25. 
+        - But as you can see in the screenshot, there is some capping on node 2 indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**".
+            - 3 of the 10 Liberty Core pods are deployed to the first node. The sum of the pod cpu limits on that node is 7.5. 
+            - 7 of the 10 Liberty Core pods are deployed to the second node. The sum of the pod cpu limits on that node is 17.5 (7 x 2.5) while the node capacity is 8 cores. Due to this, only 8 cores are counted for the second node. 
+        - In total 15.5 cores will be counted for all LIberty Core pods which results into a Liberty Core metric value of 16.
+        - Due to the EAR ratio 11:1, this deployment requires 2 VPC of EAR.
+    
+    As you have seen in the scenario above, the capping happend on node level and the capping is done per product.
 
 This completes the section about IBM License Service.
 
 You can more details about the Liberty License tracking here:
-https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-license-use-in-kubernetes
+https://www.ibm.com/software/passportadvantage/containerlicenses
 
 
 ## Clean up.
@@ -921,6 +929,8 @@ To clean up the environment, perform the following steps:
 
         sudo podman stop plantsdb-db2-staging
 
+
+
 # Summary
 
 ___
@@ -930,7 +940,7 @@ ___
 
 ___
 
-In this lab, you learned how to use the IBM License Service and how to use annotations to track WebSphere Liberty deployments via Operator.
+In this lab, you learned how to use the IBM License Service and how to use annotations to track WebSphere Liberty deployments via Operator. You also learned the importance of setting cpu limits, which is not only recommended to optimize the placement but also important for license optimization.
 
 ___
 
