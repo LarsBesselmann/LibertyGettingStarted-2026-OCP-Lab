@@ -762,15 +762,15 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     8. Reload the ILS Status page and take a look at the changes.
 
-    ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+        ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
     
-    As you can see, two products are now contributing to the overall number of entitlements.
-    - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
-        - This results in a Liberty Core metric value of 8. 
-        - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
-    - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
-        - This results in a WAS metric value of 4. 
-        - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
+        As you can see, two products are now contributing to the overall number of entitlements.
+        - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
+            - This results in a Liberty Core metric value of 8. 
+            - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
+        - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
+            - This results in a WAS metric value of 4. 
+            - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
 
 ## 4.4: Access the other statistics of the IBM License Service (ILS)
 
@@ -782,7 +782,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
-    As you can see, the product page contains 1 products.
+    As you can see, the product page contains 2 products.
 
     ![ILS_Products_Page.png](./images/media/ILS_Products_Page.png)
     
@@ -790,6 +790,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     - IBM Enterprise Application Runtimes with a quantity of 2 VPCs.
     This reflects the current deployment of Liberty Base and Liberty Core.
+    - WebSphere Application Server reflects the intial deployment when no annotations and no CPU limit was set.
 
     HINT: If you only see a metricQuantity of 1, this means that ILS has not scanned the environment after the Liberty Core deployment. Wait a few minutes and then reload the page.
 
