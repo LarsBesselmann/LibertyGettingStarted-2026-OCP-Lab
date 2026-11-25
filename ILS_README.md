@@ -531,6 +531,7 @@ Before you can track a Liberty deployment, you need to adjust the deployment con
 
 ## 4.2: Deploy the Liberty application and track it using the IBM License Service (ILS)
 
+
 Start from scratch without any deployment:
 
 1. Access the ILS Status Page:
@@ -574,9 +575,23 @@ Start from scratch without any deployment:
     - The node has 8 cores
     - A CPU limit is not set, so the whole worker node will be licensed.
     - As each core is counted with 70 PVU, the metric value is 560.
-    
 
-5. Compare the findings with the deployment file.
+
+5. Access the **IBM License Service** page for **Products**:
+
+    The product page shows all products that have been discovered over time.
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
+
+    ![ILS_Product_Page_WAS](./images/media/ILS_Products_Page_WAS.png)
+
+    If WebSphere Application Server is not listed there, wait a moment and then reload the page.
+
+6. Compare the findings with the deployment file.
 
        cat dev/application-cr.yaml
 
@@ -586,7 +601,7 @@ Start from scratch without any deployment:
     - No entitlement has been specified
     - No CPU limit has been specified
 
-6. Adjust the deployment to add entitlement details.
+7. Adjust the deployment to add entitlement details.
 
        cd ~/Student/deploy
        sed -i "s|#edition: IBM WebSphere Application Server|edition: IBM WebSphere Application Server|g" dev/application-cr.yaml
@@ -596,9 +611,8 @@ Start from scratch without any deployment:
     
     ![ILS_application-cr2](./images/media/ILS_application-cr2.png)
 
-
         
-7. Apply the changes and see the results: 
+8. Apply the changes and see the results: 
    
        cd ~/Student/deploy
        oc apply -n apps-pbw -f dev/application-cr.yaml
@@ -612,7 +626,22 @@ Start from scratch without any deployment:
     - WAS Base has the ratio 11:2 within IBM Enterprise Application Runtimes (EAR), which means 11 deployed cores require 2 VPC of EAR.
     - As 8 WAS cores must be licensed and the ratio 11:2 applies, the EAR metric value is 2.
 
-8. Add a cpu limit to avoid that the whole worker node must be licensed.
+9. Access the **IBM License Service** page for **Products**:
+
+    The product page shows all products that have been discovered over time.
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
+
+    ![ILS_Product_Page_WAS](./images/media/ILS_Products_Page_WAS.png)
+
+    If WebSphere Application Server is not listed there, wait a moment and then reload the page.
+
+
+9. Add a cpu limit to avoid that the whole worker node must be licensed.
 
     Go back to the open editor or open a new one.
 
@@ -632,7 +661,7 @@ Start from scratch without any deployment:
     Make sure that the number of spaces before `resources` is correct, otherwise the deployment will fail.
     Save the changes but keep the editor open.
 
-9. Apply the changes and see the results: 
+10. Apply the changes and see the results: 
    
         cd ~/Student/deploy
         oc apply -n apps-pbw -f dev/application-cr.yaml
@@ -645,7 +674,7 @@ Start from scratch without any deployment:
     - The total number of cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core, which results in a WAS metric value of 1.
     - As only 1 core must be licensed with WAS Base and the EAR ratio 11:2 applies, the EAR metric value is 2.
 
-10. Add additional replicas.
+11. Add additional replicas.
 
     Go back to the open editor or open a new one.
 
@@ -657,7 +686,7 @@ Start from scratch without any deployment:
 
     Save the changes and feel free to close the editor.
 
-11. Apply the changes and see the results: 
+12. Apply the changes and see the results: 
    
         cd ~/Student/deploy
         oc apply -n apps-pbw -f dev/application-cr.yaml
