@@ -771,6 +771,8 @@ The current deployment assumes that the application requires Liberty Base entitl
 3. Retrieve the **IBM License Service Snapshot** report.zip:
 
        cd ~/Student
+       mkdir -p ILS_reports
+       move report_*.zip ILS_reports
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
@@ -823,20 +825,7 @@ ___
 
 ___
 
-In this lab, you learned how to deploy applications to WebSphere Liberty using the WebSphere Liberty Operator and the deployment artifacts produced by Application Modernization Accelerator in its migration plan.
-
-You explored the options for deployment: 
-
-  - locally running Liberty
-  - Liberty as an image running in local container
-  - Liberty as an image running in OpenShift.
-
-You learned how to easily configure deployments to OpenShift to allow the same immutable image to be deployed for different configurations such as ‘dev’ and ‘staging’ environment deployments.
-
-You learned about some of the practical ways you can secure your configuration data.
-
-You explored the PlantsByWebSphere assessment details and reports in Application Modernization Accelerator.
-
+In this lab, you learned how to use the IBM License Service and how to use annotations to track WebSphere Liberty deployments via Operator.
 
 ___
 
