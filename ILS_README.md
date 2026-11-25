@@ -644,11 +644,11 @@ Start from scratch without any deployment:
 
     The bundled product page shows all bundled products that have been discovered over time. For each product, the peak value is shown.
 
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
-       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}"
+        /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}"
 
     ![ILS_Products_Page_WAS_EAR](./images/media/ILS_Products_Page_WAS_EAR.png)
 
