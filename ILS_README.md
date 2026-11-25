@@ -375,7 +375,8 @@ By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs
 
 7. You can retrieve the licensing report.zip file by running:
 
-       cd ~/Student
+       mkdir ~/Student/ILS_reports
+       cd ~/Student/ILS_reports
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
@@ -770,9 +771,9 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 3. Retrieve the **IBM License Service Snapshot** report.zip:
 
-       cd ~/Student
-       mkdir -p ILS_reports
-       move report_*.zip ILS_reports
+       mkdir -p ~/Student/ILS_reports/backups
+       cd ~/Student/ILS_reports
+       move report_*.zip backups
        timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
