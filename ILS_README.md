@@ -769,20 +769,29 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     - As WAS based on PVUs is no bundled product, it is not listed here.
 
-3. Retrieve the **IBM License Service Snapshot** report.zip:
+3. Review the **IBM License Service Snapshot** report.zip:
 
-       mkdir -p ~/Student/ILS_reports/backups
-       cd ~/Student/ILS_reports
-       mv report_*.zip backups
-       timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-       curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
+    1. Backup existing snapshots and retrieve the snapshot
 
-    Take a look at the content via the command:
+           mkdir -p ~/Student/ILS_reports/backups
+           cd ~/Student/ILS_reports
+           mv report_*.zip backups
+           timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
+           export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+           export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+           curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
-       mkdir -p ~/Student/ILS_reports/temp 
-       unzip report_*.zip -d ~/Student/ILS_reports/temp 
+    2. Extract the content into a temp directory:
+
+           mkdir -p ~/Student/ILS_reports/temp 
+           unzip report_*.zip -d ~/Student/ILS_reports/temp 
+
+    3. Review the csv for **bundled products**  
+           column -t -s, temp/bundled_products_20*.csv | less -S
+
+        ![ILS_bundled_products_csv.png](./images/media/ILS_bundled_products_csv.png)
+
+        As you can see, the report contains the different bundled products, their converted quantity and their peak and when it happened.
 
     The report.zip contains files like:
     - bundled_products_2026-10-25_2026-11-24_itz-mopxrw-master-1.csv
