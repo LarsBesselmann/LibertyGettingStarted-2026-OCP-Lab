@@ -1020,7 +1020,7 @@ You will now trigger a deployment that causes such a capping.
 
 To get more insight, let's take a look at the snapshot.
 
-## 4.6.2: Review the statistcs in the ILS snapshot
+## 4.6.2: Review the statistics in the ILS snapshot
 
 
 1. Review the snapshot
@@ -1096,6 +1096,72 @@ To get more insight, let's take a look at the snapshot.
             - 2026-11-25: The metricMeasuredQuantity 4 reflects the 5 pods of 0.8 cores each.
             
         Press `q`to quit the view.
+
+## 4.7: Create a deployment for another bundle
+
+Now let's try take a look what happens if you deploy another WAS Base instance but with a different prodct bundle.
+
+1. Access the ILS Status Page:
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
+
+    ![ILS_Status-Page-Capping1.png](./images/media/ILS_Status-Page-Capping1.png)
+
+2. Let's create a third application and deployment, this time again for WAS Base.
+ 
+    1. Duplicate the existing deployment yaml files:
+
+            cd ~/Student/deploy
+            cp -r dev test
+
+    2. For the test environment, change the deployment name:
+
+           sed -i '0,/name: plantsbywebsphereee6/s/name: plantsbywebsphereee6/name: plantsbywebsphereee6t/' stage/application-cr.yaml
+
+    3. Adjust the application-cr.yaml to use WebSphere Hybrid Edition:
+
+           sed -i "s|productEntitlementSource: IBM Enterprise Application Runtimes|productEntitlementSource: IBM WebSphere Hybrid Edition|g" test/application-cr.yaml
+
+    4. Change the number of replica for test from 5 to 1:
+
+           cd ~/Student/deploy
+           sed -i "s|replicas: 5|replicas: 1|g" test/application-cr.yaml
+
+    5. Review the changes:
+
+           cat test/application-cr.yaml
+
+        ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
+
+
+    6. Deploy the second application:
+
+           cd ~/Student/deploy
+           oc apply -n apps-pbw -f test/application-cr.yaml
+
+    7. Take a look at the deployment status:
+
+           oc get deployments
+
+        Wait until the deployment is ready.
+
+    8. Reload the ILS Status page and take a look at the changes.
+
+        ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+    
+        As you can see, two products are now contributing to the overall number of entitlements.
+        - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
+            - This results in a Liberty Core metric value of 8. 
+            - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
+        - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
+            - This results in a WAS metric value of 4. 
+            - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
+
+
 
 ## 5: Summary how to use IBM License Service portal
 
