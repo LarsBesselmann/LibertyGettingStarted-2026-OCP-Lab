@@ -1101,10 +1101,13 @@ To get more insight, let's take a look at the snapshot.
 
 Here the main findings:
 
-- The usage of an IBM Liberty container does not result into the container being detected.
-- If a container image is deployed via WebSphere Liberty operator, it willl be detected by default as WAS pod and tracked based on PVUs.
-- To make sure the pods are discovered correctly, the correct annotations need to be applied.
+**Annotations and CPU Limits:**
+- The usage of an IBM Liberty container image does not result into the container being detected by ILS. Annotations are required to make it visible to ILS.
+- If a container image is deployed via WebSphere Liberty operator, it will be detected by default as WAS pod and tracked based on PVUs.
+- To make sure the Liberty pods are discovered correctly, the correct annotations need to be applied. There are different annotations for WAS Base (incl. traditional WAS and Liberty Base) and Liberty Core.
 - To avoid the whole worker node to be counted, the definition of CPU limits are required.
+
+**IBM License Service Portal and reports**
 - The ILS snapshot helps to get an understanding when the peak happened and which bundled products contribute to it. It also provides a historical view about the consumption per day.
 - The ILS portal pages for products and bundled products provide a quick view wabout the products peak and which products contribute to the peak.
 - The ILS portal status pages provides details about the current usage and which pods contribute to the usage.
