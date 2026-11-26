@@ -1109,7 +1109,7 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
-    ![ILS_Status-Page-Capping1.png](./images/media/ILS_Status-Page-Capping1.png)
+    ![ILS_Status-Page-test1.png](./images/media/ILS_Status-Page-test1.png)
 
 2. Let's create a third application and deployment, this time again for WAS Base.
  
@@ -1120,7 +1120,7 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
     2. For the test environment, change the deployment name:
 
-           sed -i '0,/name: plantsbywebsphereee6/s/name: plantsbywebsphereee6/name: plantsbywebsphereee6t/' stage/application-cr.yaml
+           sed -i '0,/name: plantsbywebsphereee6/s/name: plantsbywebsphereee6/name: plantsbywebsphereee6t/' test/application-cr.yaml
 
     3. Adjust the application-cr.yaml to use WebSphere Hybrid Edition:
 
