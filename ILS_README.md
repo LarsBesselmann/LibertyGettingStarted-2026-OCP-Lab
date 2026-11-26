@@ -1073,7 +1073,7 @@ To get more insight, let's take a look at the snapshot.
         - Liberty Core is listed with 8 cores (metricMeasuredQuantity) which results into 1 VPCs of EAR (metricConvertedQuantity). <br>
         (Hint: This was the Liberty Core deployment of 10 pods of 0.8 cores each.)
         - WAS is listed with 8 cores (metricMeasuredQuantity) which results into 1 VPCs of EAR (metricConvertedQuantity). <br>
-        (Hint: This was the WAS deployment withoutu CPU limit.)
+        (Hint: This was the WAS deployment without CPU limit defined.)
 
         Finally review how the usage of the bundled products changed over the days.
         
@@ -1087,9 +1087,28 @@ To get more insight, let's take a look at the snapshot.
 
         In the screenshot, you can see that the metricConvertedQuantity for Liberty Core in EAR increased from 1 on the first day to 2 on the second day while the metricConvertedQuantity for WAS Base in EAR decreased from 2 to 1. So overall the EAR quantity in total kept as 3. 
 
+        To reflect where the peaks per day and product come from:
+        - For Liberty Core: 
+            - 2026-11-24: The metricMeasuredQuantity 8 reflects the 10 pods of 0.8 cores each
+            - 2026-11-25: The metricMeasuredQuantity 16 reflects the 10 pods of 2.5 cores each and capping applied
+        - For WAS Base: 
+            - 2026-11-24: The metricMeasuredQuantity 8 reflects the initial deployment without CPU limit which resulted in the full worker node to be counted.
+            - 2026-11-25: The metricMeasuredQuantity 4 reflects the 5 pods of 0.8 cores each.
+            
         Press `q`to quit the view.
 
+## 5: Summary how to use IBM License Service portal
 
+Here the main findings:
+
+- The usage of an IBM Liberty container does not result into the container being detected.
+- If a container image is deployed via WebSphere Liberty operator, it willl be detected by default as WAS pod and tracked based on PVUs.
+- To make sure the pods are discovered correctly, the correct annotations need to be applied.
+- To avoid the whole worker node to be counted, the definition of CPU limits are required.
+- The ILS snapshot helps to get an understanding when the peak happened and which bundled products contribute to it. It also provides a historical view about the consumption per day.
+- The ILS portal pages for products and bundled products provide a quick view wabout the products peak and which products contribute to the peak.
+- The ILS portal status pages provides details about the current usage and which pods contribute to the usage.
+- So while the snapshot is important for license tracking and reporting, the status page helps to get a better understanding how the tracking works. Details like capping are only visible in the status page.
 
 
 This completes the section about IBM License Service.
