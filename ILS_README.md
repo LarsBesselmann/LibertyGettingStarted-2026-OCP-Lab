@@ -1033,7 +1033,7 @@ To get more insight, let's take a look at the snapshot.
            mkdir -p ~/Student/ILS_reports/backups
            cd ~/Student/ILS_reports
            mv report_*.zip backups
-           cp ~/Student/ILS/audit_snapshot_*.zip .
+           cp ~/Student/ILS/audit_snapshot_*a.zip .
 
     2. Extract the content into a temp directory:
 
@@ -1193,6 +1193,7 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
     In the demonstrated case, the new pod licensed via WSHE required an additional entitlement while the same pod licensed via EAR did not.
     Therefore it is always recommended to not use a mixture of different WebSphere bundles within a cluster.
 
+    Hint: There is also a snapshot for the mixed scenario, see ~/Student/ILS/audit_snapshot_*b.zip.
 
 ## 5: Summary how to use IBM License Service portal
 
