@@ -1209,7 +1209,7 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 Optional: 
 There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_snapshot_*b.zip. Feel free to explore it.
 
-
+<br>
 
 ## 5: Summary how to use IBM License Service portal
 
