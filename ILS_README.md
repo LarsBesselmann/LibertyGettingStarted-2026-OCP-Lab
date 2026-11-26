@@ -838,13 +838,13 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         To make it more readable, here the main content.
 
-        ![ILS_bundled_products_csv_right.png](./images/media/ILS_bundled_products_csv_right.png)
+        ![ILS_bundled_products_csv_right.png](./images/media/ILS_bundled_products_csv_extract.png)
 
         As you can see, the report contains the different bundled products (here WAS and Liberty Core), their converted quantity and their peak and the date when the peak happened.
 
         Depending on the timing when doing the different deployments, ILS might also report the case where the EAR annotations were applied but the cpu limits not. In that case, WAS Base would be counted with 8 cores of WAS and the output could also look like this:
 
-        ![ILS_bundled_products_csv_right_V2.png](./images/media/ILS_bundled_products_csv_right_V2.png)
+        ![ILS_bundled_products_csv_right_V2.png](./images/media/ILS_bundled_products_csv_extract_V2.png)
 
 
         Press `q`to quit the view.
@@ -1020,7 +1020,7 @@ You will now trigger a deployment that causes such a capping.
 
            column -t -s, temp/products_20*.csv | less -S
 
-        ![ILS_products_csv.png](./images/media/ILS_products_csv.png)
+        ![ILS_products_csv.png](./images/media/ILS_products_csv_Capping.png)
 
         As you can see, the report contains the different products (here EAR and WAS), their metric, their peak quantity and the date when the peak happened.
 
