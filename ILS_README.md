@@ -900,7 +900,7 @@ The current deployment assumes that the application requires Liberty Base entitl
         ![ILS_products_daily_csv.png](./images/media/ILS_products_daily_csv.png)
 
         As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here only EAR), their metric quantity and their peak of the day.
-        - For EAR, the value of Metric Quantity was 2 on both days. See **bundled products daily** above for details.
+        - For EAR, the value of Metric Quantity was 2 on both days. See **products daily** above for details.
 
         If the scanner also detected the inital WAS deployment without EAR annotations and also the WAS deployment without CPU limits, the outpt might look like this:
 
@@ -975,7 +975,69 @@ You will now trigger a deployment that causes such a capping.
     As you have seen from the scenario above, the capping happened on node level and the capping is done per product.
 
 
-## 4.6: Review again the other statistics of the IBM License Service (ILS)
+## 4.6: Review again the other statistcs of the IBM License Service (ILS)
+1. Review the snapshot
+
+    1. Backup existing snapshots and retrieve the snapshot
+
+           mkdir -p ~/Student/ILS_reports/backups
+           cd ~/Student/ILS_reports
+           mv report_*.zip backups
+           timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
+           export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+           export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+           curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
+
+    2. Extract the content into a temp directory:
+
+           rm -rf ~/Student/ILS_reports/temp 
+           mkdir -p ~/Student/ILS_reports/temp 
+           unzip report_*.zip -d ~/Student/ILS_reports/temp 
+
+    3. Review the csv for **bundled products**
+
+           column -t -s, temp/bundled_products_20*.csv | less -S
+
+        ![ILS_bundled_products_daily_extract_csv_Capping.png](./images/media/ILS_bundled_products_daily_extract_csv_Capping.png)
+
+        On the second day, you can see:
+        - Liberty Core is listed with 16 cores (metricMeasuredQuantity) which results into 2 VPCs of EAR (metricConvertedQuantity).
+        - WAS is listed with 4 cores (metricMeasuredQuantity) which results into 1 VPCs of EAR (metricConvertedQuantity).
+
+        Press `q`to quit the view.
+
+    4. Review the csv for **products daily**  
+
+           column -t -s, temp/products_daily_*.csv | less -S
+
+        ![ILS_products_daily_csv_Capping.png](./images/media/ILS_products_daily_csv_Capping.png)
+
+        On the second day, you can see that EAR is listed with a metricQuantity of 3, same as on the day before. In your snapshot, EAR might be listed with a metricQuantity of 2 on the first day. 
+
+        Press `q`to quit the view.
+
+    5 Review the csv for **products**  
+
+           column -t -s, temp/products_20*.csv | less -S
+
+        ![ILS_products_csv.png](./images/media/ILS_products_csv.png)
+
+        As you can see, the report contains the different products (here EAR and WAS), their metric, their peak quantity and the date when the peak happened.
+
+        In case where EAR without CPU limit was reported, the output could look like this:
+
+        ![ILS_products_csv_V2.png](./images/media/ILS_products_csv_V2.png)
+
+        It could also happen that WAS is not reported at all.
+
+        Press `q`to quit the view.
+
+
+
+
+
+
+
 
 1. Access the **IBM License Service** page for **Bundled products**:
 
@@ -985,7 +1047,7 @@ You will now trigger a deployment that causes such a capping.
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
     
-    ![ILS_Bundled_Products_Page.png](./images/media/ILS_Bundled_Products_Page.png)
+    ![ILS_Bundled_Products_Page_Capping.png](./images/media/ILS_Bundled_Products_Page_Capping.png)
 
     For each bundled product, the quantities are reported:
     
