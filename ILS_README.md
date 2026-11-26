@@ -1016,7 +1016,7 @@ You will now trigger a deployment that causes such a capping.
 
         Press `q`to quit the view.
 
-    5 Review the csv for **products**  
+    5. Review the csv for **products**  
 
            column -t -s, temp/products_20*.csv | less -S
 
