@@ -884,12 +884,12 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         - For WAS, the final WAS deployment consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.  
 
-        If ILS detected the temporary deployment of WAS without cpu limit, the report might look like this:
+        If ILS also detected the temporary deployment of WAS without cpu limit, the report might look like this:
 
         ![ILS_bundled_products_daily_extract_csv_V2.png](./images/media/ILS_bundled_products_daily_extract_csv_V2.png)
 
-        - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This results in a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
-        - The final WAS deployment with EAR annotations which ran the second day consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
+        - On the first day, the first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This results in a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
+        - On the first day, the final WAS deployment with EAR annotations which also ran the second day consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
 
         Press `q`to quit the view.
 
@@ -900,7 +900,7 @@ The current deployment assumes that the application requires Liberty Base entitl
         ![ILS_products_daily_csv.png](./images/media/ILS_products_daily_csv.png)
 
         As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here only EAR), their metric quantity and their peak of the day.
-        - For EAR, the value of Metric Quantity was 3 the first day but 2 the second day. This is due to the fact that the WAS setup was changed during the first day. See **bundled products daily** above for details.
+        - For EAR, the value of Metric Quantity was 2 on both days. See **bundled products daily** above for details.
 
         If the scanner also detected the inital WAS deployment without EAR annotations and also the WAS deployment without CPU limits, the outpt might look like this:
 
@@ -951,7 +951,7 @@ You will now trigger a deployment that causes such a capping.
        cd ~/Student/deploy
        oc apply -n apps-pbw -f stage/application-cr.yaml
 
-5. Take a look at the deployment status
+5. Take a look at the deployment status and wait until it is ready.
 
        oc get deployments
 
@@ -973,6 +973,51 @@ You will now trigger a deployment that causes such a capping.
         - Due to the EAR ratio 11:1, this deployment requires 2 VPC of EAR.
     
     As you have seen from the scenario above, the capping happened on node level and the capping is done per product.
+
+
+## 4.6: Review again the other statistics of the IBM License Service (ILS)
+
+1. Access the **IBM License Service** page for **Bundled products**:
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
+    
+    ![ILS_Bundled_Products_Page.png](./images/media/ILS_Bundled_Products_Page.png)
+
+    For each bundled product, the quantities are reported:
+    
+    - IBM WebSphere Application Server with a metricMeasuredQuantity of 4 VPCs (5 pods of 0.8 cores) and a metricConvertedQuantity of 1 based on the EAR ratio 11:2.
+    This reflects the current deployment of Liberty Base.
+
+    - IBM WebSphere Application Server Liberty Core with a metricMeasuredQuantity of 8 VPCs (10 pods of 0.8 cores) and a metricConvertedQuantity of 1 based on the EAR ratio 11:1.
+
+
+
+2. Access the **IBM License Service** page for **Products**:
+
+       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
+
+       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+
+       /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
+    
+    As you can see, the product page contains 2 products.
+
+    ![ILS_Products_Page.png](./images/media/ILS_Products_Page.png)
+    
+    For each product, the quantities are reported:
+
+    - IBM Enterprise Application Runtimes with a quantity of 2 VPCs.
+    This reflects the current deployment of Liberty Base and Liberty Core.
+    - WebSphere Application Server reflects the intial deployment when no annotations and no CPU limit was set.
+
+    HINT: If you only see a metricQuantity of 1, this means that ILS has not scanned the environment after the Liberty Core deployment. Wait a few minutes and then reload the page.
+
+
+
 
 This completes the section about IBM License Service.
 
