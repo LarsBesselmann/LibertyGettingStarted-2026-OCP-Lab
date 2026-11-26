@@ -836,13 +836,16 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         ![ILS_bundled_products_csv.png](./images/media/ILS_bundled_products_csv.png)
 
-        To make it more readable, here the content in two screenshots, first the left part, then the right.
-
-        ![ILS_bundled_products_csv_left.png](./images/media/ILS_bundled_products_csv_left.png)
+        To make it more readable, here the main content.
 
         ![ILS_bundled_products_csv_right.png](./images/media/ILS_bundled_products_csv_right.png)
 
         As you can see, the report contains the different bundled products (here WAS and Liberty Core), their converted quantity and their peak and the date when the peak happened.
+
+        Depending on the timing when doing the different deployments, ILS might also report the case where the EAR annotations were applied but the cpu limits not. In that case, WAS Base would be counted with 8 cores of WAS and the output could also look like this:
+
+        ![ILS_bundled_products_csv_right_V2.png](./images/media/ILS_bundled_products_csv_right_V2.png)
+
 
         Press `q`to quit the view.
 
@@ -854,26 +857,39 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         As you can see, the report contains the different products (here EAR and WAS), their metric quantity peak and the date when the peak happened.
 
+        In case where EAR without CPU limit was reported, the output could look like this:
+
+        ![ILS_products_csv_V2.png](./images/media/ILS_products_csv_V2.png)
+
+        It could also happen that WAS is not reported at all.
+
         Press `q`to quit the view.
 
+
     5. Review the csv for **bundled products daily**
+
+        To get more details where the overall numbers come from, take a look at the daily's reports.
 
            column -t -s, temp/bundled_products_daily_*.csv | less -S
 
         ![ILS_bundled_products_daily_csv.png](./images/media/ILS_bundled_products_daily_csv.png)
 
-        To make it more readable, here the content in two screenshots, first the left part, then the right.
+        To make it more readable, here the main content.
 
-        ![ILS_bundled_products_daily_csv_left.png](./images/media/ILS_bundled_products_daily_csv_left.png)
+        ![ILS_bundled_products_daily_extract_csv.png](./images/media/ILS_bundled_products_daily_extract_csv.png)
 
-        ![ILS_bundled_products_daily_csv_right.png](./images/media/ILS_bundled_products_daily_csv_right.png)
 
         As you can see from the screenshots (which were captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
         - For Liberty Core, all 10 Liberty Core pods with 0.8 cores each kept running over the two days. This results in a **MetricMeasuredQuantity of 8** at both days which converts for Liberty Core into a **metricConvertedQuantity of 1**. 
 
-        - For WAS, we changed the setup during the first day.
-            - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This results in a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
-            - The final WAS deployment with EAR annotations which also ran the second day consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
+        - For WAS, the final WAS deployment consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.  
+
+        If ILS detected the temporary deployment of WAS without cpu limit, the report might look like this:
+
+        ![ILS_bundled_products_daily_extract_csv_V2.png](./images/media/ILS_bundled_products_daily_extract_csv_V2.png)
+
+        - The first WAS deployment with EAR annotations had no cpu limit defined so that the whole worker node with 8 cores was counted. This results in a **MetricMeasuredQuantity of 8** which converts for WAS Base into a **metricConvertedQuantity of 2**.
+        - The final WAS deployment with EAR annotations which ran the second day consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.
 
         Press `q`to quit the view.
 
@@ -882,6 +898,13 @@ The current deployment assumes that the application requires Liberty Base entitl
            column -t -s, temp/products_daily_*.csv | less -S
 
         ![ILS_products_daily_csv.png](./images/media/ILS_products_daily_csv.png)
+
+        As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here only EAR), their metric quantity and their peak of the day.
+        - For EAR, the value of Metric Quantity was 3 the first day but 2 the second day. This is due to the fact that the WAS setup was changed during the first day. See **bundled products daily** above for details.
+
+        If the scanner also detected the inital WAS deployment without EAR annotations and also the WAS deployment without CPU limits, the outpt might look like this:
+
+        ![ILS_products_daily_csv_V2.png](./images/media/ILS_products_daily_csv_V2.png)
 
         As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different products (here EAR and WAS), their metric quantity and their peak of the day.
         - For EAR, the value of Metric Quantity was 3 the first day but 2 the second day. This is due to the fact that the WAS setup was changed during the first day. See **bundled products daily** above for details.
@@ -894,13 +917,12 @@ The current deployment assumes that the application requires Liberty Base entitl
     7. Verify that there are no unrecognized apps.
         It is recommended to review the file unrecognized-apps-*.csv to make sure it is empty.
 
-            cat temp/unrecognized-apps-2026-10-26-2026-11-25.csv
+            cat temp/unrecognized-apps-20*.csv
 
 ## 4.5: License capping 
 
-indicated by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**"
-
-IBM License Service applies capping on node level if the sum of pods cpu limits exceeds the node capacity. You will now trigger a deployment that causes such a capping.
+IBM License Service applies capping on node level if the sum of pods cpu limits exceeds the node capacity. Capping is indicated in the ILS Status Page by the message "**Capping at node level - sum of pods cpu limits exceeds node capacity**". 
+You will now trigger a deployment that causes such a capping.
 
 1. Access the ILS Status Page:
 
