@@ -806,10 +806,10 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     For each bundled product, the quantities are reported:
     
-    - IBM WebSphere Application Server with a metricMeasuredQuantity of 4 VPCs (5 pods of 0.8 cores) and a converted quantity of 1 based on the EAR ratio 11:2.
+    - IBM WebSphere Application Server with a metricMeasuredQuantity of 4 VPCs (5 pods of 0.8 cores) and a metricConvertedQuantity of 1 based on the EAR ratio 11:2.
     This reflects the current deployment of Liberty Base.
 
-    - IBM WebSphere Application Server Liberty Core with a metricMeasuredQuantity of 8 VPCs (10 pods of 0.8 cores) and a converted quantity of 1 based on the EAR ratio 11:1.
+    - IBM WebSphere Application Server Liberty Core with a metricMeasuredQuantity of 8 VPCs (10 pods of 0.8 cores) and a metricConvertedQuantity of 1 based on the EAR ratio 11:1.
 
 
 3. Review the **IBM License Service Snapshot** report.zip:
@@ -826,6 +826,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     2. Extract the content into a temp directory:
 
+           rm -rf ~/Student/ILS_reports/temp 
            mkdir -p ~/Student/ILS_reports/temp 
            unzip report_*.zip -d ~/Student/ILS_reports/temp 
 
