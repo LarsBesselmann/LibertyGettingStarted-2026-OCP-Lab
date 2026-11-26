@@ -1025,21 +1025,21 @@ To get more insight, let's take a look at the snapshot.
 
 1. Review the snapshot
 
+    A snapshot has been provided to illustrate how the snapshot looks like after several days. The benefit is that it demonstrates how the license conting changed over days. 
+
+
     1. Backup existing snapshots and retrieve the snapshot
 
            mkdir -p ~/Student/ILS_reports/backups
            cd ~/Student/ILS_reports
            mv report_*.zip backups
-           timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
-           export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-           export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-           curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
+           cp ~/Student/ILS/audit_snapshot_*.zip .
 
     2. Extract the content into a temp directory:
 
            rm -rf ~/Student/ILS_reports/temp 
            mkdir -p ~/Student/ILS_reports/temp 
-           unzip report_*.zip -d ~/Student/ILS_reports/temp 
+           unzip audit*.zip -d ~/Student/ILS_reports/temp 
 
     3. Review the csv for **products**  
 
