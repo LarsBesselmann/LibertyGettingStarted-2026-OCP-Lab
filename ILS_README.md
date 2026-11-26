@@ -1193,7 +1193,7 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
     In the demonstrated case, the new pod licensed via WSHE required an additional entitlement while the same pod licensed via EAR did not.
     Therefore it is always recommended to not use a mixture of different WebSphere bundles within a cluster.
 
-    Hint: There is also a snapshot for the mixed scenario, see ~/Student/ILS/audit_snapshot_*b.zip.
+    Hint: There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_snapshot_*b.zip. Feel free to explore it.
 
 ## 5: Summary how to use IBM License Service portal
 
