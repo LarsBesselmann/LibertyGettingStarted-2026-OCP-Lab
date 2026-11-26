@@ -1150,24 +1150,30 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
         Wait until the deployment is ready.
 
-    8. Reload the ILS Status page and take a look at the changes.
+3. Reload the ILS Status page and take a look at the changes.
 
-        ![ILS_Status-Page-5WLP-test1.png](./images/media/ILS_Status-Page-5WLP-test1.png)
+    ![ILS_Status-Page-5WLP-test1.png](./images/media/ILS_Status-Page-5WLP-test1.png)
     
-        As you can see, two bundles are listed now:
-        - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
-        - IBM WebSphere Hybrid Edition with a metric value of 1 (new)
+    As you can see, two bundles are listed now:
+    - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
+    - IBM WebSphere Hybrid Edition with a metric value of 1 (new)
 
-        Scroll down to the section **Bundled products**:
+    Scroll down to the section **Bundled products**:
 
-        ![ILS_Status-Page-5WLP-test2.png](./images/media/ILS_Status-Page-5WLP-test2.png)
+    ![ILS_Status-Page-5WLP-test2.png](./images/media/ILS_Status-Page-5WLP-test2.png)
     
-        - The details for Liberty Core and WAS Base related to the EAR deployment did not change. 
-        - But as you can see, there is a new block for WAS Base related to WSHE. 0.8 cores were detected, which are rounded up to 1 core and based on the WSHE ratio 4:1 for WAS Base, 1 VPC of WSHE is required.
+    - The details for Liberty Core and WAS Base related to the EAR deployment did not change. 
+    - But as you can see, there is a new block for WAS Base related to WSHE. 0.8 cores were detected, which are rounded up to 1 core and based on the WSHE ratio 4:1 for WAS Base, 1 VPC of WSHE is required.
     
-    Result: The current deployment with 10 pods of Liberty Core and 6 pods of WAS Base requires 3 VPCs of EAR plus 1 VPC of WSHE.
+    <br>
+
+    **Result: The current deployment with 10 pods of Liberty Core and 6 pods of WAS Base requires 3 VPCs of EAR plus 1 VPC of WSHE.**
+
+    <br>
     
-    ## 4.8: Change the test deployment to EAR
+4. Change the test deployment to EAR
+
+    Now let's assign the new pod to the EAR bundle.
 
     1. Adjust the application-cr.yaml to use WebSphere Hybrid Edition:
 
@@ -1178,22 +1184,32 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
            oc apply -n apps-pbw -f test/application-cr.yaml
 
-    3. Reload the ILS Status page and take a look at the changes.
+5. Reload the ILS Status page and take a look at the changes.
 
-        ![ILS_Status-Page-5WLP-test3.png](./images/media/ILS_Status-Page-5WLP-test3.png)
+    ![ILS_Status-Page-5WLP-test3.png](./images/media/ILS_Status-Page-5WLP-test3.png)
     
-        As you can see, only EAR is listed now:
-        - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
-        
-        Result:
-        The new deployment with 10 pods of Liberty Core and 6 pods of WAS Base requires 3 VPCs of EAR.
+    As you can see, only EAR is listed now:
+    - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
 
-    So what does it mean?
-    If you use a mixture of different bundles (here EAR and WSHE) the number of required entitlements is likely higher than if you cover every pod within the cluster with the same bundle.
-    In the demonstrated case, the new pod licensed via WSHE required an additional entitlement while the same pod licensed via EAR did not.
-    Therefore it is always recommended to not use a mixture of different WebSphere bundles within a cluster.
+    <br>    
 
-    Hint: There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_snapshot_*b.zip. Feel free to explore it.
+    **Result: The same deployment with 10 pods of Liberty Core and 6 pods of WAS Base but licensed via EAR requires no additional entitlement.**
+
+    <br>
+
+### So what does it mean?
+
+- If you use a mixture of different bundles (here EAR and WSHE) the number of required entitlements is likely higher than if you cover every pod within the cluster with the same bundle.
+
+- In the demonstrated case, the new pod licensed via WSHE required an additional entitlement while the same pod licensed via EAR did not.
+
+- Therefore it is always recommended to not use a mixture of different WebSphere bundles within a cluster.
+
+<br>
+Optional: 
+There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_snapshot_*b.zip. Feel free to explore it.
+
+
 
 ## 5: Summary how to use IBM License Service portal
 
