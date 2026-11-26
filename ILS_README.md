@@ -1111,7 +1111,9 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
     ![ILS_Status-Page-test1.png](./images/media/ILS_Status-Page-test1.png)
 
-2. Let's create a third application and deployment, this time again for WAS Base.
+    Hint: You might recognize that he metric value for Liberty Core has changed from 16 to 19. This is due to the fact that the deployment now happened on all three nodes. For two nodes, capping was applied but for the third node not. This results into 2 x 8 cores + 1 x 2.5 cores = 18.5 cores which is rounded up to 19.
+
+2. Let's create a third application and deployment, this time again for WAS Base but for the bundle WebSphere Hybrid Edition (WSHE).
  
     1. Duplicate the existing deployment yaml files:
 
@@ -1128,14 +1130,13 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
     4. Change the number of replica for test from 5 to 1:
 
-           cd ~/Student/deploy
            sed -i "s|replicas: 5|replicas: 1|g" test/application-cr.yaml
 
     5. Review the changes:
 
            cat test/application-cr.yaml
 
-        ![ILS_application-cr5](./images/media/ILS_application-cr5.png)
+        ![ILS_application-cr-test](./images/media/ILS_application-cr-test.png)
 
 
     6. Deploy the second application:
@@ -1151,15 +1152,45 @@ Now let's try take a look what happens if you deploy another WAS Base instance b
 
     8. Reload the ILS Status page and take a look at the changes.
 
-        ![ILS_Status-Page-5WLP-Replica.png](./images/media/ILS_Status-Page-5WLP-Replica.png)
+        ![ILS_Status-Page-5WLP-test1.png](./images/media/ILS_Status-Page-5WLP-test1.png)
     
-        As you can see, two products are now contributing to the overall number of entitlements.
-        - WebSphere Application Server Liberty Core with 10 pods of 0.8 cores each, so 8 cores in total.
-            - This results in a Liberty Core metric value of 8. 
-            - Due to the EAR ratio 11:1, this deployment requires 1 VPC of EAR.
-        - WebSphere Application Server (Base) with 5 pods of 0.8 cores each, so 4 cores in total.
-            - This results in a WAS metric value of 4. 
-            - Due to the EAR ratio 11:2, this deployment requires 1 VPC of EAR.
+        As you can see, two bundles are listed now:
+        - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
+        - IBM WebSphere Hybrid Edition with a metric value of 1 (new)
+
+        Scroll down to the section **Bundled products**:
+
+        ![ILS_Status-Page-5WLP-test2.png](./images/media/ILS_Status-Page-5WLP-test2.png)
+    
+        - The details for Liberty Core and WAS Base related to the EAR deployment did not change. 
+        - But as you can see, there is a new block for WAS Base related to WSHE. 0.8 cores were detected, which are rounded up to 1 core and based on the WSHE ratio 4:1 for WAS Base, 1 VPC of WSHE is required.
+    
+    The current deployment requires 3 VPCs of EAR plus 1 VPC of WSHE.
+    
+    ## 4.8: Change the test deployment to EAR
+
+    1. Adjust the application-cr.yaml to use WebSphere Hybrid Edition:
+
+           cd ~/Student/deploy
+           sed -i "s|productEntitlementSource: IBM WebSphere Hybrid Edition|productEntitlementSource: IBM Enterprise Application Runtimes|g" test/application-cr.yaml
+
+    2. Deploy the second application:
+
+           oc apply -n apps-pbw -f test/application-cr.yaml
+
+    3. Reload the ILS Status page and take a look at the changes.
+
+        ![ILS_Status-Page-5WLP-test1.png](./images/media/ILS_Status-Page-5WLP-test1.png)
+    
+        As you can see, two bundles are listed now:
+        - IBM Enterprise Application Runtimes with a metric value of 3 (as before)
+        - IBM WebSphere Hybrid Edition with a metric value of 1 (new)
+
+
+
+    So what's so special here?
+     
+
 
 
 
