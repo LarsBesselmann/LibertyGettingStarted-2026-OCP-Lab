@@ -855,7 +855,7 @@ The current deployment assumes that the application requires Liberty Base entitl
 
         ![ILS_products_csv.png](./images/media/ILS_products_csv.png)
 
-        As you can see, the report contains the different products (here EAR and WAS), their metric quantity peak and the date when the peak happened.
+        As you can see, the report contains the different products (here EAR and WAS), their metric, their peak quantity and the date when the peak happened.
 
         In case where EAR without CPU limit was reported, the output could look like this:
 
@@ -879,7 +879,7 @@ The current deployment assumes that the application requires Liberty Base entitl
         ![ILS_bundled_products_daily_extract_csv.png](./images/media/ILS_bundled_products_daily_extract_csv.png)
 
 
-        As you can see from the screenshots (which were captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
+        As you can see from the screenshot (which was captured after running ILS for two days), the report contains per day the different bundled products (here WAS and Liberty Core), their converted quantity and their peak of the day.
         - For Liberty Core, all 10 Liberty Core pods with 0.8 cores each kept running over the two days. This results in a **MetricMeasuredQuantity of 8** at both days which converts for Liberty Core into a **metricConvertedQuantity of 1**. 
 
         - For WAS, the final WAS deployment consisted of 5 pods with 0.8 cores each. This results in a **MetricMeasuredQuantity of 4** which converts for WAS Base into a **metricConvertedQuantity of 1**.  
