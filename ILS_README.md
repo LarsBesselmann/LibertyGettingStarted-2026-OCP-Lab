@@ -1113,11 +1113,13 @@ Here the main findings:
 - The ILS portal status pages provides details about the current usage and which pods contribute to the usage.
 - So while the snapshot is important for license tracking and reporting, the status page helps to get a better understanding how the tracking works. Details like capping are only visible in the status page.
 
-
+___
+<br>
 This completes the section about IBM License Service.
 
 You can find more details about the Liberty License tracking here:
 https://www.ibm.com/software/passportadvantage/containerlicenses
+
 
 
 ## Clean up.
@@ -1139,7 +1141,7 @@ To clean up the environment, perform the following steps:
 
 # Summary
 
-___
+
 **Congratulations!**
 
 **You have successfully completed the core learning objectives in the lab**
