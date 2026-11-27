@@ -540,10 +540,6 @@ Start from scratch without any deployment:
 
 1. Access the ILS Status Page:
 
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
     The ILS Status page should show no Liberty instance.
@@ -584,10 +580,6 @@ Start from scratch without any deployment:
 5. Access the **IBM License Service** page for **Products**:
 
     The product page shows all products that have been discovered over time. For each product, the peak value is shown.
-
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
 
@@ -633,10 +625,6 @@ Start from scratch without any deployment:
 9. Access the **IBM License Service** page for **Products**:
 
     The product page shows all products that have been discovered over time. For each product, the peak value is shown.
-
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
 
@@ -780,10 +768,6 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 1. Access the **IBM License Service** page for **Products**:
 
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
     As you can see, the product page contains 2 products.
@@ -800,10 +784,6 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 
 2. Access the **IBM License Service** page for **Bundled products**:
-
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
     
@@ -825,8 +805,6 @@ The current deployment assumes that the application requires Liberty Base entitl
            cd ~/Student/ILS_reports
            mv report_*.zip backups
            timestamp=$(date +"%Y-%m-%d_%H_%M_%S")
-           export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-           export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
            curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report_$timestamp.zip
 
     2. Extract the content into a temp directory:
@@ -932,10 +910,6 @@ You will now trigger a deployment that causes such a capping.
 
 1. Access the ILS Status Page:
 
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
     ![ILS_Status-Page-Capping1.png](./images/media/ILS_Status-Page-Capping1.png)
@@ -987,10 +961,6 @@ You will now trigger a deployment that causes such a capping.
 
 1. Access the **IBM License Service** page for **Products**:
 
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
     As you can see in the screenshot, the product page contains 2 products with their peak date.
@@ -1007,10 +977,6 @@ You will now trigger a deployment that causes such a capping.
 
 
 2. Access the **IBM License Service** page for **Bundled products**:
-
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
     
@@ -1106,10 +1072,6 @@ To get more insight, let's take a look at the snapshot.
 Now let's try take a look what happens if you deploy another WAS Base instance but with a different prodct bundle.
 
 1. Access the ILS Status Page:
-
-       export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-       export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
 
