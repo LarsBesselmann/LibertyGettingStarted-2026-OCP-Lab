@@ -1539,19 +1539,19 @@ ___
 
 You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
 
-If you want to do the optional lab, make sure that you delete the OCP deployment before starting with the ILS lab.
+If you want to do the optional lab, make sure that you delete the OCP deployments before starting with the ILS lab.
 
 Make sure that there are no existing Liberty deployments:
 
-    To verify that there are no existing Liberty deployments, run the following command:
+    To verify that there are no Liberty applications deployed, run the following command:
 	
-       oc get deployment --all-namespaces | grep -v openshift
+       oc get webspherelibertyapplication
    
 
-To delete the OCP deployment use a command like 'oc delete deployment -n <project> <deployment name>', for example:
+If Liberty applications are deployed, use a command like 
+`oc delete webspherelibertyapplication <application_name>` to delete it, for example:
     
-    oc delete -n apps-pbw -k overlays/dev
-    oc delete -n apps-pbw -k overlays/stage
+       oc delete webspherelibertyapplication plantsbywebsphereee6
 
 Then start with part 3 of the lab: 
 https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/ILS_README.md#part-3-install-the-ibm-license-service
