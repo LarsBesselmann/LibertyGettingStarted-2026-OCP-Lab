@@ -710,6 +710,13 @@ The current deployment assumes that the application requires Liberty Base entitl
 
     ![PBW_Liberty_Core.png](./images/media/PBW_Liberty_Core.png)
 
+    This does not mean automatically that only Liberty Core features have been installed into the container but gives an indication. There are different options to make sure that only Liberty Core features are installed: 
+    - Compare the list of installed features (via command productInfo featureInfo) with the list of features per edition at:
+    https://www.ibm.com/support/knowledgecenter/SSAW57_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feat.html
+
+    - Install the Liberty Core license file (wlp-core-license.jar).    You can find  the details at:
+        https://www.ibm.com/docs/en/was-liberty/core?topic=archives-applying-license-liberty-installations
+
 
 2. Let's create a second application and deployment, this time for Liberty Core.
  
