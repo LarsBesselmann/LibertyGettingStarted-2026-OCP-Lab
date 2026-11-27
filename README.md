@@ -83,7 +83,8 @@ The lab environment consists of a Desktop machine and several other VMs spinning
 
 In this lab, you will use the Application Modernization Accelerator `migration plan` to build a container image and deploy an application to a local container for testing and finally to OpenShift.
 
-**Main Steps:**
+**Main Steps per chapter:**
+
 ![OCP_Steps.png](./images/media/OCP_Steps.png)
 
 
@@ -144,7 +145,8 @@ You use IBM Application Modernization Accelerator (AMA) to evaluate the PlantsBy
 Beyond the initial assessment, AMA generates a **migration plan** tailored to the application's specific needs. This bundle provides ready-to-use deployment artifacts (such as Containerfile, Liberty server configurations, and Kubernetes/OpenShift manifests) that accelerate building and deploying the containerized application to Red Hat OpenShift."
 
 
-**Main Steps:**
+**Main Steps per section:**
+
 ![OCP_Steps_1.x.png](./images/media/OCP_Steps_1.x.png)
 
 
@@ -350,7 +352,8 @@ In this step, you will create a new Liberty server to run the PlantsByWebSphere 
 
 Then, you will review the migration plan to see what files you need to add and use the provided `server.xml` Liberty configuration file. This file is used to configure Liberty by providing values for ports, security, context routes and by providing application-specific configuration. 
 
-**Main Steps:**
+**Main Steps per section:**
+
 ![OCP_Steps_2.x.png](./images/media/OCP_Steps_2.x.png)
 
 
@@ -652,7 +655,8 @@ In the next sections, you will deploy the PlantsByWebSphere application to conta
 
 # Part 3: Create and run the PlantsByWebSphere application as a container image    
 
-**Main Steps:**
+**Main Steps per section:**
+
 ![OCP_Steps_3.x.png](./images/media/OCP_Steps_3.x.png)
 
 
@@ -874,7 +878,8 @@ ___
 
 You have now created a container image without any application specific configuration. In this section, you will **push** that image to an image repository and then **deploy** it into OpenShift, along with its configuration, with a single command.
 
-**Main Steps:**
+**Main Steps per section:**
+
 ![OCP_Steps_4.x.png](./images/media/OCP_Steps_4.x.png)
 
 ## 4.1 Update the Kustomize structure to move the configmap configuration to the overlays folder

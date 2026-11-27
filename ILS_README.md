@@ -60,7 +60,8 @@ The lab environment consists of a Desktop machine and several other VMs spinning
 
 In this lab, you will use IBM License Service to track the WebSphere Liberty deployments on Red Hat OpenShift.
 
-**Main Steps:**
+**Main Steps per chapter:**
+
 ![ILS_Steps.png](./images/media/ILS_Steps.png)
 
 
@@ -441,7 +442,7 @@ Then you will perform different deployments to see how they are tracked in IBM L
 
 <br>
 
-**Main Steps:**
+**Main Steps per section:**
 
 ![ILS_Steps_4.x.png](./images/media/ILS_Steps_4.x.png)
 
