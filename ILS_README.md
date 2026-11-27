@@ -1208,7 +1208,7 @@ There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_
 
 <br>
 
-## 5: Summary how to use IBM License Service portal
+## 5: Summary and lessons learned regarding IBM License Service Service
 
 Here the main findings:
 
