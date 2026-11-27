@@ -438,8 +438,10 @@ Before you can track a Liberty deployment, you need to adjust the deployment con
 - setting the image URL and accept the license
 
 **Main Steps:**
+
 ![ILS_Steps_4.x.png](./images/media/ILS_Steps_4.x.png)
 
+<br>
 
 ## 4.1: Adjust the Plants application configuration files 
 
