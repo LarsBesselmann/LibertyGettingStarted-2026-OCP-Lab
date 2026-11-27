@@ -196,7 +196,7 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
     If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the **Appendix** and then continue here.
 
-3. Make sure that there are no existing Liberty deployments:
+3. Make sure that there are no existing Liberty deployments. If there are other Liberty deployments, ILS will likely provide other results later on:
 
     To verify that there are no existing Liberty deployments, run the following command:
 	
@@ -205,21 +205,21 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
     
     To delete an OCP deployment use a command like 'oc delete deployment -n <project> <deployment name>', for example:
     
-    oc delete deployment -n apps-pbw plantsbywebsphereee6
+       oc delete deployment -n apps-pbw plantsbywebsphereee6
 
     But in case the deployment was done via WebSphere Liberty Operator, this does not help as the Liberty Operator would redo the deployment. To delete the WebSphere Liberty application called `plantsbywebsphereee6`, use the following steps:
 
-        oc get webspherelibertyapplication
-        oc delete webspherelibertyapplication plantsbywebsphereee6
+       oc get webspherelibertyapplication
+       oc delete webspherelibertyapplication plantsbywebsphereee6
 
 4. Create a new project where you will deploy the application. 
 
-        oc new-project apps-pbw
+       oc new-project apps-pbw
 
 
 5. Login to the OpenShift internal registry so you can push the image 
 
-        oc registry login
+       oc registry login
 
     The command will return the registry public hostname which should be similar to (but maybe with a different base URL)
 
