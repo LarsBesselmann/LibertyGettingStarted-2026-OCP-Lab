@@ -1,6 +1,6 @@
 # Tracking WebSphere Liberty deployments on OpenShift Container Platform using IBM License Service
 
-![ILS_Banner.png](./images/media/ILS_Banner.png)
+![ILS_Banner.png](./images/media/ILS_Banner_EAR_WSHE.png)
     
 
 **Last updated:** November 2026
