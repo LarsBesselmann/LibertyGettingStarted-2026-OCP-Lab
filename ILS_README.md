@@ -196,13 +196,23 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
     If nothing is returned, the WebSphere Liberty Operator is not installed and you must do it manually. To do so, perform the steps described in the **Appendix** and then continue here.
 
+3. Make sure that there are no existing Liberty deployments:
 
-3. Create a new project where you will deploy the application. 
+    To verify that there are no existing Liberty deployments, run the following command:
+	
+       oc get deployment --all-namespaces | grep -v openshift
+       oc get pods --all-namespaces | grep -v openshift
+    
+    To delete an OCP deployment use a command like 'oc delete deployment -n <project> <deployment name>', for example:
+    
+    oc delete deployment -n apps-pbw plantsbywebsphereee6
+
+4. Create a new project where you will deploy the application. 
 
         oc new-project apps-pbw
 
 
-4. Login to the OpenShift internal registry so you can push the image 
+5. Login to the OpenShift internal registry so you can push the image 
 
         oc registry login
 
@@ -210,21 +220,21 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
 
     `default-route-openshift-image-registry.apps.itz-e1vpbd.infra01-lb.dal14.techzone.ibm.com`
 
-5. Tag the container image using the following podman command:
+6. Tag the container image using the following podman command:
 
         imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
         echo $imageReference
 
         podman tag apps/pbw ${imageReference}
 
-6. Verify the image was tagged
+7. Verify the image was tagged
 
         podman images | grep pbw-app
 
     ![](./images/media/pbw-apps-tagged.png)
 
 
-7. Push the container image to OpenShift internal registry 
+8. Push the container image to OpenShift internal registry 
 
        imageReference="default-route-openshift-image-registry.${OCP_BASE_URL}/apps-pbw/pbw-app:1.0"
        echo $imageReference
@@ -246,8 +256,6 @@ To install the IBM License Service, the ibm-licensing-catalog must be registered
 A CatalogSource is a Kubernetes Custom Resource managed by the Operator Lifecycle Manager (OLM). It acts as a curated "app store" repository — a registry of metadata pointing OLM to where operator bundles, versions, and installation instructions live.
 
 By default, OpenShift ships with built-in Red Hat and Certified Partner catalogs, which appear in OperatorHub. Because IBM License Service is distributed from IBM's own container registry (icr.io/cpopen/ibm-licensing-catalog) rather than the default Red Hat catalogs, OLM has no awareness of it until you register a CatalogSource.
-
-
 
 ## 3.1 Check if the IBM License Service is already installed
 

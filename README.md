@@ -110,33 +110,6 @@ To simplify the lab and to allow you to focus on the migration, certain software
 To complete the setup, the git project must be downloaded and the PlantsByWebSphere application must be installed.
 
 
-<!--
-
-
-**Disable docker**
-    sudo mv /bin/docker /bin/docker.sav
-
-
-**Move/remove files to backup**
-
-    sudo rm -rf ~/Student
-    rm -rf ~/binary-scanner
-    rm -rf ~/IBM
-    rm -rf ~/transformation-advisor-local-3.8.1
-    sudo rm -rf /home/techzone
-    /tmp/post_deploy_repo/scripts/Firefox_setBookmarks.sh
-
-**Set the OCP environment variables**
-
-    cat /usr/local/share/applications/OpenShiftConsole.desktop | grep http > OCP_URL.txt
-    OCP_CONSOLE_URL=$(sed 's/Exec=\/usr\/bin\/xdg-open //g' OCP_URL.txt)
-    sudo echo "export OCP_CONSOLE_URL=$OCP_CONSOLE_URL" >> ~/.bashrc
-    OCP_BASE_URL="${OCP_CONSOLE_URL:34}"
-    sudo echo "export OCP_BASE_URL=$OCP_BASE_URL" >> ~/.bashrc
-
--->
-
-
 1. Create Student directory and clone the project repository
 
        mkdir -p ~/Student/temp
@@ -1557,6 +1530,27 @@ You explored the PlantsByWebSphere assessment details and reports in Application
 
 ___
 
+## Optional Lab: How to install and use the IBM License Service (ILS)
+
+You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
+
+If you want to do the optional lab, make sure that you delete the OCP deployment before starting with the ILS lab.
+
+Make sure that there are no existing Liberty deployments:
+
+    To verify that there are no existing Liberty deployments, run the following command:
+	
+       oc get deployment --all-namespaces | grep -v openshift
+       oc get pods --all-namespaces | grep -v openshift
+   
+
+To delete the OCP deployment use a command like 'oc delete deployment -n <project> <deployment name>', for example:
+    
+    oc delete deployment -n apps-pbw plantsbywebsphereee6
+
+Then start with part 3 of the lab: 
+https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/ILS_README.md#part-3-install-the-ibm-license-service
+
 
 # Appendix
 
@@ -1672,291 +1666,5 @@ But if not, here the  steps to install it.
 </details>
 
 
-## How to install and use the IBM License Service (ILS)
-An extended version of the section is available as part of this repository in the file ILS_README.md. Link:
-https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/ILS_README.md
-<details>
-<summary>Details around how to install and use the IBM License Service. 
-</summary>
 
-You can track your Liberty runtime usage in a Kubernetes cluster with the IBM License Service by configuring your WebSphereLibertyApplication custom resource file or the YAML file of a Kubernetes resource Deployment. The values that you specify depend on which Liberty product edition you deploy, how it is licensed, and whether you are using the WebSphere Liberty operator.
 
-In this example, you will first install the IBM License Service.
-Then you will use the Liberty operator to deploy the PlantsByWebSphere application with license information (annotations) into the OpenShift cluster.
-
-
-### Install the IBM License Service
-
-1. Check if the IBM License Service is already installed:
-
-    To verify the installation of License Service with CLI, run the following command:
-	
-       oc get deployment --all-namespaces | grep ibm-licensing-operator
-    If a deployment is returned, ILS is already installed and you can skip the next steps
-
-2. Install the ibm-licensing-catalog
-
-    Execute the following comand to install the ILS catalog
-
-Execute the following comand to install the ILS catalog
-
-       cat <<EOF | oc apply -f -
-       apiVersion: operators.coreos.com/v1alpha1
-       kind: CatalogSource
-       metadata:
-           name: ibm-licensing-catalog
-           namespace: openshift-marketplace
-       spec:
-           displayName: IBM License Service Catalog
-           publisher: IBM
-           sourceType: grpc
-           image: icr.io/cpopen/ibm-licensing-catalog
-           updateStrategy:
-               registryPoll:
-                   interval: 45m
-           grpcPodConfig:
-               securityContextConfig: restricted
-       EOF
-
-    Output:
-
-    `catalogsource.operators.coreos.com/ibm-licensing-catalog created`
-
-
-3. Verify that the CatalogSource for your IBM License Service operator is created.
-
-        oc get pods -n openshift-marketplace | grep licensing
-        oc get catalogsource -n openshift-marketplace | grep licensing
-
-
-4. Install the IBM License Service operator.
-
-    1. Create a namespace for License Service.
-
-            oc create namespace ibm-licensing
-
-        Output: `namespace/ibm-licensing created`
-
-    2. Create the operator group to deploy the OperatorGroup resource.
-
-           cat <<EOF | oc apply -f -
-           apiVersion: operators.coreos.com/v1
-           kind: OperatorGroup
-           metadata:
-               name: licensing-og
-               namespace: ibm-licensing
-           spec:
-               targetNamespaces:
-               - ibm-licensing
-           EOF
-
-        Output: `operatorgroup.operators.coreos.com/licensing-og created`
- 
-
-    3. Create the subscription for License Service.
-
-           export LS_CHANNEL=v4.2 
-           cat <<EOF | oc apply -f -
-           apiVersion: operators.coreos.com/v1alpha1
-           kind: Subscription
-           metadata:
-             name: ibm-licensing-operator-app
-             namespace: ibm-licensing
-           spec:
-             channel: $LS_CHANNEL
-             installPlanApproval: Automatic
-             name: ibm-licensing-operator-app
-             source: ibm-licensing-catalog
-             sourceNamespace: openshift-marketplace
-           EOF
-
-        Output: `subscription.operators.coreos.com/ibm-licensing-operator-app created`
-
-    4. Verify that your License Service operator is installed:
-
-            oc get pod -n ibm-licensing
- 
-        The licensing-operator pod should be shown as "Running". Otherwise wait and try again (It might take up to 15 minutes for all the pods to show the Running status.
-
-    5. Update the License Service instance that was created during installation to accept the license.
-
-           echo -e "
-            spec:	\n
-                license:	\n
-                    accept: true	\
-            " > accept-license.yaml
-
-           cat accept-license.yaml
-
-           oc patch IBMLicensing instance --type merge --patch-file accept-license.yaml
- 
-    6. Get the route of the IBM License Service
-
-            oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}'
-
-5. Get the authentication token
-
-        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
-6. Get the URL of the status page
-
-    To display the URL of the ILS status page including token, use the command:
-
-        echo https://${LICENSING_URL}/status?token=${TOKEN}
-
-    Access the status page via the command:
-
-        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
-
-
-7. You can retrieve the licensing report .zip file by running:
-
-        curl -k "https://${LICENSING_URL}/snapshot?token=${TOKEN}" --output report.zip
-
-
-
-Useful links how to install the IBM License Service: 
-https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=service-installing-license)
-https://www.ibm.com/docs/en/cloud-paks/foundational-services/4.x?topic=registry-installing-license-service-openshift-container-platform
-
-
-### Use the IBM License Service 
-
-Start from scratch without any deployment:
-
-1. Delete the OCP deployment
-
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc delete -n apps-pbw -k overlays/dev
-        oc delete -n apps-pbw -k overlays/staging
-
-2. Access the ILS Status Page:
-
-        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
-
-        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
-
-        /usr/bin/xdg-open "https://${LICENSING_URL}/status?token=${TOKEN}"
-
-    The ILS Status page should show no Liberty instance.
-
-    ![ILS_Status-Page-noWLP.png](./images/media/ILS_Status-Page-noWLP.png)
-
-3. Create an OCP deployment for Liberty dev
-
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
-
-    Reload the ILS Status page and it should show a Liberty instance.
-
-    ![ILS_Status-Page-1WLP-noLimit.png](./images/media/ILS_Status-Page-1WLP-noLimit.png)
-    
-4. Let's take a look at the information
-
-    - The product is annotated for WebSphere Application Server which is based on PVUs.
-    - The node has 8 cores
-    - A CPU limit is not set, so the whole worker node will be licensed.
-    - As each core is counted with 70 PVU, the metric value is 560.
-    
-
-5. Compare the findings with the deployment file.
-
-        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
-
-    ![ILS_application-cr1](./images/media/ILS_application-cr1.png)
-
-    - No edition has been specified
-    - No entitlement has been specified
-    - No CPU limit has been specified
-
-6. Adjust the deployment to add entitlement details.
-
-    For easiness just remove the # from the lines 27 to 29
-    
-    ![ILS_application-cr2](./images/media/ILS_application-cr2.png)
-
-    Save the changes but keep the editor open.
-
-        
-7. Apply the changes and see the results: 
-   
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
-
-    Reload the ILS Status page and take a look at the changes.
-
-    ![ILS_Status-Page-2WLP-noLimit.png](./images/media/ILS_Status-Page-2WLP-noLimit.png)
-    
-    - The product is annotated for WebSphere Application Server but now based on VPCs as WebSphere Hybrid Edition (WSHE) has the VPC metric.
-    - The node has 8 cores
-    - A CPU limit is not set, so the whole worker node will be licensed.
-    - WAS has the ratio 4:1 within the WebSphere Hybrid Edition, which means 4 deployed cores require 1 VPC of WSHE. 
-    - As the whole worker node must be licensed and the ratio 4:1 is applied, the metric value is 2.
-
-8. Add a cpu limit to avoid that the whole worker node must be licensed.
-
-    Go back to the open editor or open a new one.
-
-       gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
-
-   Add the following 5 lines just the line after line 10:
-
-       resources:
-           requests:
-               cpu: 500m
-           limits:
-               cpu: 800m
-               memory: 512Mi
-
-    ![ILS_application-cr3](./images/media/ILS_application-cr3.png)
-
-    Make sure that the number of spaces before `resources` is correct, otherwise the deployment will fail.
-    Save the changes but keep the editor open.
-
-9. Apply the changes and see the results: 
-   
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
-
-    Reload the ILS Status page and take a look at the changes.
-
-    ![ILS_Status-Page-3WLP-Limit.png](./images/media/ILS_Status-Page-3WLP-Limit.png)
-    
-    - A CPU limit has been recognized, so only those cores will be licensed (here 0.8 cores).
-    - The total number or cores running WebSphere Liberty Base is 0.8 which will be rounded up to 1 core.
-    - As only 1 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
-
-10. Add additional replicas.
-
-    Go back to the open editor or open a new one.
-
-        gedit ~/Student/migrationPlan/deploy/kustomize/base/application-cr.yaml
-
-    In line 8, change the number of replica to 5.
-
-    ![ILS_application-cr4](./images/media/ILS_application-cr4.png)
-
-    Save the changes and feel free to close the editor.
-
-11. Apply the changes and see the results: 
-   
-        cd ~/Student/migrationPlan/deploy/kustomize/
-        oc apply -n apps-pbw -k overlays/dev
-
-    Reload the ILS Status page and take a look at the changes.
-
-    ![ILS_Status-Page-4WLP-Replica.png](./images/media/ILS_Status-Page-4WLP-Replica.png)
-    
-    - You can now see 5 pods that are contributing to the number of licenses, each with 0.8 cores.
-    - The total number or cores running WebSphere Liberty Base is 4 (5 x 0.8).
-    
-    - As only 4 core must be licensed and the ratio 4:1 is applied, the metric value is 1.
-
-You can more details about the Liberty License tracking here:
-https://www.ibm.com/docs/en/was-liberty/base?topic=container-tracking-liberty-license-use-in-kubernetes
-
-This completes the section about IBM License Service.
-
-</details>
