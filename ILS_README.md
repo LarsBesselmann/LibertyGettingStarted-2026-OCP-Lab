@@ -799,6 +799,9 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 1. Access the **IBM License Service** page for **Products**:
 
+    ILS provides a **Products report (last 30 days)**.
+    The report can be accessed via the ILS Portal.
+
        /usr/bin/xdg-open "https://${LICENSING_URL}/products?token=${TOKEN}"
     
     As you can see, the product page contains 2 products.
@@ -815,6 +818,10 @@ The current deployment assumes that the application requires Liberty Base entitl
 
 
 2. Access the **IBM License Service** page for **Bundled products**:
+
+    ILS provides a **Bundled products report (last 30 days)**.
+    The report can be accessed via the ILS Portal.
+
 
        /usr/bin/xdg-open "https://${LICENSING_URL}/bundled_products?token=${TOKEN}" 
     
