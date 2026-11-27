@@ -436,6 +436,7 @@ Before you can track a Liberty deployment, you need to adjust the deployment con
 - setting in the secret yaml the credentials for the database
 - adjusting in the config map the database endpoint
 - setting the image URL and accept the license
+
 Then you will do some different deployments to see how they are tracked in IBM License Service.
 
 <br>
