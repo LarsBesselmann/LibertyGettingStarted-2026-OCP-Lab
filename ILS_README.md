@@ -437,6 +437,10 @@ Before you can track a Liberty deployment, you need to adjust the deployment con
 - adjusting in the config map the database endpoint
 - setting the image URL and accept the license
 
+**Main Steps:**
+![ILS_Steps_4.x.png](./images/media/ILS_Steps_4.x.png)
+
+
 ## 4.1: Adjust the Plants application configuration files 
 
 1. Create a directory for the application configuration
@@ -975,7 +979,7 @@ You will now trigger a deployment that causes such a capping.
     As you have seen from the scenario above, the capping happened on node level and the capping is done per product.
 
 
-## 4.6: Review again the other statistcs of the IBM License Service (ILS)
+## 4.6: Review again the other statistics of the IBM License Service (ILS)
 
 ## 4.6.1: Review the statistcs in the ILS portal
 
