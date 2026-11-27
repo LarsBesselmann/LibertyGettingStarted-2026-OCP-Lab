@@ -1541,12 +1541,12 @@ Make sure that there are no existing Liberty deployments:
     To verify that there are no existing Liberty deployments, run the following command:
 	
        oc get deployment --all-namespaces | grep -v openshift
-       oc get pods --all-namespaces | grep -v openshift
    
 
 To delete the OCP deployment use a command like 'oc delete deployment -n <project> <deployment name>', for example:
     
-    oc delete deployment -n apps-pbw plantsbywebsphereee6
+    oc delete -n apps-pbw -k overlays/dev
+    oc delete -n apps-pbw -k overlays/stage
 
 Then start with part 3 of the lab: 
 https://github.com/LarsBesselmann/LibertyGettingStarted-2026-OCP-Lab/blob/main/ILS_README.md#part-3-install-the-ibm-license-service

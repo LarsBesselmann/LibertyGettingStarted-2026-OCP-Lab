@@ -207,6 +207,11 @@ To complete the setup, the git project must be downloaded and the PlantsByWebSph
     
     oc delete deployment -n apps-pbw plantsbywebsphereee6
 
+    But in case the deployment was done via WebSphere Liberty Operator, this does not help as the Liberty Operator would redo the deployment. To delete the WebSphere Liberty application called `plantsbywebsphereee6`, use the following steps:
+
+        oc get webspherelibertyapplication
+        oc delete webspherelibertyapplication plantsbywebsphereee6
+
 4. Create a new project where you will deploy the application. 
 
         oc new-project apps-pbw
