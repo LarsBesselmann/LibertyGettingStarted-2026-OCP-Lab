@@ -1208,7 +1208,7 @@ There is also a snapshot for the mixed bundle scenario, see ~/Student/ILS/audit_
 
 <br>
 
-## 5: Summary and lessons learned regarding IBM License Service Service
+## 5: Summary and lessons learned regarding IBM License Service
 
 Here the main findings:
 
