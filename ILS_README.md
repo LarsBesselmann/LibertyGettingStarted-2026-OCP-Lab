@@ -368,7 +368,11 @@ The IBM License Service is not installed by default. But it is best practice to 
 
        export LICENSING_URL=$(oc get route -n ibm-licensing -o jsonpath='{range .items[*]}{.spec.host}{"\n"}{end}')
 
+       sudo echo "export LICENSING_URL=$LICENSING_URL" >> ~/.bashrc
+
        export TOKEN=$(kubectl get secret ibm-licensing-token -n ibm-licensing -o jsonpath='{.data.token}' |base64 -d)
+       sudo echo "export TOKEN=$TOKEN" >> ~/.bashrc
+
 
 3. Get the URL of the status page
 
